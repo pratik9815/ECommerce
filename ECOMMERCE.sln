@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECOMMERCE", "ECOMMERCE\ECOMMERCE.csproj", "{AD2B1E01-B0B8-4B3B-AD5E-3E7EFBECCE8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{B594AD3C-1414-4909-AA3D-A25D029B0B3A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD2B1E01-B0B8-4B3B-AD5E-3E7EFBECCE8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD2B1E01-B0B8-4B3B-AD5E-3E7EFBECCE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD2B1E01-B0B8-4B3B-AD5E-3E7EFBECCE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD2B1E01-B0B8-4B3B-AD5E-3E7EFBECCE8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B594AD3C-1414-4909-AA3D-A25D029B0B3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B594AD3C-1414-4909-AA3D-A25D029B0B3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B594AD3C-1414-4909-AA3D-A25D029B0B3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B594AD3C-1414-4909-AA3D-A25D029B0B3A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {98AB5B6A-CD3E-43DA-94C2-9404F6D65138}
+	EndGlobalSection
+EndGlobal
