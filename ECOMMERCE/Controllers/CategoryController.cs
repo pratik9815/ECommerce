@@ -22,10 +22,14 @@ namespace ECOMMERCE.Controllers
         [HttpGet("get-category")]
         public async Task<ActionResult<List<GetCategoryCommand>>> GetCategories()
         {
-            var category = await _context.Categories.Select(c => new Category
+            var category = await _context.Categories.Select(c => new GetCategoryCommand
             {
+                Id = c.Id,
                 CategoryName = c.CategoryName,
                 Description = c.Description,
+                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == c.CreatedBy).FullName,
+                UpdatedBy = c.UpdatedBy,
+                CreatedDate = c.CreatedDate
             }).ToListAsync();
 
             return Ok(category);
@@ -51,8 +55,19 @@ namespace ECOMMERCE.Controllers
             getCategory.CategoryName = category.CategoryName;
             getCategory.Description = category.Description;
             
+            _context.Categories.Update(getCategory);
+            await _context.SaveChangesAsync();
             return Ok();
+        }
 
+        [HttpDelete("delete-category/{id}")]
+        public async Task<ActionResult> DeleteProduct([FromRoute] Guid id)
+        {
+            var delCategory = await _context.Categories.FindAsync(id);
+            if(delCategory == null) return BadRequest();
+            _context.Categories.Remove(delCategory);
+            await _context.SaveChangesAsync();
+            return Ok();    
         }
     }
 }
