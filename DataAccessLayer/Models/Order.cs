@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataAccessLayer.Common;
+using DataAccessLayer.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Models
 {
-    public class Order
+    public class Order : AuditableEntity
     {
         public Guid Id { get; set; }
         public double Amount { get; set; }
-        public string Shipping_Address { get; set; }
-        public string Orders_Address { get; set; }
-        public string Order_Email { get; set; }
-        public string Order_Date { get; set; }
-        public string Order_Status { get; set; }
+        public string ShippingAddress { get; set; }
+        public string OrdersAddress { get; set; }
+        public string OrderEmail { get; set; }
+        public string OrderDate { get; set; }
+        public OrderStatus OrderStatus { get; set; }
 
         public Guid CustomerId { get; set; }
 

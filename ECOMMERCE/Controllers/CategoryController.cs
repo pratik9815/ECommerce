@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Common.Category;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
+using DataAccessLayer.Repositories.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,59 +15,37 @@ namespace ECOMMERCE.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryController(ApplicationDbContext  context)
+        public CategoryController(ApplicationDbContext  context, ICategoryRepository categoryRepository)
         {
             _context = context;
+            _categoryRepository = categoryRepository;
         }
         [HttpGet("get-category")]
         public async Task<ActionResult<List<GetCategoryCommand>>> GetCategories()
         {
-            var category = await _context.Categories.Select(c => new GetCategoryCommand
-            {
-                Id = c.Id,
-                CategoryName = c.CategoryName,
-                Description = c.Description,
-                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == c.CreatedBy).FullName,
-                UpdatedBy = c.UpdatedBy,
-                CreatedDate = c.CreatedDate
-            }).ToListAsync();
+            var category = await _categoryRepository.GetAllCategory().ToListAsync();  
 
             return Ok(category);
         }
         [HttpPost("create-category")]
         public async Task<ActionResult> CreateCategory([FromBody] CreateCategoryCommand category)
         {
-            var newCategory = new Category
-            {
-                CategoryName = category.CategoryName,
-                Description = category.Description,
-            };
-            _context.Categories.Add(newCategory);
-            await _context.SaveChangesAsync();
-            return Ok(newCategory);
+            await _categoryRepository.CreateCategory(category);
+            return Ok();
         }
         [HttpPut("update-category")]
         public async Task<ActionResult> UpdateCategory([FromBody] UpdateCategoryCommand category)
         {
-            var getCategory = await _context.Categories.FindAsync(category.Id);
-            if (getCategory == null) 
-                return BadRequest();
-            getCategory.CategoryName = category.CategoryName;
-            getCategory.Description = category.Description;
-            
-            _context.Categories.Update(getCategory);
-            await _context.SaveChangesAsync();
+            await _categoryRepository.UpdateCategory(category);
             return Ok();
         }
 
         [HttpDelete("delete-category/{id}")]
         public async Task<ActionResult> DeleteProduct([FromRoute] Guid id)
         {
-            var delCategory = await _context.Categories.FindAsync(id);
-            if(delCategory == null) return BadRequest();
-            _context.Categories.Remove(delCategory);
-            await _context.SaveChangesAsync();
+            await _categoryRepository.RemoveCategory(id);
             return Ok();    
         }
     }

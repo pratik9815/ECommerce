@@ -13,7 +13,9 @@ namespace DataAccessLayer.Common.Product
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
-        public IFormFile Image { get; set; }
+        public int Quantity { get; set; }
+        public string Img { get; set; }
+        public ProductStatus ProductStatus { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -24,6 +26,7 @@ namespace DataAccessLayer.Common.Product
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
+        public int Quantity { get; set; }
         public IFormFile Img { get; set; }
         public DateTime? CreatedDate { get; set; }
 
@@ -34,5 +37,9 @@ namespace DataAccessLayer.Common.Product
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
+        public int Quantity { get; set; }
+        public ProductStatus ProductStatus { get; set; }
+        public string Img { get; set; }
+
     }
 }

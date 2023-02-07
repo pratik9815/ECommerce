@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models.Common;
+﻿using DataAccessLayer.Common;
+using DataAccessLayer.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,12 @@ namespace DataAccessLayer.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public Gender Gender { get; set; }
 
+        //for order relationship
+        public ICollection<Order> Orders { get; set; }   
 
     }
 }

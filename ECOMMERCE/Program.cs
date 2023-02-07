@@ -1,3 +1,4 @@
+
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +9,8 @@ using NSwag;
 using System.Text;
 using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Services;
+using DataAccessLayer.Repositories.IRepositories;
+using DataAccessLayer.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +31,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+//Dependency injection
+builder.Services.AddScoped<IProductRepository,ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 //Http Configuration
 builder.Services.AddHttpContextAccessor();
 
 //Adding DependencuyInjection
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
+builder.Services.AddSingleton<IFileService, FileService>();
+
 
 //swagger connection
 builder.Services.AddOpenApiDocument(options =>

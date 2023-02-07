@@ -129,12 +129,50 @@ namespace DataAccessLayer.DataContext
                  .HasForeignKey(pc => pc.CategoryId);
 
 
+            //defining primary key
+            builder.Entity<OrderDetails>(o =>
+            {
+                o.HasKey(c => c.Id);
+               
+            });
+
+            builder.Entity<Order>(o =>
+            {
+                o.HasKey(c => c.Id);
+                o.Property(t => t.ShippingAddress)
+               .HasMaxLength(50)
+               .IsRequired();
+
+                o.Property(t => t.OrderEmail)
+              .HasMaxLength(50)
+              .IsRequired();
+            });
+
+            //configuring product and order details relationship
+
+            builder.Entity<OrderDetails>(o =>
+            {
+               o.HasOne(od => od.Order)
+                .WithMany(o => o.OrderDetails)
+                .HasForeignKey(od => od.OrderId);
+            });
+            builder.Entity<OrderDetails>(o =>
+            {
+                o.HasOne(od => od.Product)
+                .WithMany(p => p.OrderDetails)
+                .HasForeignKey(od => od.ProductId);
+            });
+
+
         }
        //public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product>  Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
