@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Common.Order;
+using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace DataAccessLayer.Repositories.IRepositories
     public interface IOrderRepository
     {
         IQueryable<GetOrderCommand> GetAllOrders();
+        Task<ApiResponse> CreateOrder(CreateOrderCommand order);
     }
 }

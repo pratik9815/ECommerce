@@ -16,10 +16,9 @@ namespace DataAccessLayer.Models.Identity
         public Gender Gender { get; set; }
         public DateTime DOB { get; set; }
         public UserType UserType { get; set; }
-        public Guid? CustomerId { get; set; }
-        public Customer Customer { get; set; }
         public ICollection<ApplicationRole> Roles { get; set; }
         public ICollection<ApplicationUserRole> UserRoles { get; set; }
+        
 
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }

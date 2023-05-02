@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,8 +28,28 @@ namespace DataAccessLayer.Common.Product
         public string Description { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
+        public Guid CategoryId { get; set; }
+    }
+
+    public class CreateProductWithImageCommand
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
         public IFormFile Img { get; set; }
         public DateTime? CreatedDate { get; set; }
+
+    }
+    public class CreateProductWithImagesCommand
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
+        public IEnumerable<IFormFile> Img { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public IEnumerable<Guid> CategoryId  { get; set; }
 
     }
     public class UpdateProductCommand
@@ -42,4 +63,7 @@ namespace DataAccessLayer.Common.Product
         public string Img { get; set; }
 
     }
+
+   
+
 }

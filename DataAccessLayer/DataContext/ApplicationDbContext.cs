@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Namotion.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,8 @@ namespace DataAccessLayer.DataContext
                         aur.HasOne(aur => aur.User)
                             .WithMany(au => au.UserRoles);
                     });
+
+            
 
             //Setting up customer
             builder.Entity<Customer>(customer =>
@@ -163,6 +166,22 @@ namespace DataAccessLayer.DataContext
                 .HasForeignKey(od => od.ProductId);
             });
 
+            builder.Entity<ProductImage>()
+                .HasKey(c => c.Id);
+
+            builder.Entity<ProductImage>()
+                .HasOne(pi => pi.Product)
+                .WithMany(p => p.ProductImages)
+                .HasForeignKey(pi => pi.ProductId); 
+
+            builder.Entity<SubCategory>()
+                .HasKey(a => a.Id);
+
+            builder.Entity<SubCategory>()
+                .HasOne(sc => sc.Category)
+                .WithMany(c => c.SubCategories)
+                .HasForeignKey(sc => sc.CategoryId);
+
 
         }
        //public DbSet<ApplicationUser> Users { get; set; }
@@ -172,7 +191,7 @@ namespace DataAccessLayer.DataContext
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Order> Orders { get; set; }
-        
+        public DbSet<ProductImage> ProductImages { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

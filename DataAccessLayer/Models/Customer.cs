@@ -18,7 +18,7 @@ namespace DataAccessLayer.Models
         public Gender Gender { get; set; }
 
         //for order relationship
-        public ICollection<Order> Orders { get; set; }   
+        //public ICollection<Order> Orders { get; set; }   
 
     }
 }

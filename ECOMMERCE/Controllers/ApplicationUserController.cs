@@ -1,5 +1,7 @@
 ﻿using DataAccessLayer.Command.ApplicationUser;
+using DataAccessLayer.Common;
 using DataAccessLayer.DataContext;
+using DataAccessLayer.Models;
 using DataAccessLayer.Models.Identity;
 using ECOMMERCE.Common.Extension;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +37,7 @@ namespace ECOMMERCE.Controllers
                 UserType = command.UserType,
                 PhoneNumber = command.PhoneNumber, 
                 Address = command.Address ,
+                DOB = command.DOB
             };
             var result = await _userManager.CreateAsync(newUser, command.Password);
             if(!result.Succeeded)

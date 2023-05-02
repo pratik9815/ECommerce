@@ -26,27 +26,34 @@ namespace ECOMMERCE.Controllers
         public async Task<ActionResult<List<GetCategoryCommand>>> GetCategories()
         {
             var category = await _categoryRepository.GetAllCategory().ToListAsync();  
+            
 
             return Ok(category);
         }
         [HttpPost("create-category")]
-        public async Task<ActionResult> CreateCategory([FromBody] CreateCategoryCommand category)
+        public async Task<ActionResult<ApiResponse>> CreateCategory([FromBody] CreateCategoryCommand category)
         {
-            await _categoryRepository.CreateCategory(category);
-            return Ok();
+            var response = await _categoryRepository.CreateCategory(category);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);
         }
         [HttpPut("update-category")]
-        public async Task<ActionResult> UpdateCategory([FromBody] UpdateCategoryCommand category)
+        public async Task<ActionResult<ApiResponse>> UpdateCategory([FromBody] UpdateCategoryCommand category)
         {
-            await _categoryRepository.UpdateCategory(category);
-            return Ok();
+            var response = await _categoryRepository.UpdateCategory(category);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);
         }
 
         [HttpDelete("delete-category/{id}")]
-        public async Task<ActionResult> DeleteProduct([FromRoute] Guid id)
+        public async Task<ActionResult<ApiResponse>> DeleteProduct([FromRoute] Guid id)
         {
-            await _categoryRepository.RemoveCategory(id);
-            return Ok();    
+            var response = await _categoryRepository.RemoveCategory(id);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);
         }
     }
 }

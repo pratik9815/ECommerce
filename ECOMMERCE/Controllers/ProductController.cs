@@ -1,6 +1,8 @@
-﻿using DataAccessLayer.Common.Product;
+﻿
+using DataAccessLayer.Common.Product;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
+using DataAccessLayer.Query.Product;
 using DataAccessLayer.Repositories.IRepositories;
 using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +16,7 @@ namespace ECOMMERCE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -36,7 +38,7 @@ namespace ECOMMERCE.Controllers
         [HttpGet("get-product")]
         public async Task<ActionResult<List<GetProductCommand>>> GetProducts()
         {
-            var products = await _productRepository.GetAllProducts().ToListAsync();
+                var products = await _productRepository.GetAllProducts().ToListAsync();
 
             return Ok(products);
         }
@@ -48,78 +50,62 @@ namespace ECOMMERCE.Controllers
             return Ok(product);
         }
 
-
-        [HttpPost("create-product")]
-        public async Task<ActionResult> CreateProduct([FromForm] CreateProductCommand product)
+        [HttpGet("get-with-image")]
+        public async Task<List<GetProductQuery>> GetWithImage()
         {
-            await _productRepository.CreateProduct(product);
-            return Ok();  
+            var product = await _productRepository.GetWithImage();
+            return product;
+        }
+
+        [HttpGet("get-images-with-all-images")]
+        public async Task<ActionResult<List<GetProductQuery>>> GetAllWithImage()
+        {
+            var products = await _productRepository.GetAllWithImage();
+            return Ok(products);
+        }
+        [HttpPost("create-product")]
+        public async Task<ActionResult<ApiResponse>> CreateProduct([FromBody] CreateProductCommand product)
+        {
+            var response = await _productRepository.CreateProduct(product);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);  
+        }
+        [HttpPost("create-product-with-multiple-image")]
+        public async Task<ActionResult<ApiResponse>> CreateProductWithImages([FromForm] CreateProductWithImagesCommand product)
+        {
+            var response = await _productRepository.CreateProductWithMultipleImages(product);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);
         }
 
         [HttpPut("update-product")]
-        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductCommand product)
+        public async Task<ActionResult<ApiResponse>> UpdateProduct([FromBody] UpdateProductCommand product)
         {
-            await _productRepository.UpdateProduct(product);
-            return Ok();
+            var response = await _productRepository.UpdateProduct(product);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);
         }
 
         [HttpPut("delete-product/{id}")]
-        public async Task<ActionResult> DeleteProduct([FromRoute] Guid id)
+        public async Task<ActionResult<ApiResponse>> DeleteProduct([FromRoute] Guid id)
         {
-            await _productRepository.RemoveProduct(id); 
-            return Ok();
+            var response = await _productRepository.RemoveProduct(id);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);
         }
 
         [HttpGet("get-product-with-image")]
         public async Task<ActionResult<List<GetProductCommand>>> Get()
         {
-
-            var products = await _context.Products
-                                .OrderByDescending(x => x.CreatedDate)
-                                .Where(a => a.IsDeleted == false)
-                                .Select(p => new GetProductCommand
-                                {
-                                    Id = p.Id,
-                                    Name = p.Name,
-                                    Description = p.Description,
-                                    Price = p.Price,
-                                    Quantity = p.Quantity,
-                                    Img = p.Img,
-                                    ProductStatus = p.ProductStatus,
-                                    CreatedDate = p.CreatedDate,
-                                    UpdatedBy = p.UpdatedBy,
-                                    CreatedBy = _context.Users.FirstOrDefault(a => a.Id == p.CreatedBy).FullName,
-                                }).ToListAsync();
-
-
-            foreach (var item in products)
-            {
-                if (item.Img is not null)
-                {
-                    string path = _webHostEnvironment.WebRootPath + @"/images/" + item.Name + @"/" + item.Img;
-                    using var image = Image.Load(path);
-                    using var m = new MemoryStream();
-                    image.Save(m, new JpegEncoder());
-                    byte[] imageBytes = m.ToArray();
-                    item.Img = "data:image/jpeg;base64," + Convert.ToBase64String(imageBytes);
-                }
-            }
-
-            //if (products != null)
-            //{
-            //    products.ForEach(item =>
-            //    {
-            //        item.Img = GetImage(item.Img, item.Name);
-            //    });
-            //}
-            //else
-            //{
-            //    return NotFound();
-            //}
+            var products = await _productRepository.GetWithImage();
             return Ok(products);
-
         }
 
+       
 
         //private string GetFilePath(string name, string itemName)
         //{

@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Common.Category;
+using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace DataAccessLayer.Repositories.IRepositories
     public interface ICategoryRepository
     {
         IQueryable<GetCategoryCommand> GetAllCategory();
-        Task CreateCategory(CreateCategoryCommand category);
-        Task UpdateCategory(UpdateCategoryCommand category);
-        Task RemoveCategory(Guid Id);
+        Task<ApiResponse> CreateCategory(CreateCategoryCommand category);
+        Task<ApiResponse> UpdateCategory(UpdateCategoryCommand category);
+        Task<ApiResponse> RemoveCategory(Guid Id);
     }
 }

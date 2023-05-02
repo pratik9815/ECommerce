@@ -15,5 +15,8 @@ namespace DataAccessLayer.Models
 
         public ICollection<ProductCategory> ProductCategories { get; set; }
 
+        //for multiple category
+        public ICollection<SubCategory> SubCategories { get; set; }
+
     }
 }

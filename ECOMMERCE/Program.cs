@@ -41,7 +41,7 @@ builder.Services.AddHttpContextAccessor();
 
 //Adding DependencuyInjection
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-builder.Services.AddSingleton<IFileService, FileService>();
+//builder.Services.AddSingleton<IFileService, FileService>();
 
 
 //swagger connection

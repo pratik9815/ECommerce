@@ -11,6 +11,11 @@ namespace DataAccessLayer.Models
 {
     public class Product : AuditableEntity
     {
+        public Product()
+        {
+            ProductCategories = new List<ProductCategory>();
+            ProductImages = new List<ProductImage>();
+        }
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; } 
@@ -21,9 +26,21 @@ namespace DataAccessLayer.Models
         //product category relationship
         public ICollection<ProductCategory> ProductCategories { get; set; }
 
-        //order-details realationship
+        //order-details realationship   
         public ICollection<OrderDetails> OrderDetails { get; set; }
 
-        //if we want to set the category while creating the product we should define it inside the product constructor
+        //if we want to set the category while creating the product we should define it inside the product constructor\
+
+        public ICollection<ProductImage> ProductImages { get; set; }
+
+        public void AddProductCategory(Product product , Guid CategoryId)
+        {
+            var category = new ProductCategory
+            {
+                ProductId = product.Id,
+                CategoryId = CategoryId
+            };
+            ProductCategories.Add(category);
+        }
     }
 }

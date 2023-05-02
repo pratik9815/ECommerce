@@ -28,43 +28,118 @@ namespace DataAccessLayer.Repositories
                 OrderByDescending(o => o.CreatedDate).
                 Where(a => a.IsDeleted == false).
                 Select(c => new GetCategoryCommand
-            {
-                Id = c.Id,
-                CategoryName = c.CategoryName,
-                Description = c.Description,
-                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == c.CreatedBy).FullName,
-                UpdatedBy = c.UpdatedBy,
-                CreatedDate = c.CreatedDate
-            });
+                {
+                    Id = c.Id,
+                    CategoryName = c.CategoryName,
+                    Description = c.Description,
+                    CreatedBy = _context.Users.FirstOrDefault(a => a.Id == c.CreatedBy).FullName,
+                    UpdatedBy = c.UpdatedBy,
+                    CreatedDate = c.CreatedDate
+                });
             return category;
         }
-        public async Task CreateCategory(CreateCategoryCommand category)
+        public async Task<ApiResponse> CreateCategory(CreateCategoryCommand category)
         {
-            var newCategory = new Category
-            {
-                CategoryName = category.CategoryName,
-                Description = category.Description,
-            };
-            _context.Categories.Add(newCategory);
-            await _context.SaveChangesAsync();
-        }
-        public async Task UpdateCategory(UpdateCategoryCommand category)
-        {
-            var categoryDetails = await _context.Categories.FindAsync(category.Id);
-            if (categoryDetails == null) { return; }
-            categoryDetails.CategoryName = category.CategoryName;
-            categoryDetails.Description = category.Description;
-            _context.Categories.Update(categoryDetails);
-            await _context.SaveChangesAsync();
-        } 
-        public async Task RemoveCategory(Guid Id)
-        {
-            var removeProduct = await _context.Products.FindAsync(Id);
 
-            removeProduct.IsDeleted = true;
-            removeProduct.DeletedDate = DateTime.UtcNow;
-            removeProduct.DeletedBy = _service?.UserId;
-            await _context.SaveChangesAsync();
+            try
+            {
+                var oldCategory = _context.Categories
+                                          .Where(c => c.IsDeleted == false)
+                                          .FirstOrDefault(a => a.CategoryName == category.CategoryName);
+                if (oldCategory != null)
+                {
+                    return new ApiResponse
+                    {
+                        ResponseCode = 400,
+                        Message = "Category already exists",
+                    };
+                }
+                var newCategory = new Category
+                {
+                    CategoryName = category.CategoryName,
+                    Description = category.Description,
+                };
+                _context.Categories.Add(newCategory);
+                await _context.SaveChangesAsync();
+                return new ApiResponse { ResponseCode = 200, Message = "Success" };
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<string>();
+                errors.Add(ex.Message);
+                return new ApiResponse
+                {
+                    ResponseCode = 500,
+                    Message = "Failed",
+                    Errors = errors
+                };
+            }
+
+        }
+        public async Task<ApiResponse> UpdateCategory(UpdateCategoryCommand category)
+        {
+            try
+            {
+                var categoryDetails = await _context.Categories.FindAsync(category.Id);
+                if (categoryDetails == null)
+                {
+                    return new ApiResponse
+                    {
+                        ResponseCode = 400,
+                        Message = "Category not found"
+                    };
+                }
+                categoryDetails.CategoryName = category.CategoryName;
+                categoryDetails.Description = category.Description;
+                _context.Categories.Update(categoryDetails);
+                await _context.SaveChangesAsync();
+                return new ApiResponse { ResponseCode = 200, Message = "Success" };
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<string>();
+                errors.Add(ex.Message);
+                return new ApiResponse
+                {
+                    ResponseCode = 500,
+                    Message = "Failed",
+                    Errors = errors
+                };
+            }
+
+        }
+        public async Task<ApiResponse> RemoveCategory(Guid Id)
+        {
+            try
+            {
+                var removeProduct = await _context.Categories.FindAsync(Id);
+                if (removeProduct == null)
+                {
+                    return new ApiResponse
+                    {
+                        ResponseCode = 400,
+                        Message = "Category not found"
+                    };
+                }
+                removeProduct.IsDeleted = true;
+                removeProduct.DeletedDate = DateTime.UtcNow;
+                removeProduct.DeletedBy = _service?.UserId;
+                await _context.SaveChangesAsync();
+                return new ApiResponse { ResponseCode = 200, Message = "Success" };
+
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<string>();
+                errors.Add(ex.Message);
+                return new ApiResponse
+                {
+                    ResponseCode = 500,
+                    Message = "Failed",
+                    Errors = errors
+                };
+            }
+
         }
     }
 }
