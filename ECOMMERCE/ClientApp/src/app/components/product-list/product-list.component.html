@@ -1,0 +1,117 @@
+<div style="align-items: stretch;">
+    <div id="content" class="col-sm-12">
+        <div class="page-wrapper">
+            <div class="page-heading">
+                <h4>Products Lists</h4>
+            </div>
+            <div class="row d-flex ">
+                <div class="col-sm-3 float-left">
+                    <div class="quick-filter ">
+                        <input type="text" (keyup)="onQuickFilterChanged()" class="form-control"
+                            [(ngModel)]="quickSearchValue" placeholder="search..." />
+                    </div>
+                </div>
+                <div class="col-sm-3 float-right">
+                    <a href="javascript:;" class="btn btn-warning" (click)="onAddNewProductPopUp()"
+                        style="text-decoration: none;position: absolute; right: 20px;">
+                        New Product
+                    </a>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-body p-0">
+                    <ag-grid-angular style="width: 100%;" class="ag-theme-alpine" [rowData]="productData"
+                        [columnDefs]="productColDef" [domLayout]="domLayout" [animateRows]="true"
+                        [paginationPageSize]="7" [enableCellTextSelection]="true" [enableBrowserTooltips]="true"
+                        [pagination]="true" (rowClicked)="onRowClicked($event)"
+                        (filterChanged)="onFilterChanged($event)" (modelUpdated)="onModelUpdated()"
+                        (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade show" id="myModal" role="dialog" *ngIf="addProductPopUpModal"
+    style="display: block; background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog modal-lg" style="min-width:60%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>New Product</b></h4>
+                <a type="button" class="close btn-close-modal" (click)="close()"
+                    style="color:rgb(164, 9, 9);font-size:30px; border: none;">
+                    <span aria-hidden="true" class="col-md-1">&times;</span>
+                </a>
+
+            </div>
+            <div class="modal-body">
+                <app-addproduct (callBack-product)="callBack()"></app-addproduct>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- This is for the update prodct popup -->
+<div class="modal fade show" id="myModal" role="dialog" *ngIf="updateProductPopUpModal"
+    style="display: block; background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog modal-lg" style="min-width:60%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Update Product</b></h4>
+                <a type="button" class="close btn-close-modal" (click)="close()"
+                    style="color:rgb(164, 9, 9);font-size:30px; border: none;">
+                    <span aria-hidden="true" class="col-md-1">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <app-editproduct (callBack-product)="callBack()"
+                    [update-product-details]="updateProductDetails"></app-editproduct>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- for category -->
+<div class="modal fade show" id="myModal" role="dialog" *ngIf="CategoryPopUpModal"
+    style="display: block; background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog modal-lg" style="min-width:60%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Category</b></h4>
+                <a type="button" class="close btn-close-modal" (click)="close()"
+                    style="color:rgb(164, 9, 9);font-size:30px; border: none;">
+                    <span aria-hidden="true" class="col-md-1">&times;</span>
+                </a>
+
+            </div>
+            <div class="modal-body">
+                <!-- <app-selectcategory [product-id]="productId"  (callBack-product-category)="callBack()" ></app-selectcategory> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade show" id="myModal" role="dialog" *ngIf="productDetailsPopUpModal"
+    style="display: block; background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog modal-lg" style="min-width:60%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Details</b></h4>
+                <a type="button" class="close btn-close-modal" (click)="close()"
+                    style="color:rgb(164, 9, 9);font-size:30px; border: none;">
+                    <span aria-hidden="true" class="col-md-1">&times;</span>
+                </a>
+
+            </div>
+            <div class="modal-body">
+                <app-product-details [product-details]="ProductDetails"></app-product-details>
+            </div>
+        </div>
+    </div>
+</div>

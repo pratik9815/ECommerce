@@ -1,0 +1,20 @@
+<!-- The user can only enter the page if logged in  -->
+<div class="main-content" *ngIf="isLoggedIn$ | async; else loggedOut">
+    <div class="container-fluid">
+        <div class="sidebar">
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="content">
+            <div class="header">
+                <app-navbar></app-navbar>
+            </div>
+                
+                <div class="main-content1" style="padding: 1rem;">
+               <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #loggedOut>
+    <app-login></app-login>
+</ng-template>  

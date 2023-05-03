@@ -1,0 +1,38 @@
+<div class="imageContainer">
+    <div class="col-sm-6 float-left">
+        <div class="title">Name:
+           <p class="content">{{ProductDetails.name}}</p>
+        </div>
+        <div class="title">Description:
+          <p class="content">{{ProductDetails.description}}</p>
+        </div>
+        <div class="title">Price:
+          <p class="content">{{ProductDetails.price}}</p>
+        </div>
+        <div class="title">Created By:
+          <p class="content">{{ProductDetails.createdBy}}</p>
+        </div>
+        <div class="title">Category:
+          <div class="content" *ngFor="let product of ProductDetails.categoryLists">{{product.categoryName}}</div>
+        </div>
+
+
+    </div>
+    <!-- <div class="col-sm-3 float-right image">
+        <img src="{{ProductDetails.img}}" alt="">
+    </div> -->
+    <form>
+        <ngb-carousel>
+          <ng-template ngbSlide *ngFor="let item of ProductDetails.imageLists; index as i">
+            <div class="picsum-img-wrapper" >
+              <img [src]="item.imageUrl" alt="Random first slide" height="250px" width="400px">
+
+            </div>
+            <div class="carousel-caption">
+              
+            </div>
+          </ng-template>
+        </ngb-carousel>
+        <div class="image_caption">Slide for more images</div>
+      </form>
+</div>

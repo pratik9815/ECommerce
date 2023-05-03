@@ -1,0 +1,33 @@
+<div class="modal-content">
+    <form [formGroup]="categoryForm" (ngSubmit)="onUpdateCategory()">
+        <div class="row m-2">
+            <div class="col-sm-6">
+                <label for="categoryName"><b>Name</b><span style="color:red;">*</span></label>
+                <input type="text" id="name" class="form-control p-10" placeholder="Enter Category Name"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.categoryName.errors }" formControlName="categoryName">
+                <div *ngIf="submitted && getFormControl.categoryName.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.categoryName.errors?.required">Category name is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-2">
+            <div class="col-sm-6">
+                <label for="description"><b>Description</b><span style="color:red;">*</span></label>
+                <input type="text" id="description" class="form-control p-10" placeholder="Enter Description"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.description.errors }"
+                    formControlName="description">
+                <div *ngIf="submitted && getFormControl.description.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.description.errors?.required">Category description is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-2">
+            <div class="col-sm-10">
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" type="submit" label="Save" icon="bi bi-save">Save
+                    <i class="bi bi-save"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
