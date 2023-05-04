@@ -1,0 +1,27 @@
+<div class="second row my-2  mx-2">
+    <form class=" my-3" [formGroup]="editForm" (ngSubmit)="saveChanges()">
+        <div class="row">
+            <p class="col-5">
+                Name
+                <input type="text" placeholder="Name" formControlName="fullName">
+            </p>
+            <p class="col-5 mx-4">
+                Phone
+                <input type="text" placeholder="Phone" formControlName="phone">
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-5">
+                Email
+                <input type="text" placeholder="Email" formControlName="email">
+            </p>
+            <p class="col-5 mx-4">
+                Address
+                <input type="text" placeholder="Address" formControlName="address">
+            </p>
+        </div>
+        <p>
+            <button type="submit" class="btn btn-success my-3">Save Changes</button>
+        </p>
+    </form>
+</div>

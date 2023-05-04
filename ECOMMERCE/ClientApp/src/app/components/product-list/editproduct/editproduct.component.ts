@@ -9,8 +9,10 @@ import { ProductService } from 'src/app/services/product/product.service';
   styleUrls: ['./editproduct.component.css']
 })
 export class EditproductComponent implements OnInit {
+  // Getting values from parent component
   @Input("update-product-details") updateProductDetails: any;
 
+  //Emitting values to parent component
   @Output("callBack-product") callBack = new EventEmitter<object>();
 
   productForm:any;

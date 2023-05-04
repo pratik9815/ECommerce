@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
+  private _user:UserInfo;
 
   apiUrl = "https://localhost:7069/api/ApplicationUser/";
   
@@ -37,6 +38,7 @@ export class AuthService {
     localStorage.removeItem('token');
     this._isLoggedIn$.next(false);
   }
+
   public decodeToken(): any {
     let rawToken = localStorage.getItem('token');
     if (rawToken != null)
@@ -80,5 +82,39 @@ export class AuthService {
     return date;
   }
 
+  get userInfo():UserInfo{
+    if(this._user)
+      return this._user;
+    
+    return this.createUserFromToken(localStorage.getItem('token') as string);
+  }
 
+
+  //user information extraction
+
+  private createUserFromToken(rawToken: string):UserInfo
+  {
+    let token:any = jwt_decode(rawToken);
+    let user = new UserInfo();
+    user.fullName = token.fullName;
+    user.email = token.email;
+    user.phone = token.phoneNumber;
+    user.userName = token.username;
+    user.address = token.address;
+    user.usertype = token.usertype;
+    user.userId = token.sub;
+    return user;  
+  }
+
+} 
+
+export class UserInfo
+{
+  userName:string;
+  fullName:string;
+  address:string;
+  phone:string;
+  email:string;
+  userId:string;
+  usertype:string;
 }

@@ -1,0 +1,35 @@
+
+.second{
+    height: 35vh;
+    width: 100%;
+    /* background-color: rgb(82, 163, 133); */
+    border-radius: 5px;
+    position: relative;
+}
+input {
+    border: 1px solid #ccc;
+    padding: 0.3rem;
+    width: 16vw;
+    border-radius: 5px;
+  }
+  
+  /* Active state */
+  input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  /* Value present state */
+input:not(:placeholder-shown) {
+    border-color: #007bff;
+}
+
+.bi.bi-x-circle{
+    position: absolute;
+    right: 2%;
+    top: 2%;
+    font-size: 20px;
+    }
+    .bi:hover{
+    cursor: pointer;
+    }

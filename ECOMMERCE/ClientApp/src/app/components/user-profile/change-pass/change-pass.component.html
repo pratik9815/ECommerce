@@ -1,0 +1,11 @@
+<div   [ngClass]="{ 'column-second':true, 'show':isChange }" class="column-second mx-4 col-6 form-container">
+
+    <form class="my-3  mx-3" [formGroup]="passwordForm" (ngSubmit)="passwordChange()">
+        <p><input type="password" placeholder="Old password" formControlName="oldPassword">
+        <p><input type="password" placeholder="New password" formControlName="newPassword"></p>
+        <p><input type="password" placeholder="Confirm new password" formControlName="confirmPassword"></p>
+        <button type="submit" class="btn btn-success">Confirm</button>
+    </form>
+
+
+</div>

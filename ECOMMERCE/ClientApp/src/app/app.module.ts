@@ -35,6 +35,8 @@ import { ProductDetailsComponent } from './components/product-list/product-detai
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UpdateProfileComponent } from './components/user-profile/update-profile/update-profile.component';
+import { ChangePassComponent } from './components/user-profile/change-pass/change-pass.component';
 
 
 
@@ -53,6 +55,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     DashboardComponent,
     ProductDetailsComponent,
     UserProfileComponent,
+    UpdateProfileComponent,
+    ChangePassComponent,
   ],
   imports: [
     BrowserModule,
