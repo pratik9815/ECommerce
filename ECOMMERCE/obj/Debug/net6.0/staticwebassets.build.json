@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Al1ViwN8xn1juJtyBoKDFKpn2aQ5AJnR9sQBHGPryfE=",
+  "Hash": "F+c5XCrERx23m4VLJ6/8+6mpAiWurGOgp6tmeZZqRyc=",
   "Source": "ECOMMERCE",
   "BasePath": "_content/ECOMMERCE",
   "Mode": "Default",
@@ -151,6 +151,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\1fb13148-c1f0-4b52-95c9-70b4f3fb41d5.png"
+    },
+    {
+      "Identity": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\386ee43b-3042-4c73-b74e-350d15e27cee.png",
+      "SourceId": "ECOMMERCE",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\",
+      "BasePath": "_content/ECOMMERCE",
+      "RelativePath": "Images/386ee43b-3042-4c73-b74e-350d15e27cee.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\386ee43b-3042-4c73-b74e-350d15e27cee.png"
     },
     {
       "Identity": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\3ac68b01-8e74-487f-ad86-0acb228fd170.png",
@@ -306,6 +323,23 @@
       "OriginalItemSpec": "wwwroot\\Images\\7efce048-26cb-45bb-be95-3edc18c33cdb.png"
     },
     {
+      "Identity": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\829d800b-637d-4296-9df9-b4cbb84e6bca.png",
+      "SourceId": "ECOMMERCE",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\",
+      "BasePath": "_content/ECOMMERCE",
+      "RelativePath": "Images/829d800b-637d-4296-9df9-b4cbb84e6bca.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\829d800b-637d-4296-9df9-b4cbb84e6bca.png"
+    },
+    {
       "Identity": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\95582d42-946e-426e-8b70-792d784ee92f.jpg",
       "SourceId": "ECOMMERCE",
       "SourceType": "Discovered",
@@ -406,6 +440,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\ec9bc8d9-adcb-4524-9f85-a95128824188.png"
+    },
+    {
+      "Identity": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\f43cb9ce-54ed-4ec7-9113-119475596109.png",
+      "SourceId": "ECOMMERCE",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\",
+      "BasePath": "_content/ECOMMERCE",
+      "RelativePath": "Images/f43cb9ce-54ed-4ec7-9113-119475596109.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\f43cb9ce-54ed-4ec7-9113-119475596109.png"
     },
     {
       "Identity": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\fc18e6e1-49cc-499f-b44c-d839973bbebb.jpg",

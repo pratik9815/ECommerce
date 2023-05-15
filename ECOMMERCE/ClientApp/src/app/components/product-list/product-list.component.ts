@@ -16,74 +16,68 @@ import { ToastrService } from 'ngx-toastr';
 export class ProductListComponent implements OnInit {
 
   //For AgGrid table
+  defaultColDef:any;
   productColDef: any;
   productData: any;
-  productDataClone:any;
+  productDataClone: any;
   gridApi: any;
   gridColumnApi: any;
   domLayout: any;
   quickSearchValue: any;
   updateProductDetails: any;
-  productId:any;
-  ProductDetails:any;
+  productId: any;
+  ProductDetails: any;
 
-    //for model popup
-    addProductPopUpModal: boolean = false;
-    updateProductPopUpModal: boolean = false;
-    CategoryPopUpModal: boolean = false;
-    productDetailsPopUpModal: boolean = false;
+  //for model popup
+  addProductPopUpModal: boolean = false;
+  updateProductPopUpModal: boolean = false;
+  CategoryPopUpModal: boolean = false;
+  productDetailsPopUpModal: boolean = false;
 
-  constructor(private _productService:ProductService,
-              private _toastrService:ToastrService) {
+  constructor(private _productService: ProductService,
+    private _toastrService: ToastrService) {
     this.domLayout = "autoHeight";
 
-   }
+  }
 
   ngOnInit(): void {
     this.getProduct();
     this.productColDef = [
       { headerName: "S.N", valueGetter: 'node.rowIndex+1', width: 40, resizable: true },
-      { headerName: "Name", field: 'name', sortable: true, resizable: true,filter: true, width: 100 },
+      { headerName: "Name", field: 'name', sortable: true, resizable: true, filter: true, width: 100 },
       { headerName: "Description", field: 'description', sortable: true, resizable: true, width: 100 },
       { headerName: "Unit Price", field: 'price', sortable: true, resizable: true, width: 100 },
       { headerName: "Quantity", field: 'quantity', sortable: true, resizable: true, width: 100 },
       { headerName: "CreatedBy", field: 'createdBy', sortable: true, resizable: true, width: 100 },
-      { headerName: "Actions", field: 'action', cellRenderer: this.actions(), pinned: 'right', resizable: true, width: 50 },     
-  ];
+      { headerName: "UpdateddBy", field: 'updatedBy', sortable: true, resizable: true, width: 100 },
+      { headerName: "Actions", field: 'action', cellRenderer: this.actions(), pinned: 'right', resizable: true, width: 10 },
+    ];
   }
   // <button type="button" data-action-type="Cateogry" class="btn ag-btn btn-secondary" 
-                // data-toggle="tooltip" data-placement="bottom" title = "Category" ><i class="fa-solid fa-pen-nib"></i></button> &nbsp;
+  // data-toggle="tooltip" data-placement="bottom" title = "Category" ><i class="fa-solid fa-pen-nib"></i></button> &nbsp;
   public actions() {
-    return function(params:any){
+    return function (params: any) {
       return ` 
-
-              <button type="button" data-action-type="Edit" class="btn ag-btn btn-primary"  
-              data-toggle="tooltip" data-placement="bottom" title = "Edit" ><i class="fa-solid fa-pen-to-square"></i></button> &nbsp;
-
-              <button type="button" data-action-type="Remove" class="btn ag-btn btn-danger" 
-              data-toggle="tooltip" data-placement="bottom" title = "Remove" ><i class="fa-solid fa-trash"></i></button>&nbsp;
-
-              <button type="button" data-action-type="Details" class="btn ag-btn btn-primary" 
-              data-toggle="tooltip" data-placement="bottom" title = "Details" ><i class="fa-solid fa-eye"></i></button>`;
+          <button type="button" data-action-type="Edit" class="btn ag-btn"> <i data-action-type="Edit" class="fa-solid fa-pen-to-square"></i></button>
+          <button type="button" data-action-type="Remove" class="btn ag-btn">  <i data-action-type="Remove" class="fas fa-trash"></i></button>
+          <button type="button" data-action-type="Details" class="btn ag-btn"><i data-action-type="Details" class="fa-solid fa-eye"></i></button>`;
     }
   }
-  
-  getProduct()
-  {
+
+  getProduct() {
     this._productService.GetAllProductWithAllImage().subscribe({
-      next: (res:any) =>{
+      next: (res: any) => {
         this.productData = res;
         this.productDataClone = [...res];
         console.log(res);
       },
-      error: err =>{
+      error: err => {
         console.log(err);
       }
     });
-  }   
-  
-  onChange(e: any)
-  {
+  }
+
+  onChange(e: any) {
     console.log(e.value)
   }
 
@@ -95,7 +89,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onRowClicked(e: any) {
-    if (e.event.target) { 
+    if (e.event.target) {
       let data = e.data;
       let actionType = e.event.target.getAttribute("data-action-type");
 
@@ -108,12 +102,13 @@ export class ProductListComponent implements OnInit {
         case "Remove": {
           return this.onOpenDialog(data);
         }
-        case "Cateogry":{
+        case "Cateogry": {
           this.productId = data.id;
           this.CategoryPopUpModal = true;
           break;
         }
         case "Details": {
+
           this.ProductDetails = data;
           this.productDetailsPopUpModal = true;
           break;

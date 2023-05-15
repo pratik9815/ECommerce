@@ -1,11 +1,72 @@
-<div   [ngClass]="{ 'column-second':true, 'show':isChange }" class="column-second mx-4 col-6 form-container">
+<div class="modal-content column-second">
 
-    <form class="my-3  mx-3" [formGroup]="passwordForm" (ngSubmit)="passwordChange()">
-        <p><input type="password" placeholder="Old password" formControlName="oldPassword">
-        <p><input type="password" placeholder="New password" formControlName="newPassword"></p>
-        <p><input type="password" placeholder="Confirm new password" formControlName="confirmPassword"></p>
-        <button type="submit" class="btn btn-success">Confirm</button>
+    <!-- Modal header -->
+    <div class="modal-header">
+        <h1 class="modal-title fs-5" id="changePassLabel">Change Password</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
+    </div>
+
+
+    <form [formGroup]="passwordForm" (ngSubmit)="passwordChange()">
+        <div class="row mx-4 my-4">
+            <input  [type]="changeTypeOld? 'password':'text'"  placeholder="Old password" class="form-control " id="oldPassword"
+                [ngClass]="{'is-invalid':submitted && getFormControl.oldPassword.errors }"
+                formControlName="oldPassword">
+                <i (click)="viewpassOld()" [ngClass]="visibleOld? 'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+
+
+            <div *ngIf="submitted && getFormControl.oldPassword.errors" class="invalid-feedback text-danger div-error">
+                <div *ngIf="getFormControl.oldPassword.errors?.required">Old password is required</div>
+            </div>
+            <div *ngIf="submitted && getFormControl.oldPassword.errors" class="invalid-feedback text-danger div-error">
+                <div *ngIf="getFormControl.oldPassword.errors?.pattern">Enter valid password
+                </div>
+            </div>
+        </div>
+
+        <div class="row mx-4 my-4">
+           
+            <input  [type]="changeTypeNew? 'password':'text'"  placeholder="New password" class="form-control p-9" id="newPassword"
+                [ngClass]="{'is-invalid':submitted && getFormControl.newPassword.errors }"
+                formControlName="newPassword">
+
+                <i (click)="viewpassNew()" [ngClass]="visibleNew? 'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
+
+
+            <div *ngIf="submitted && getFormControl.newPassword.errors" class="invalid-feedback text-danger div-error">
+                <div *ngIf="getFormControl.newPassword.errors?.required">New password is required</div>
+            </div>
+
+            <div *ngIf="submitted && getFormControl.newPassword.errors" class="invalid-feedback text-danger div-error">
+                <div *ngIf="getFormControl.newPassword.errors?.pattern">Enter valid password
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row my-4">
+            <input type="text" placeholder="Confirm new password" class="form-control" id="confirmPassword"
+                [ngClass]="{'is-invalid':submitted && getFormControl.confirmPassword.errors }"
+                formControlName="confirmPassword">
+
+
+            <div *ngIf="submitted && getFormControl.confirmPassword.errors" class="invalid-feedback text-danger">
+                <div *ngIf="getFormControl.confirmPassword.errors?.required">New password is required</div>
+            </div>
+
+            <div *ngIf="submitted && getFormControl.confirmPassword.errors" class="invalid-feedback text-danger">
+                <div *ngIf="getFormControl.confirmPassword.errors?.pattern">Enter valid password
+                </div>
+            </div>
+        </div> -->
+
+        <button type="submit" class="btn btn-success mx-4">Confirm</button>
+
+
     </form>
-
+    <footer>
+        <div class="my-2" style="font-size:x-small"><span class="text-danger">*Note:</span> Password must be 8+
+            characters with at least one digit,
+            special character, lowercase, and uppercase.</div>
+    </footer>
 
 </div>

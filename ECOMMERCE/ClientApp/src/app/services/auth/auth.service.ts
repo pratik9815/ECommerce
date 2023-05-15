@@ -21,7 +21,14 @@ export class AuthService {
     const token = localStorage.getItem('token');
     this._isLoggedIn$.next(!!token);
    }
+  //Updating user information
+   UpdateUser(body:any){
+    return this._httpClient.put(this.apiUrl+ "update-user",body)
 
+   }
+
+
+   //Working with jwt token
   GetToken() {
     return localStorage.getItem('token');
   }
@@ -58,10 +65,11 @@ export class AuthService {
        this._isLoggedIn$.next(true);  // push to subscribers of observable
   }
 
+  
+
   public isTokenExpired(): boolean {
     let rawToken = localStorage.getItem('token');
     if (rawToken == null) {
-      this._toastrService.info('You session has expired. Please login again.', 'Info');
       return true;
     }
 
@@ -90,6 +98,19 @@ export class AuthService {
   }
 
 
+
+  //Change password of the admin and superadmin user
+  changePassword(body:any)
+  {
+    // const password = {
+    //   oldPassword : body.oldPassword,
+    //   newPassword: body.newPassword
+    // }
+    return this._httpClient.post(this.apiUrl+"change-password",body);
+  }
+
+
+
   //user information extraction
 
   private createUserFromToken(rawToken: string):UserInfo
@@ -98,11 +119,13 @@ export class AuthService {
     let user = new UserInfo();
     user.fullName = token.fullName;
     user.email = token.email;
-    user.phone = token.phoneNumber;
+    user.phoneNumber = token.phoneNumber;
     user.userName = token.username;
     user.address = token.address;
     user.usertype = token.usertype;
-    user.userId = token.sub;
+    user.id = token.sub;
+   
+   
     return user;  
   }
 
@@ -113,8 +136,10 @@ export class UserInfo
   userName:string;
   fullName:string;
   address:string;
-  phone:string;
+  phoneNumber:string;
   email:string;
-  userId:string;
+  id:string;
   usertype:string;
+  
+  
 }

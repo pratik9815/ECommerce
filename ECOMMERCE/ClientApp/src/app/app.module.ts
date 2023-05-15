@@ -37,6 +37,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UpdateProfileComponent } from './components/user-profile/update-profile/update-profile.component';
 import { ChangePassComponent } from './components/user-profile/change-pass/change-pass.component';
+import { PasswordChangeSuccessComponent } from './components/password-change-success/password-change-success.component';
+import { CreateUserComponent } from './components/user-profile/create-user/create-user.component';
+import { UserListComponent } from './components/user-profile/user-list/user-list.component';
 
 
 
@@ -57,6 +60,9 @@ import { ChangePassComponent } from './components/user-profile/change-pass/chang
     UserProfileComponent,
     UpdateProfileComponent,
     ChangePassComponent,
+    PasswordChangeSuccessComponent,
+    CreateUserComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,

@@ -38,7 +38,7 @@ export class AddproductComponent implements OnInit {
       price: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      categoryId:[null],
+      categoryId:[null,[Validators.required]],
     });
     console.log(this.productForm.value);
   }
@@ -60,7 +60,7 @@ export class AddproductComponent implements OnInit {
     input.append('quantity', this.productForm.value.quantity);
     
     // input.append('categoryId',this.productForm.value.categoryId);
-    const categoryIds = this.productForm.get('categoryId').value;
+    const categoryIds = this.productForm.get('categoryId').value;   
   for (let i = 0; i < categoryIds.length; i++) {
     input.append('categoryId', categoryIds[i]);
   }
@@ -120,6 +120,8 @@ export class AddproductComponent implements OnInit {
         this.imageSource.push(reader.result as string);
       };
     }
+    console.log(files)
+    console.log(this.imageSource) 
   }
   onChange(e:any)
   {

@@ -12,10 +12,13 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: any;
-  visible:boolean =true;
   changeType:boolean = true;
-  isButtonClicked:boolean = false;
+  submitted:boolean = false;
   errorMsg:string ; 
+  
+
+  visible:boolean =true;
+
   
   constructor(private _formBuilder:FormBuilder,
     private _authService:AuthService,
@@ -28,8 +31,12 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.minLength(8), Validators.required]],
     });
   }
+  get getFormControl()
+  {
+    return this.loginForm.controls;
+  }
   onLogin() {
-    this.isButtonClicked = true;
+    this.submitted = true;
     if (this.loginForm.invalid) 
     {
       this.errorMsg = "UserName and Password are required."
@@ -39,7 +46,7 @@ export class LoginComponent implements OnInit {
       {
         next: res => {  
           this._toastrService.success("Login successful", "success");
-          // this._router.navigate(['']);
+          this._router.navigate(['/dashboard']);
         },
         error: error => {
           this._toastrService.error("Enter valid credentials", "Unauthorized");

@@ -59,6 +59,7 @@ namespace DataAccessLayer.Common.Product
         public string Description { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
+        public List<Guid> Categories { get; set; }  //Gives id of the respective product
         public ProductStatus ProductStatus { get; set; }
         public string Img { get; set; }
 

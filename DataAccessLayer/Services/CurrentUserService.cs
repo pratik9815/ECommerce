@@ -58,6 +58,20 @@ namespace DataAccessLayer.Services
                 return _contextAccessor.HttpContext?.User?.FindFirstValue(Constants.Address);
             }
         }
+        public string UserType
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User.FindFirstValue(Constants.UserType);
+            }
+        }
+        public string FullName
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User.FindFirstValue(Constants.FullName);
+            }
+        }
 
     }
 }

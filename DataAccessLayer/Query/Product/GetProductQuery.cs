@@ -21,7 +21,9 @@ namespace DataAccessLayer.Query.Product
         public string UpdatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public List<ImageList> ImageLists { get; set; }
+        public List<Guid> Categories { get; set; } //Gives id of the respective product
         public List<CategoryList> CategoryLists { get; set; }
+        public List<GetCategoryName> CategoryName { get; set; }
     }
     public class ImageList
     {
@@ -32,6 +34,10 @@ namespace DataAccessLayer.Query.Product
     public class CategoryList
     {
         public Guid CategoryId { get; set;}
+        public string CategoryName { get; set; }
+    }
+    public class GetCategoryName
+    {
         public string CategoryName { get; set; }
     }
 

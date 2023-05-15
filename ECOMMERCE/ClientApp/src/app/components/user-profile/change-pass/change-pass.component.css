@@ -1,25 +1,28 @@
 .column-second{
-    height: 35vh;
-    width: 30vw;
-    border-radius: 5px;
     position: relative;
-    right: 0;
 }
-input {
-    border: 1px solid #ccc;
-    padding: 0.3rem;
-    width: 16vw;
-    border-radius: 5px;
+
+  .row{
+    position: relative;
   }
-  
-  /* Active state */
-  input:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  
-  /* Value present state */
-    input:not(:placeholder-shown) {
-        border-color: #007bff;
-    }
-  
+
+  /* div.row div{
+    position: absolute;
+    top: 17px;
+  } */
+.div-error{
+  position: absolute;
+    top: 36px;
+}
+.bi.bi-eye-fill,
+.bi-eye-slash-fill{
+  position: absolute;
+  top: 8px;
+  left: 381px;
+}
+
+.form-control{
+  background-position: left calc(0.1rem) center;
+  padding-left: 20px;
+  font-weight: bold;
+}

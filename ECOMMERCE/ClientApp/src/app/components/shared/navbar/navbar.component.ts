@@ -15,7 +15,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  get fullName()
+  {
+    return this._authService.userInfo?.fullName?? "";
+  }
   onLogout()
   {
       this._authService.onLogout();

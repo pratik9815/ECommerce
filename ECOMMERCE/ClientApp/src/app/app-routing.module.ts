@@ -5,6 +5,9 @@ import { AuthGuard } from './guard/auth.guard';
 import { CategoryListComponent } from './components/category-list/category-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { PasswordChangeSuccessComponent } from './components/password-change-success/password-change-success.component';
+import { CreateUserComponent } from './components/user-profile/create-user/create-user.component';
+import { UserListComponent } from './components/user-profile/user-list/user-list.component';
 
 const routes: Routes = [
   {
@@ -29,8 +32,23 @@ const routes: Routes = [
   },
   {
     path: "profile",
-    component: UserProfileComponent,
-    
+    component: UserProfileComponent, 
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "password-change-success",
+    component: PasswordChangeSuccessComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "create-user",
+    component: CreateUserComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "user-list",
+    component: UserListComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

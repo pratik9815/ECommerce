@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { UserService } from 'src/app/service/user/user.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
-
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -9,35 +8,81 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class UserProfileComponent implements OnInit {
 
+
   updateprofile:any;
-  constructor(private _authService:AuthService) { }
+  isEdit:boolean = false;
+  res:any;
+  constructor(private _authService:AuthService,private _userService:UserService) { }
 
   ngOnInit(): void {
-    this.updateprofile = this._authService.userInfo;
+    this.getUser();
   }
- 
+
+  getUser():void
+  {
+    this._userService.getUser().subscribe({
+      next: data =>{
+        this.res = data;
+       
+        this.res.forEach((item:any) => {
+          
+          if(item.id == this.getId())
+          {
+            this.updateprofile = item;
+          }
+        });
+      },
+      error: err =>{
+        console.log(err)
+      }
+    });
+  }
+
+
+  callback():void
+  {
+    this.close();
+  }
+  
+  edit():void
+  {
+    this.isEdit = true;
+  }
+  close()
+  {
+    this.getUser();
+    this.isEdit = false;
+    this.getAddress();
+    this.getEmail();
+    this.getFullName();
+    this.getPhone();
+    this.getUserType();
+  }
+
   getFullName():string
   {
-    return this._authService.userInfo?.fullName?? '';
+    return this.updateprofile?.fullName;
   }
-  getAdress()
+
+  getPhone():string
   {
-    return this._authService.userInfo?.address?? '';
+    return this.updateprofile?.phoneNumber;
   }
-  getPhone()
+  getEmail():string
   {
-    return this._authService.userInfo?.phone?? '';
+    return this.updateprofile?.email;
   }
-  getEmail()
+  getAddress():string
   {
-    return this._authService.userInfo?.email?? '';
+    return this.updateprofile?.address;
   }
-  getAddress()
+  getUserType():string
   {
-    return this._authService.userInfo?.address?? '';
+    return this.updateprofile?.userType;
   }
-  getUserType()
+  getId()
   {
-    return this._authService.userInfo?.usertype??'';
+    return this._authService.userInfo?.id??'';
   }
+
 }

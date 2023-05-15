@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
@@ -9,30 +10,57 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class UpdateProfileComponent implements OnInit {
 
-  @Input("update-profile") updateprofile : any;
+  @Input("update-profile") updateprofile: any;
 
-  submitted:boolean = false;
-  editForm:FormGroup;
-  constructor(private _formBuilder:FormBuilder,
-              private _authService:AuthService) { }
+  @Output("User-Update") callback = new EventEmitter<object>();
+
+  submitted: boolean = false;
+  editForm: any;
+  constructor(private _formBuilder: FormBuilder,
+    private _authService: AuthService,
+    private _toastrService:ToastrService) { }
 
   ngOnInit(): void {
-    console.log(this.updateprofile)
+
     this.editForm = this._formBuilder.group({
-      fullName: [''],
-      email: [''],
-      phone: [''],
-      address: ['']
+      id: [null],
+      fullName: ['',[Validators.required]],
+      email: ['',[Validators.required]],
+      phoneNumber: ['',[Validators.required]],
+      address: ['',[Validators.required]],
+      userName: [null],
+      dob:[null],
+      
     });
     this.editForm.patchValue(this.updateprofile)
+    console.log(this.updateprofile)
+  
+ 
   }
 
-
-  saveChanges()
+  get getFormControl()
   {
-    this.submitted = true;
+    return this.editForm.controls;
+  }
+
+  saveChanges() {
     console.log(this.editForm.value)
- 
+    this.submitted = true;
+    if(this.editForm.invalid) return;
+
+    this._authService.UpdateUser(this.editForm.value).subscribe({
+      next: data =>{
+       
+        this._toastrService.info("The user has been updated")
+        this.callback.emit();
+      },
+      error: err =>{
+        this._toastrService.error("Updating user failed")
+        console.log(err)
+      }
+      
+    })
+
   }
 
 }

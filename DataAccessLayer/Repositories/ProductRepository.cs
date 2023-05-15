@@ -46,11 +46,13 @@ namespace DataAccessLayer.Repositories
                     CreatedDate = p.CreatedDate,
                     UpdatedBy = p.UpdatedBy,
                     CreatedBy = _context.Users.FirstOrDefault(a => a.Id == p.CreatedBy).FullName,
-                    CategoryLists = p.ProductCategories.Select(x => new CategoryList
-                    {
-                        CategoryId = x.CategoryId,
-                        CategoryName = x.Category.CategoryName
-                    }).ToList(),
+                    //CategoryLists = p.ProductCategories.Select(x => new CategoryList
+                    //{
+                    //    CategoryId = x.CategoryId,
+                    //    CategoryName = x.Category.CategoryName
+                    //}).ToList(),
+
+                    //This will only return the id and the name , we created a seprate class to return in the getproductquery class which is later modified
                 });
                 return products;
             
@@ -67,24 +69,27 @@ namespace DataAccessLayer.Repositories
         }
         public async Task<List<GetProductQuery>> GetWithImage()
          {
-            var products = await _context.Products.Select(x => new GetProductQuery
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Price = x.Price,
-                Quantity = x.Quantity,
-                Img = x.Img,
-                ProductStatus = x.ProductStatus,
-                CreatedDate = x.CreatedDate,
-                UpdatedBy = x.UpdatedBy,
-                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
-                ImageLists = x.ProductImages.Select(y => new ImageList
-                {
-                    ImageId = y.Id,
-                    ImageName = y.ImageName
+            var products = await _context.Products
+                 .OrderByDescending(x => x.CreatedDate)
+                 .Where(x => x.IsDeleted == false)
+                 .Select(x => new GetProductQuery
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Description = x.Description,
+                        Price = x.Price,
+                        Quantity = x.Quantity,
+                        Img = x.Img,
+                        ProductStatus = x.ProductStatus,
+                        CreatedDate = x.CreatedDate,
+                        UpdatedBy = x.UpdatedBy,
+                        CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
+                        ImageLists = x.ProductImages.Select(y => new ImageList
+                        {
+                            ImageId = y.Id,
+                            ImageName = y.ImageName
+                        }).ToList(),
 
-                }).ToList(),
             }).ToListAsync();
 
             foreach (var item in products)
@@ -185,6 +190,9 @@ namespace DataAccessLayer.Repositories
         //    }
 
         //}
+
+       
+       
         public async Task<ApiResponse> UpdateProduct(UpdateProductCommand product)
         {
             try
@@ -195,6 +203,22 @@ namespace DataAccessLayer.Repositories
                 productDetails.Price = product.Price;
                 productDetails.UpdatedBy = _service?.UserId;
                 productDetails.UpdatedDate = DateTime.UtcNow;
+
+
+                var productCategories = await _context.ProductCategories.Where(c => c.ProductId == product.Id).ToListAsync();
+                foreach(var category in productCategories) { 
+                    _context.ProductCategories.Remove(category);
+                }
+
+                foreach(var category in product.Categories)
+                {
+                    var productCategory = new ProductCategory
+                    {
+                        CategoryId = category
+                    };
+                    productDetails.AddProductCategory(productCategory); 
+                }
+
                 //productDetails.ProductStatus = product.ProductStatus;
                 productDetails.Quantity = product.Quantity;
                 _context.Products.Update(productDetails);
@@ -219,6 +243,7 @@ namespace DataAccessLayer.Repositories
 
         }
 
+        //This is used in angualr
         public async Task<ApiResponse> RemoveProduct(Guid Id)
         {
             try
@@ -244,6 +269,7 @@ namespace DataAccessLayer.Repositories
 
         }
 
+        //This is used in angular
         public async Task<ApiResponse> CreateProductWithMultipleImages(CreateProductWithImagesCommand product)
         {
             try
@@ -333,6 +359,8 @@ namespace DataAccessLayer.Repositories
 
         }
 
+
+        //This is used in angular
         public async Task<List<GetProductQuery>> GetAllWithImage()
         {
             var products = await _context.Products
@@ -348,7 +376,9 @@ namespace DataAccessLayer.Repositories
                     Img = x.Img,
                     ProductStatus = x.ProductStatus,
                     CreatedDate = x.CreatedDate,
-                    UpdatedBy = x.UpdatedBy,
+                    //UpdatedBy = x.UpdatedBy,
+                    UpdatedBy = _context.Users.FirstOrDefault(y => y.Id == x.UpdatedBy).FullName,
+
                     CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
                     ImageLists = x.ProductImages.Select(y => new ImageList
                     {
@@ -356,10 +386,12 @@ namespace DataAccessLayer.Repositories
                         ImageName = y.ImageName
 
                     }).ToList(),
-                    CategoryLists = x.ProductCategories.Select(p => new CategoryList
+                    Categories = x.ProductCategories.Select(x => x.CategoryId).ToList(),    //This gives out only the id
+                    
+                    //This gives the category name
+                    CategoryName = x.ProductCategories.Select(a => new GetCategoryName
                     {
-                        CategoryId = p.CategoryId,
-                        CategoryName = p.Category.CategoryName
+                        CategoryName = a.Category.CategoryName
                     }).ToList(),
 
                 }).ToListAsync();

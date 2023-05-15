@@ -42,5 +42,12 @@ namespace DataAccessLayer.Models
             };
             ProductCategories.Add(category);
         }
+
+        public void AddProductCategory(ProductCategory productCategory)
+        {
+
+            ProductCategories.Add(productCategory);
+        }
+
     }
 }

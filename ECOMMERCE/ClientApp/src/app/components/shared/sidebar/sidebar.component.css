@@ -58,3 +58,13 @@
   .sidebar-container .ulist .list .link {
     transition: all 0.2s ease;
   }
+  .dropdown-menu{
+    background-color: inherit;
+  }
+  .dropdown-item{
+    color: white;
+    font-size: large;
+  }
+  .dropdown-item:hover{
+    background-color: #42584b;
+  }

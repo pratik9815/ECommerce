@@ -14,5 +14,6 @@ namespace DataAccessLayer.Services.Interfaces
         public string Email { get; }
         public string Phone { get; }
         public string Address { get; }
+        public string UserType { get; }
     }
 }

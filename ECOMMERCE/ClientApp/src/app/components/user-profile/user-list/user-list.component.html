@@ -1,0 +1,21 @@
+
+<!-- <div class="container" *ngFor="let item of userData">
+    <ul>
+        <li>{{item.fullName}}</li>
+        <li>{{item.dob}}</li>
+        <li>{{item.email}}</li>
+        <li>{{item.userType}}</li>
+    </ul>
+</div> -->
+<h3>User Lists</h3>
+<div class="card" style="width:80%">
+    <div class="card-body p-0">
+        <ag-grid-angular style="width: 100%;" class="ag-theme-alpine" [rowData]="userData"
+            [columnDefs]="userColDef" [domLayout]="domLayout" [animateRows]="true"
+            [paginationPageSize]="7" [enableCellTextSelection]="true" [enableBrowserTooltips]="true"
+            [pagination]="true" 
+            (filterChanged)="onFilterChanged($event)"
+            (gridReady)="onGridReady($event)" style="position:relative">
+        </ag-grid-angular>
+    </div>
+</div>

@@ -9,7 +9,6 @@ namespace DataAccessLayer.Models
     public class ProductImage
     {
         public Guid Id { get; set; }
-
         public Product Product { get; set; }
         public Guid ProductId { get; set; }
         public string ImageName { get; set; }

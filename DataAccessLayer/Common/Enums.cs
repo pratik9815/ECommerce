@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,19 +10,28 @@ namespace DataAccessLayer.Common
 {
     public enum UserType
     {
+        //If we do not explicitely set the value then the values would start from 0
+        [Display(Name = "SuperAdmin")]
         SuperAdmin = 0,
+        [Display(Name = "Admin")]
         Admin = 1,
-        User = 2,
+        [Display(Name = "Customer")]
+        Customer = 2,
     }
     public enum RoleType
     {
+        [Display(Name ="SuperAdmin")]
         SuperAdmin = 0,
+        [Display(Name = "Admin")]
         Admin = 1,
-        User = 2,
+        [Display(Name = "Customer")]
+        Customer = 2,
     }
     public enum Gender
     {
+        [Display(Name ="Male")]
         Male = 0,
+        [Display(Name ="Female")]
         Female = 1,
     }
 
@@ -46,6 +56,7 @@ namespace DataAccessLayer.Common
         OrderDelivered = 3
 
     }
+
 
 
 }
