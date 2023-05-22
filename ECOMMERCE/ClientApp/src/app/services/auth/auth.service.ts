@@ -12,24 +12,28 @@ import { ToastrService } from 'ngx-toastr';
 export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
-  private _user:UserInfo;
+  private _user: UserInfo;
 
   apiUrl = "https://localhost:7069/api/ApplicationUser/";
-  
-  constructor(private _httpClient:HttpClient,
-    private _toastrService:ToastrService) {
+  //for role guard
+  user: UserModel;
+
+  constructor(private _httpClient: HttpClient,
+    private _toastrService: ToastrService) {
     const token = localStorage.getItem('token');
     this._isLoggedIn$.next(!!token);
-   }
+    this.user = this.getUser(this.GetToken())
+    // this.user = this.userInfo;
+  }
   //Updating user information
-   UpdateUser(body:any){
-    return this._httpClient.put(this.apiUrl+ "update-user",body)
+  UpdateUser(body: any) {
+    return this._httpClient.put(this.apiUrl + "update-user", body)
 
-   }
+  }
 
 
-   //Working with jwt token
-  GetToken() {
+  //Working with jwt token
+  GetToken(): any {
     return localStorage.getItem('token');
   }
   onLogin(authenticateRequest: any) {
@@ -37,13 +41,19 @@ export class AuthService {
       tap((res: any) => {
         this._isLoggedIn$.next(true);
         localStorage.setItem('token', res.token as string);
+
+        //for role guard
+        this.user = this.getUser(res.token)
       })
     )
   }
-  onLogout()
-  {
-    localStorage.removeItem('token');
-    this._isLoggedIn$.next(false);
+  
+  onLogout() {
+    return this._httpClient.post(this.apiUrl + 'logout', null).pipe(
+      tap((res: any) => {
+        this._isLoggedIn$.next(false);
+      })
+    )
   }
 
   public decodeToken(): any {
@@ -55,17 +65,17 @@ export class AuthService {
   }
 
   public showLoginPageIfTokenExpries(): void {
-    if (this.isTokenExpired()){
-       localStorage.removeItem('token');
-       this._isLoggedIn$.next(false); // push to subscribers of observable
+    if (this.isTokenExpired()) {
+      localStorage.removeItem('token');
+      this._isLoggedIn$.next(false); // push to subscribers of observable
       this._toastrService.info('You session has expired. Please login again.', 'Info');
-       
+
     }
     else
-       this._isLoggedIn$.next(true);  // push to subscribers of observable
+      this._isLoggedIn$.next(true);  // push to subscribers of observable
   }
 
-  
+
 
   public isTokenExpired(): boolean {
     let rawToken = localStorage.getItem('token');
@@ -90,32 +100,27 @@ export class AuthService {
     return date;
   }
 
-  get userInfo():UserInfo{
-    if(this._user)
+  get userInfo(): UserInfo {
+    if (this._user)
       return this._user;
-    
+
     return this.createUserFromToken(localStorage.getItem('token') as string);
   }
 
-
-
-  //Change password of the admin and superadmin user
-  changePassword(body:any)
-  {
-    // const password = {
-    //   oldPassword : body.oldPassword,
-    //   newPassword: body.newPassword
-    // }
-    return this._httpClient.post(this.apiUrl+"change-password",body);
+  //for role guard
+  private getUser(token: string): any {
+    return token ? JSON.parse(atob(token.split('.')[1])) as UserModel : undefined;
   }
 
-
+  //Change password of the admin and superadmin user
+  changePassword(body: any) {
+    return this._httpClient.post(this.apiUrl + "change-password", body);
+  }
 
   //user information extraction
 
-  private createUserFromToken(rawToken: string):UserInfo
-  {
-    let token:any = jwt_decode(rawToken);
+  private createUserFromToken(rawToken: string): UserInfo {
+    let token: any = jwt_decode(rawToken);
     let user = new UserInfo();
     user.fullName = token.fullName;
     user.email = token.email;
@@ -123,23 +128,26 @@ export class AuthService {
     user.userName = token.username;
     user.address = token.address;
     user.usertype = token.usertype;
-    user.id = token.sub;
-   
-   
-    return user;  
+    user.id = token.id;
+
+
+    return user;
   }
 
-} 
+}
 
-export class UserInfo
-{
-  userName:string;
-  fullName:string;
-  address:string;
-  phoneNumber:string;
-  email:string;
-  id:string;
-  usertype:string;
-  
-  
+export class UserInfo {
+  userName: string;
+  fullName: string;
+  address: string;
+  phoneNumber: string;
+  email: string;
+  id: string;
+  usertype: string;
+}
+
+export interface UserModel {
+  fullName: string;
+  userName: string;
+  usertype: string;
 }

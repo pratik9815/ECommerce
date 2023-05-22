@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/service/user/user.service';
+import { Gender, UserType } from 'src/app/services/web-api-client';
 
 @Component({
   selector: 'app-create-user',
@@ -11,9 +12,37 @@ import { UserService } from 'src/app/service/user/user.service';
 })
 export class CreateUserComponent implements OnInit {
 
-  model: NgbDateStruct;
+  @Output("new-event") newEvent = new EventEmitter<any>();
+
+  selected:boolean= false;
+
   submitted : boolean = false;
   createUserForm:any;
+
+
+
+  gender: any = [
+    {
+      id : Gender.Male,
+      name : "Male"
+    },
+    {
+      id : Gender.Female,
+      name : "Female"
+    }
+  ]
+
+  userType: any =
+  [
+    {
+      id : UserType.SuperAdmin,
+      name : "SuperAdmin"
+    },
+    {
+      id : UserType.Admin,
+      name : "Admin"
+    }
+  ]
   constructor(private _formBuilder:FormBuilder,
     private _userService:UserService,
     private _toastrService:ToastrService) { }
@@ -50,11 +79,14 @@ export class CreateUserComponent implements OnInit {
         console.log(res);
         this._toastrService.success("User has been added successfully","Success")
         this.createUserForm.reset();
+        this.newEvent.emit();
       },
       error: err =>{
         console.log(err)
       }
-    })
+    });
   }
+
+
 
 }

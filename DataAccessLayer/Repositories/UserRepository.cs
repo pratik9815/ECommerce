@@ -25,12 +25,11 @@ namespace DataAccessLayer.Repositories
             _context = context;
             _currentUserService = currentUserService;
         }
-
-        public async Task<List<UserDTO>> GetAdminUsers()
+        public async Task<List<UserDTO>> GetAllAdminUsers()
         {
 
-            var result = await _context.Users
-                                            .Where(x => x.UserType == UserType.SuperAdmin || x.UserType ==UserType.Admin)
+            var users = await _context.Users
+                                            .Where(x => x.UserType == UserType.SuperAdmin)
                                             .OrderBy(x => x.FullName)
                                             .Select(x => new UserDTO
                                             {
@@ -45,7 +44,49 @@ namespace DataAccessLayer.Repositories
                                                 PhoneNumber = x.PhoneNumber,
                                                 //CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName
                                             }).ToListAsync();
-            return result;
+            return users;
+        }
+        public async Task<List<UserDTO>> GetSuperAdminUsers()
+        {
+
+            var users = await _context.Users
+                                            .Where(x => x.UserType == UserType.SuperAdmin)
+                                            .OrderBy(x => x.FullName)
+                                            .Select(x => new UserDTO
+                                            {
+                                                Id = x.Id,
+                                                FullName = x.FullName,
+                                                UserName = x.UserName,
+                                                Address = x.Address,
+                                                DOB = x.DOB,
+                                                Gender = x.Gender.GetEnumDisplayName(),
+                                                UserType = x.UserType.GetEnumDisplayName(),
+                                                Email = x.Email,
+                                                PhoneNumber = x.PhoneNumber,
+                                                //CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName
+                                            }).ToListAsync();
+            return users;
+        }
+
+        public async Task<List<UserDTO>> GetAdminUser()
+        {
+            var users = await _context.Users
+                                            .Where(x =>  x.UserType == UserType.Admin)
+                                            .OrderBy(x => x.FullName)
+                                            .Select(x => new UserDTO
+                                            {
+                                                Id = x.Id,
+                                                FullName = x.FullName,
+                                                UserName = x.UserName,
+                                                Address = x.Address,
+                                                DOB = x.DOB,
+                                                Gender = x.Gender.GetEnumDisplayName(),
+                                                UserType = x.UserType.GetEnumDisplayName(),
+                                                Email = x.Email,
+                                                PhoneNumber = x.PhoneNumber,
+                                                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName
+                                            }).ToListAsync();
+            return users;
         }
     }   
 

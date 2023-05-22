@@ -15,15 +15,13 @@ namespace DataAccessLayer.Query.Product
         public string Description { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
-        public string Img { get; set; }
+        public string ImgThumbnail { get; set; }
         public ProductStatus ProductStatus { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public List<ImageList> ImageLists { get; set; }
-        public List<Guid> Categories { get; set; } //Gives id of the respective product
-        public List<CategoryList> CategoryLists { get; set; }
-        public List<GetCategoryName> CategoryName { get; set; }
+        public List<CategoryList> Categories { get; set; } //Gives the category of the respective product
     }
     public class ImageList
     {
@@ -34,10 +32,6 @@ namespace DataAccessLayer.Query.Product
     public class CategoryList
     {
         public Guid CategoryId { get; set;}
-        public string CategoryName { get; set; }
-    }
-    public class GetCategoryName
-    {
         public string CategoryName { get; set; }
     }
 

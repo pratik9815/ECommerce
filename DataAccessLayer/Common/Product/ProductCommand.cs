@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Models;
+using DataAccessLayer.Query.Product;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace DataAccessLayer.Common.Product
         public string Description { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
-        public string Img { get; set; }
+        public ImageList Img { get; set; }
         public ProductStatus ProductStatus { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
@@ -39,7 +40,6 @@ namespace DataAccessLayer.Common.Product
         public int Quantity { get; set; }
         public IFormFile Img { get; set; }
         public DateTime? CreatedDate { get; set; }
-
     }
     public class CreateProductWithImagesCommand
     {
@@ -50,7 +50,6 @@ namespace DataAccessLayer.Common.Product
         public IEnumerable<IFormFile> Img { get; set; }
         public DateTime? CreatedDate { get; set; }
         public IEnumerable<Guid> CategoryId  { get; set; }
-
     }
     public class UpdateProductCommand
     {
@@ -65,6 +64,15 @@ namespace DataAccessLayer.Common.Product
 
     }
 
-   
+    public class GetProductWithCategory
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
+        public string CategoryName { get; set; }
+        public ImageList Img { get; set; }
+    }
 
 }

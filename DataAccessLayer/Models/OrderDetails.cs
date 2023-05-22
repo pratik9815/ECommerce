@@ -10,8 +10,8 @@ namespace DataAccessLayer.Models
     public class OrderDetails : AuditableEntity
     {
         public Guid Id { get; set; }
-        public double Price { get; set; }
-        public int Quantity { get; set; }
+        public double Price { get; set; } //total price
+        public int Quantity { get; set; } //quantity
         //for order relationship
         public Order Order { get; set; }
         public Guid OrderId { get; set; }

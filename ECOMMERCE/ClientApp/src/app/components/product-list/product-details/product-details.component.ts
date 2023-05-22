@@ -10,26 +10,23 @@ import { ProductService } from 'src/app/services/product/product.service';
 export class ProductDetailsComponent implements OnInit {
   @Input("product-details") ProductDetails: any;
 
-   
+   @Input("product-id") productId : any;
 
   productData:any;
-  productDataClone:any;
-  categoryList:any;
   constructor(private _productService:ProductService,private _categoryService:CategoryService) { }
 
   ngOnInit(): void {
-    this.getProduct()
-    console.log(this.ProductDetails);
-  
+    // console.log(this.productId)
+    if(this.productId)
+      this.getProduct()
   }
 
   getProduct()
   {
-    this._productService.GetAllProduct().subscribe({
+    this._productService.GetProductWithId(this.productId).subscribe({
       next: (res:any) =>{
+        console.log(res);
         this.productData = res;
-        this.productDataClone = [...res];
-
       },
       error: err =>{
         console.log(err);

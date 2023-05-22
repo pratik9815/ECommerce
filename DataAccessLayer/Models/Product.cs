@@ -21,7 +21,7 @@ namespace DataAccessLayer.Models
         public string Description { get; set; } 
         public double Price { get; set; }
         public int Quantity { get; set; }
-        public string Img { get; set; }
+        public string ImgThumbnail { get; set; }
         public ProductStatus ProductStatus { get; set; }
         //product category relationship
         public ICollection<ProductCategory> ProductCategories { get; set; }
@@ -33,20 +33,16 @@ namespace DataAccessLayer.Models
 
         public ICollection<ProductImage> ProductImages { get; set; }
 
-        public void AddProductCategory(Product product , Guid CategoryId)
-        {
-            var category = new ProductCategory
-            {
-                ProductId = product.Id,
-                CategoryId = CategoryId
-            };
-            ProductCategories.Add(category);
-        }
-
+        //This is responsible for adding collection of productCategory to the productCategories collection this does not make any changes to the database
         public void AddProductCategory(ProductCategory productCategory)
         {
-
             ProductCategories.Add(productCategory);
+        }
+
+        //This is responsible for adding the image to the ProductImageCollection
+        public void AddProductImages(ProductImage image)
+        {
+            ProductImages.Add(image);
         }
 
     }

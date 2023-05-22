@@ -12,6 +12,12 @@
     width: 200px;
     background-color: rgb(81, 105, 105);
 }
+button{
+   color: black;
+}
+.nav-link:checked{
+    background-color: white;
+}
 
 
 

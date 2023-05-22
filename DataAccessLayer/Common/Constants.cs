@@ -8,6 +8,8 @@ namespace DataAccessLayer.Common
 {
     public static class Constants
     {
+        public const string Id = "id";
+        public const string UniqueKey = "uniqueKey";
         public const string UserName = "username";
         public const string UserType = "usertype";
         public const string PhoneNumber = "phoneNumber";

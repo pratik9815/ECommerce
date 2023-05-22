@@ -8,6 +8,9 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { PasswordChangeSuccessComponent } from './components/password-change-success/password-change-success.component';
 import { CreateUserComponent } from './components/user-profile/create-user/create-user.component';
 import { UserListComponent } from './components/user-profile/user-list/user-list.component';
+import { HasRoleGuard } from './guard/has-role.guard';
+import { ProductWithCategoryComponent } from './components/product-list/product-with-category/product-with-category.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {
@@ -15,6 +18,7 @@ const routes: Routes = [
     redirectTo:"/",
     pathMatch:"full",
   },
+  { path: "login", component: LoginComponent, data: { title: "Login" } },
   {
     path:"product-list",
     component:ProductListComponent,
@@ -40,15 +44,19 @@ const routes: Routes = [
     component: PasswordChangeSuccessComponent,
     canActivate: [AuthGuard]
   },
-  {
-    path: "create-user",
-    component: CreateUserComponent,
-    canActivate: [AuthGuard]
-  },
+
   {
     path: "user-list",
     component: UserListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard,HasRoleGuard],
+    data: {
+      usertype: 'SuperAdmin'
+    }
+  },
+  {
+    path: "product-with-category",
+    component: ProductWithCategoryComponent,
+    canActivate:[AuthGuard]
   }
 ];
 

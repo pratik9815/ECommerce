@@ -11,6 +11,10 @@ namespace DataAccessLayer.Repositories.IRepositories
 {
     public interface IUserRepository
     {
-        Task<List<UserDTO>> GetAdminUsers();
+        
+        Task<List<UserDTO>> GetAllAdminUsers();
+        Task<List<UserDTO>> GetSuperAdminUsers();
+        Task<List<UserDTO>> GetAdminUser();
     }
 }
+

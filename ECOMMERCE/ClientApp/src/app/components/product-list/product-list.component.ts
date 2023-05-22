@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ProductListComponent implements OnInit {
 
   //For AgGrid table
-  defaultColDef:any;
+  defaultColDef: any;
   productColDef: any;
   productData: any;
   productDataClone: any;
@@ -58,14 +58,20 @@ export class ProductListComponent implements OnInit {
   public actions() {
     return function (params: any) {
       return ` 
-          <button type="button" data-action-type="Edit" class="btn ag-btn"> <i data-action-type="Edit" class="fa-solid fa-pen-to-square"></i></button>
-          <button type="button" data-action-type="Remove" class="btn ag-btn">  <i data-action-type="Remove" class="fas fa-trash"></i></button>
-          <button type="button" data-action-type="Details" class="btn ag-btn"><i data-action-type="Details" class="fa-solid fa-eye"></i></button>`;
+          <button type="button" data-action-type="Edit" class="btn  btn-sm">
+           <i type="button" data-action-type="Edit" class="bi bi-pencil-square text-success"></i>  
+          </button>
+          <button type="button" data-action-type="Remove" class="btn  btn-sm">
+          <i class="bi bi-trash3-fill text-danger" data-action-type="Remove"></i>
+          </button>
+          <button type="button" data-action-type="Details" class="btn btn-sm">
+            <i data-action-type="Details" class="bi bi-eye-fill"></i>
+          </button>`;
     }
   }
 
   getProduct() {
-    this._productService.GetAllProductWithAllImage().subscribe({
+    this._productService.GetAllProductWithImage().subscribe({
       next: (res: any) => {
         this.productData = res;
         this.productDataClone = [...res];
@@ -80,9 +86,6 @@ export class ProductListComponent implements OnInit {
   onChange(e: any) {
     console.log(e.value)
   }
-
-
-
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -99,16 +102,15 @@ export class ProductListComponent implements OnInit {
           this.updateProductPopUpModal = true;
           break;
         }
-        case "Remove": {
+        case "Remove": 
           return this.onOpenDialog(data);
-        }
+        
         case "Cateogry": {
           this.productId = data.id;
           this.CategoryPopUpModal = true;
           break;
         }
         case "Details": {
-
           this.ProductDetails = data;
           this.productDetailsPopUpModal = true;
           break;

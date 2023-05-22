@@ -13,13 +13,15 @@ export class ProductService {
   {
     return this._httpClient.get(this.apiUrl+"get-product");
   }
+
+  GetProductWithId(id:any)
+  {
+    return this._httpClient.get(this.apiUrl+'getbyid/'+id)
+  }
+
   GetAllProductWithImage()
   {
     return this._httpClient.get(this.apiUrl+'get-product-with-image')
-  }
-  GetAllProductWithAllImage()
-  {
-    return this._httpClient.get(this.apiUrl+'get-images-with-all-images')
   }
 
   CreateProduct(product : any)
@@ -39,5 +41,11 @@ export class ProductService {
   DeleteProduct(id:any)
   {
     return this._httpClient.put(this.apiUrl+"delete-product/"+id,null);
+  }
+
+
+  getProductWithCategory(categoryId:any)
+  {
+    return this._httpClient.get(this.apiUrl+"get-product-category?categoryId="+categoryId)
   }
 }

@@ -1,46 +1,48 @@
-<div class="modal-content column-second">
-
-    <!-- Modal header -->
-    <div class="modal-header">
-        <h1 class="modal-title fs-5" id="changePassLabel">Change Password</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"></button>
-    </div>
-
-
+<div class="column-second">
+    <button class="btn-close" style="position:absolute;right:4px;" (click)="cancel()"></button>
     <form [formGroup]="passwordForm" (ngSubmit)="passwordChange()">
         <div class="row mx-4 my-4">
-            <input  [type]="changeTypeOld? 'password':'text'"  placeholder="Old password" class="form-control " id="oldPassword"
-                [ngClass]="{'is-invalid':submitted && getFormControl.oldPassword.errors }"
-                formControlName="oldPassword">
+            <div class="oldpass">
+                <input [type]="changeTypeOld? 'password':'text'" placeholder="Old password" class="form-control "
+                    id="oldPassword" [ngClass]="{'is-invalid':submitted && getFormControl.oldPassword.errors }"
+                    formControlName="oldPassword">
                 <i (click)="viewpassOld()" [ngClass]="visibleOld? 'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
 
-
-            <div *ngIf="submitted && getFormControl.oldPassword.errors" class="invalid-feedback text-danger div-error">
-                <div *ngIf="getFormControl.oldPassword.errors?.required">Old password is required</div>
-            </div>
-            <div *ngIf="submitted && getFormControl.oldPassword.errors" class="invalid-feedback text-danger div-error">
-                <div *ngIf="getFormControl.oldPassword.errors?.pattern">Enter valid password
+                <div *ngIf="submitted && getFormControl.oldPassword.errors"
+                    class="invalid-feedback text-danger div-error">
+                    <div *ngIf="getFormControl.oldPassword.errors?.required">Old password is required</div>
+                </div>
+                <div *ngIf="submitted && getFormControl.oldPassword.errors"
+                    class="invalid-feedback text-danger div-error">
+                    <div *ngIf="getFormControl.oldPassword.errors?.pattern">Enter valid password
+                    </div>
                 </div>
             </div>
+
+
         </div>
 
         <div class="row mx-4 my-4">
-           
-            <input  [type]="changeTypeNew? 'password':'text'"  placeholder="New password" class="form-control p-9" id="newPassword"
-                [ngClass]="{'is-invalid':submitted && getFormControl.newPassword.errors }"
-                formControlName="newPassword">
-
+            <div class="newPass">
+                <input [type]="changeTypeNew? 'password':'text'" placeholder="New password" class="form-control p-9"
+                    id="newPassword" [ngClass]="{'is-invalid':submitted && getFormControl.newPassword.errors }"
+                    formControlName="newPassword">
                 <i (click)="viewpassNew()" [ngClass]="visibleNew? 'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
 
+                <div *ngIf="submitted && getFormControl.newPassword.errors"
+                    class="invalid-feedback text-danger div-error">
+                    <div *ngIf="getFormControl.newPassword.errors?.required">New password is required</div>
+                </div>
 
-            <div *ngIf="submitted && getFormControl.newPassword.errors" class="invalid-feedback text-danger div-error">
-                <div *ngIf="getFormControl.newPassword.errors?.required">New password is required</div>
-            </div>
-
-            <div *ngIf="submitted && getFormControl.newPassword.errors" class="invalid-feedback text-danger div-error">
-                <div *ngIf="getFormControl.newPassword.errors?.pattern">Enter valid password
+                <div *ngIf="submitted && getFormControl.newPassword.errors"
+                    class="invalid-feedback text-danger div-error">
+                    <div *ngIf="getFormControl.newPassword.errors?.pattern">Enter valid password
+                    </div>
                 </div>
             </div>
+
+
+
         </div>
 
         <!-- <div class="row my-4">
@@ -60,8 +62,6 @@
         </div> -->
 
         <button type="submit" class="btn btn-success mx-4">Confirm</button>
-
-
     </form>
     <footer>
         <div class="my-2" style="font-size:x-small"><span class="text-danger">*Note:</span> Password must be 8+

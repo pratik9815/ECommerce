@@ -40,6 +40,7 @@ import { ChangePassComponent } from './components/user-profile/change-pass/chang
 import { PasswordChangeSuccessComponent } from './components/password-change-success/password-change-success.component';
 import { CreateUserComponent } from './components/user-profile/create-user/create-user.component';
 import { UserListComponent } from './components/user-profile/user-list/user-list.component';
+import { ProductWithCategoryComponent } from './components/product-list/product-with-category/product-with-category.component';
 
 
 
@@ -63,6 +64,7 @@ import { UserListComponent } from './components/user-profile/user-list/user-list
     PasswordChangeSuccessComponent,
     CreateUserComponent,
     UserListComponent,
+    ProductWithCategoryComponent,
   ],
   imports: [
     BrowserModule,

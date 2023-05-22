@@ -16,7 +16,6 @@ export class ChangePassComponent implements OnInit {
   passwordForm: any;
   isChange: boolean =false;
   submitted: boolean = false;
-  apiResponse: any;
 
 
   visibleOld:boolean =true;
@@ -42,15 +41,13 @@ export class ChangePassComponent implements OnInit {
   get getFormControl() {
     return this.passwordForm.controls;
   }
-  close() {
-    this.passwordForm.reset();
-    this.submitted = false;
 
-    if(this.isChange)
-    {
-      this._authService.onLogout();
-    }
+  cancel()
+  {
+    this.callback.emit();
   }
+
+
   passwordChange() {
     console.log(this.passwordForm.value)
     this.submitted = true;
@@ -65,18 +62,14 @@ export class ChangePassComponent implements OnInit {
 
     this._authService.changePassword(this.passwordForm.value).subscribe({
       next: (res:any) => {
-        console.log(res)
-        this.apiResponse = res.responseCode;
-
-        console.log(this.apiResponse);
-
-        if (this.apiResponse == 200) {
-          this.callback.emit();
-          this.isChange = true;
-          // 
-          // 
+        if (res.responseCode == 200) {  
           this._toastrService.success(res.message, 'Success',{ timeOut: 5000 });
-          this._toastrService.info("Please login again to continue.","Logged out")
+          this._toastrService.info("Please login again to continue.","Logged out");
+          this._authService.onLogout().subscribe({
+            next : res =>{
+              localStorage.removeItem('token');
+            }
+          });
         }                     
         else{
           this._toastrService.error(res.message,"Error")

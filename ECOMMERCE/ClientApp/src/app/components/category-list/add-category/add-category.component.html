@@ -4,7 +4,7 @@
         <div class="row m-2">
             <div class="col-sm-6">
                 <label for="categoryName"><b>Category name</b><span style="color:red;">*</span></label>
-                <input type="text" id="name" class="form-control p-10" placeholder="Enter Product Name"
+                <input type="text" id="name" class="form-control p-10" placeholder="Enter Category Name"
                     [ngClass]="{ 'is-invalid': submitted && getFormControl.categoryName.errors }" formControlName="categoryName">
                 <div *ngIf="submitted && getFormControl.categoryName.errors" class="invalid-feedback text-danger">
                     <div *ngIf="getFormControl.categoryName.errors?.required">Category name is required.</div>

@@ -23,6 +23,7 @@ namespace ECOMMERCE.Controllers
             _categoryRepository = categoryRepository;
         }
         [HttpGet("get-category")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<GetCategoryCommand>>> GetCategories()
         {
             var category = await _categoryRepository.GetAllCategory().ToListAsync();  

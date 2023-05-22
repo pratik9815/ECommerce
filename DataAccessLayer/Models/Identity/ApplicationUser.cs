@@ -18,8 +18,6 @@ namespace DataAccessLayer.Models.Identity
         public UserType UserType { get; set; }
         public ICollection<ApplicationRole> Roles { get; set; }
         public ICollection<ApplicationUserRole> UserRoles { get; set; }
-        
-
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

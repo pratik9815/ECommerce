@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.IRepositories
 {
-    public interface IOrderDetails
+    public interface IOrderDetailsRepository
     {
+
     }
 }

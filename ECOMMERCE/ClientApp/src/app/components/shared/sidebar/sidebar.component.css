@@ -64,6 +64,7 @@
   .dropdown-item{
     color: white;
     font-size: large;
+    margin-right: 85px;
   }
   .dropdown-item:hover{
     background-color: #42584b;

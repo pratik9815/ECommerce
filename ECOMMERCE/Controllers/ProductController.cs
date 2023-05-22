@@ -44,7 +44,7 @@ namespace ECOMMERCE.Controllers
         }
 
         [HttpGet("getbyid/{id}")]
-        public async Task<ActionResult<GetProductCommand>> GetProductById([FromRoute] Guid id)
+        public async Task<ActionResult<GetProductQuery>> GetProductById([FromRoute] Guid id)
         {
             var product = await _productRepository.GetById(id);
             return Ok(product);
@@ -105,32 +105,17 @@ namespace ECOMMERCE.Controllers
             return Ok(products);
         }
 
-       
 
-        //private string GetFilePath(string name, string itemName)
-        //{
-        //    var fileWitPath = Path.Combine(_webHostEnvironment.WebRootPath, "Images",itemName);
-        //    return fileWitPath + "\\" + name;
-        //}
+        [HttpGet("get-product-category")]
+        public async Task<ActionResult<List<GetProductCommand>>> GetProductCategory([FromQuery] string categoryId)
+        {
+            if (string.IsNullOrEmpty(categoryId))
+                return BadRequest();
 
-        //private string GetImage(string name,string itemName)
-        //{
+            var products = await _productRepository.GetProductWithCategories(categoryId);
 
-        //    string imageUrl = string.Empty;
-        //    //we can directly get the host url using
-        //    //var HostUrl = HttpContext.Request.Host;
-        //    string HostUrl = "https://localhost:7069";
-        //    string filePath = GetFilePath(name,itemName);
+            return Ok(products);
+        }
 
-        //    if (!System.IO.File.Exists(filePath))
-        //    {
-        //        return "opps";
-        //    }
-        //    else
-        //    {
-        //        imageUrl = HostUrl + "/images/" + itemName + "/" + name;
-        //    }
-        //    return imageUrl;
-        //}
     }
 }

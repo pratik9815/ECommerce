@@ -10,18 +10,20 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private _authService:AuthService,
-    private _toastrService:ToastrService) { }
+  constructor(private _authService: AuthService,
+    private _toastrService: ToastrService) { }
 
   ngOnInit(): void {
   }
-  get fullName()
-  {
-    return this._authService.userInfo?.fullName?? "";
+  get fullName() {
+    return this._authService.userInfo?.fullName ?? "";
   }
-  onLogout()
-  {
-      this._authService.onLogout();
-      this._toastrService.info("You are logged out","Logout")
+  onLogout() {
+    this._authService.onLogout().subscribe({
+      next: res => {
+        this._toastrService.info("You are logged out", "Logout")
+        localStorage.removeItem('token');
+      }
+    });
   }
 }

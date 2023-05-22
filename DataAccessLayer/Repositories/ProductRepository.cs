@@ -3,17 +3,10 @@ using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
 using DataAccessLayer.Query.Product;
 using DataAccessLayer.Repositories.IRepositories;
+using DataAccessLayer.Services;
 using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
@@ -22,8 +15,10 @@ namespace DataAccessLayer.Repositories
         private readonly ApplicationDbContext _context;
         private readonly ICurrentUserService _service;
         private readonly IWebHostEnvironment _webHostEnvironment;
+       
 
-        public ProductRepository(ApplicationDbContext context, ICurrentUserService service, IWebHostEnvironment webHostEnvironment)
+        public ProductRepository(ApplicationDbContext context, ICurrentUserService service,
+            IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _service = service;
@@ -31,66 +26,103 @@ namespace DataAccessLayer.Repositories
         }
         public IQueryable<GetProductQuery> GetAllProducts()
         {
-                var products = _context.Products
-                .OrderByDescending(o => o.CreatedDate)
-                .Where(a => a.IsDeleted == false)
-                .Select(p => new GetProductQuery
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Price = p.Price,
-                    Quantity = p.Quantity,
-                    Img = p.Img,
-                    ProductStatus = p.ProductStatus,
-                    CreatedDate = p.CreatedDate,
-                    UpdatedBy = p.UpdatedBy,
-                    CreatedBy = _context.Users.FirstOrDefault(a => a.Id == p.CreatedBy).FullName,
-                    //CategoryLists = p.ProductCategories.Select(x => new CategoryList
-                    //{
-                    //    CategoryId = x.CategoryId,
-                    //    CategoryName = x.Category.CategoryName
-                    //}).ToList(),
+            var products = _context.Products
+            .OrderByDescending(o => o.CreatedDate)
+            .Where(a => a.IsDeleted == false)
+            .Select(p => new GetProductQuery
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                Quantity = p.Quantity,
+                //Img = p.Img,
+                ProductStatus = p.ProductStatus,
+                CreatedDate = p.CreatedDate,
+                UpdatedBy = p.UpdatedBy,
+                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == p.CreatedBy).FullName,
+                //Categories = p.ProductCategories.Select(x => x.CategoryId).ToList(),
 
-                    //This will only return the id and the name , we created a seprate class to return in the getproductquery class which is later modified
-                });
-                return products;
-            
 
-            
+                //This will only return the id and the name , we created a seprate class to return in the getproductquery class which is later modified
+            });
+            return products;
+
+
+
         }
 
-        public async Task<Product> GetById(Guid id)
+        public async Task<GetProductQuery> GetById(Guid id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Where(p => (p.Id == id && p.IsDeleted == false))
+                                          .Select(x => new GetProductQuery
+                                          {
+                                              Id = x.Id,
+                                              Name = x.Name,
+                                              Description = x.Description,
+                                              Price = x.Price,
+                                              Quantity = x.Quantity,
+                                              ProductStatus = x.ProductStatus,
+                                              CreatedDate = x.CreatedDate,
+                                              UpdatedBy = _context.Users.FirstOrDefault(y => y.Id == x.UpdatedBy).FullName,
+
+                                              CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
+                                              ImageLists = x.ProductImages.Select(y => new ImageList
+                                              {
+                                                  ImageId = y.Id,
+                                                  ImageName = y.ImageName
+
+                                              }).ToList(),
+
+                                              Categories = x.ProductCategories.Select(x => new CategoryList
+                                              {
+                                                  CategoryId = x.CategoryId,
+                                                  CategoryName = x.Category.CategoryName
+                                              }).ToList(),
+                                          }).FirstAsync();
+
+            foreach (var img in product.ImageLists)
+            {
+                if (img.ImageName is not null)
+                {
+                    string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
+                    img.ImageUrl = ImageService.GetByteImage(img, path);
+                }
+
+            }
+
+
             if (product is null)
                 return null;
             return product;
         }
         public async Task<List<GetProductQuery>> GetWithImage()
-         {
+        {
             var products = await _context.Products
                  .OrderByDescending(x => x.CreatedDate)
-                 .Where(x => x.IsDeleted == false)
+                 .Where(x => x.IsDeleted == false).AsNoTracking()
                  .Select(x => new GetProductQuery
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Description = x.Description,
-                        Price = x.Price,
-                        Quantity = x.Quantity,
-                        Img = x.Img,
-                        ProductStatus = x.ProductStatus,
-                        CreatedDate = x.CreatedDate,
-                        UpdatedBy = x.UpdatedBy,
-                        CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
-                        ImageLists = x.ProductImages.Select(y => new ImageList
-                        {
-                            ImageId = y.Id,
-                            ImageName = y.ImageName
-                        }).ToList(),
+                 {
+                     Id = x.Id,
+                     Name = x.Name,
+                     Description = x.Description,
+                     Price = x.Price,
+                     Quantity = x.Quantity,
+                     ProductStatus = x.ProductStatus,
+                     CreatedDate = x.CreatedDate,
+                     UpdatedBy = _context.Users.FirstOrDefault(y => y.Id == x.UpdatedBy).FullName,
+                     CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
+                     Categories = x.ProductCategories.Select(x => new CategoryList
+                     {
+                         CategoryId = x.CategoryId,
+                         CategoryName = x.Category.CategoryName
+                     }).ToList(),
+                     ImageLists = x.ProductImages.Select(y => new ImageList
+                     {
+                         ImageName = y.ImageName
+                     }).ToList(),
 
-            }).ToListAsync();
+                 }).ToListAsync();
 
             foreach (var item in products)
             {
@@ -99,20 +131,14 @@ namespace DataAccessLayer.Repositories
                     if (img.ImageName is not null)
                     {
                         string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
-                        using var image = Image.Load(path);
-                        using var m = new MemoryStream();
-                        image.Save(m, new JpegEncoder());
-                        byte[] imageBytes = m.ToArray();
-                        img.ImageUrl = "data:image/jpeg;base64," + Convert.ToBase64String(imageBytes);
-                        break;
+                        img.ImageUrl = ImageService.GetByteImage(img,path);
                     }
-
                 }
             }
 
 
             return products;
-        }   
+        }
 
         public async Task<ApiResponse> CreateProduct(CreateProductCommand product)
         {
@@ -126,7 +152,12 @@ namespace DataAccessLayer.Repositories
                     Price = product.Price,
                     Quantity = product.Quantity
                 };
-                newProduct.AddProductCategory(newProduct, product.CategoryId);
+                var category = new ProductCategory
+                {
+                    CategoryId = product.CategoryId
+                };
+                newProduct.AddProductCategory(category);
+
                 _context.Products.Add(newProduct);
                 await _context.SaveChangesAsync();
                 return new ApiResponse
@@ -135,7 +166,7 @@ namespace DataAccessLayer.Repositories
                     Message = "Success"
                 };
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 var errors = new List<string>();
                 errors.Add(ex.Message);
@@ -146,53 +177,9 @@ namespace DataAccessLayer.Repositories
                     Errors = errors
                 };
             }
-
         }
-        //public async Task<string> CreateProduct(CreateProductWithImageCommand product)
-        //{
-        //    try
-        //    {
-        //        var newProduct = new Product();
-        //        newProduct.Name = product.Name;
-        //        var a = _webHostEnvironment.WebRootPath;
-        //        var fileWitPath = Path.Combine(a, "Images", newProduct.Name);
-        //        if (!Directory.Exists(fileWitPath))
-        //        {
-        //            Directory.CreateDirectory(fileWitPath);
-        //        }
-        //        var ext = Path.GetExtension(product.Img.FileName);
-        //        var allowedExtension = new string[] { ".jpg", ".png", ".jpeg", ".pdf" };
 
-        //        if (!allowedExtension.Contains(ext))
-        //        {
-        //            string msg = string.Format("Only {0} extension are allowed", string.Join(",", allowedExtension));
-        //            return "Not allowed format";
-        //        }
-        //        var fileName = Guid.NewGuid().ToString()  + ext;
-        //        var filePath = Path.Combine(fileWitPath, fileName);
-
-        //        using (var fileSteam = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            await product.Img.CopyToAsync(fileSteam);
-        //        }
-
-        //        newProduct.Description = product.Description;
-        //        newProduct.Price = product.Price;
-        //        newProduct.Quantity = product.Quantity;
-        //        newProduct.Img = fileName;
-        //        _context.Products.Add(newProduct);
-        //        await _context.SaveChangesAsync();
-        //        return "Product created succesfully";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return ex.Message;
-        //    }
-
-        //}
-
-       
-       
+        //This is used in angular
         public async Task<ApiResponse> UpdateProduct(UpdateProductCommand product)
         {
             try
@@ -206,17 +193,18 @@ namespace DataAccessLayer.Repositories
 
 
                 var productCategories = await _context.ProductCategories.Where(c => c.ProductId == product.Id).ToListAsync();
-                foreach(var category in productCategories) { 
+                foreach (var category in productCategories)
+                {
                     _context.ProductCategories.Remove(category);
                 }
 
-                foreach(var category in product.Categories)
+                foreach (var category in product.Categories)
                 {
                     var productCategory = new ProductCategory
                     {
                         CategoryId = category
                     };
-                    productDetails.AddProductCategory(productCategory); 
+                    productDetails.AddProductCategory(productCategory);
                 }
 
                 //productDetails.ProductStatus = product.ProductStatus;
@@ -229,11 +217,12 @@ namespace DataAccessLayer.Repositories
                     Message = "Success"
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var errors = new List<string>();
                 errors.Add(ex.Message);
-                return new ApiResponse {
+                return new ApiResponse
+                {
                     ResponseCode = 400,
                     Message = "Failed",
                     Errors = errors
@@ -274,59 +263,40 @@ namespace DataAccessLayer.Repositories
         {
             try
             {
-                var errors = new List<string>();
+                List<string> errors = new List<string>();
 
                 if (product.Img != null)
                 {
-                    var webRootPath = _webHostEnvironment.WebRootPath;
-                    var fileWithPath = Path.Combine(webRootPath, "Images");
-                    if (!Directory.Exists(fileWithPath))
-                    {
-                        Directory.CreateDirectory(fileWithPath);
-                    }
-                    var allowedExtensions = new string[] { ".jpg", ".png", ".jpeg", ".pdf", ".avif" };
                     Product newProduct = new Product();
                     newProduct.Name = product.Name;
                     newProduct.Price = product.Price;
                     newProduct.Quantity = product.Quantity;
                     newProduct.Description = product.Description;
-                    foreach(var category in product.CategoryId)
+                    foreach (var category in product.CategoryId)
                     {
-                        newProduct.AddProductCategory(newProduct, category);
+                        var productCategory = new ProductCategory
+                        {
+                            CategoryId = category
+                        };
+                        newProduct.AddProductCategory(productCategory);
                     }
-                    
-                    _context.Add(newProduct);
-                    await _context.SaveChangesAsync();
+                    //var webRootPath = _webHostEnvironment.WebRootPath;
+                    string fileWithPath = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+
+                    if (!Directory.Exists(fileWithPath))
+                    {
+                        Directory.CreateDirectory(fileWithPath);
+                    }
+                    string[] allowedExtensions = new string[] { ".jpg", ".png", ".jpeg", ".pdf", ".avif" };
+
                     foreach (var image in product.Img)
                     {
-                        var ext = Path.GetExtension(image.FileName);
-                        if (!allowedExtensions.Contains(ext))
-                        {
-                            string msg = string.Format("Only {0} extension are allowed", string.Join(",", allowedExtensions));
-                            errors.Add(msg);
-                            return new ApiResponse
-                            {
-                                ResponseCode = 400,
-                                Message = "Failed",
-                                Errors = errors
-                            };
-                        }
-                        var uniqueString = Guid.NewGuid().ToString();
-                        var fileName = uniqueString + ext;
-                        var filePath = Path.Combine(fileWithPath, fileName);
-
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await image.CopyToAsync(fileStream);
-                        }
-
-                        var productImage = new ProductImage
-                        {
-                            ProductId = newProduct.Id,
-                            ImageName = fileName
-                        };
-                        _context.Add(productImage);
+                        var productImage = await ImageService.StoreImage(image, fileWithPath);
+                        _context.ProductImages.Add(productImage);
+                        newProduct.AddProductImages(productImage);
                     }
+
+                    _context.Add(newProduct);
                     await _context.SaveChangesAsync();
                     return new ApiResponse
                     {
@@ -359,13 +329,12 @@ namespace DataAccessLayer.Repositories
 
         }
 
-
         //This is used in angular
         public async Task<List<GetProductQuery>> GetAllWithImage()
         {
             var products = await _context.Products
                 .OrderByDescending(o => o.CreatedDate)
-                .Where(a => a.IsDeleted == false)
+                .Where(a => a.IsDeleted == false).AsNoTracking()
                 .Select(x => new GetProductQuery
                 {
                     Id = x.Id,
@@ -373,27 +342,20 @@ namespace DataAccessLayer.Repositories
                     Description = x.Description,
                     Price = x.Price,
                     Quantity = x.Quantity,
-                    Img = x.Img,
                     ProductStatus = x.ProductStatus,
                     CreatedDate = x.CreatedDate,
-                    //UpdatedBy = x.UpdatedBy,
                     UpdatedBy = _context.Users.FirstOrDefault(y => y.Id == x.UpdatedBy).FullName,
-
                     CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
                     ImageLists = x.ProductImages.Select(y => new ImageList
                     {
                         ImageId = y.Id,
                         ImageName = y.ImageName
-
                     }).ToList(),
-                    Categories = x.ProductCategories.Select(x => x.CategoryId).ToList(),    //This gives out only the id
-                    
-                    //This gives the category name
-                    CategoryName = x.ProductCategories.Select(a => new GetCategoryName
+                    Categories = x.ProductCategories.Select(x => new CategoryList
                     {
-                        CategoryName = a.Category.CategoryName
+                        CategoryId = x.CategoryId,
+                        CategoryName = x.Category.CategoryName
                     }).ToList(),
-
                 }).ToListAsync();
 
             foreach (var item in products)
@@ -403,18 +365,43 @@ namespace DataAccessLayer.Repositories
                     if (img.ImageName is not null)
                     {
                         string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
-                        using var image = Image.Load(path);
-                        using var m = new MemoryStream();
-                        image.Save(m, new JpegEncoder());
-                        byte[] imageBytes = m.ToArray();
-                        img.ImageUrl = "data:image/jpeg;base64," + Convert.ToBase64String(imageBytes);
+                        img.ImageUrl = ImageService.GetByteImage(img,path);
                     }
-
                 }
             }
             return products;
         }
 
-      
+        public async Task<List<GetProductWithCategory>> GetProductWithCategories(string categoryId)
+        {
+            var productWithCategory = await _context.ProductCategories
+                                                .Where(x => (x.CategoryId.ToString() == categoryId && !x.Product.IsDeleted)).AsNoTracking()
+                                                .Select(x => new GetProductWithCategory
+                                                {
+                                                    Id = x.ProductId,
+                                                    Name = x.Product.Name,
+                                                    Quantity = x.Product.Quantity,
+                                                    Description = x.Product.Description,
+                                                    Price = x.Product.Price,
+                                                    Img = x.Product.ProductImages.Select(i => new ImageList
+                                                    {
+                                                        ImageName = i.ImageName
+                                                    }).FirstOrDefault(),
+                                                    CategoryName = x.Category.CategoryName,
+                                                }).ToListAsync();
+
+            if (productWithCategory != null)
+            {
+                foreach (var product in productWithCategory)
+                {
+                    if (product.Img is not null)
+                    {
+                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
+                        product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
+                    }
+                }
+            }
+            return productWithCategory;
+        }  
     }
 }

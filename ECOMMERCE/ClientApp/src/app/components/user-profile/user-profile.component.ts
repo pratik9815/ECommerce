@@ -7,49 +7,54 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-
-
-  updateprofile:any;
-  isEdit:boolean = false;
-  res:any;
-  constructor(private _authService:AuthService,private _userService:UserService) { }
+  firstColor = "rgb(113, 138, 92)"
+  default = 'white';
+  secondColor = 'rgb(138 169 112)';
+  updateprofile: any;
+  isEdit: boolean = false;
+  isChangePassword: boolean = false;
+  res: any;
+  constructor(private _authService: AuthService, private _userService: UserService) { }
 
   ngOnInit(): void {
     this.getUser();
   }
 
-  getUser():void
-  {
+  getUser(): void {
     this._userService.getUser().subscribe({
-      next: data =>{
+      next: data => {
         this.res = data;
-       
-        this.res.forEach((item:any) => {
-          
-          if(item.id == this.getId())
-          {
+        
+        this.res.forEach((item: any) => {
+          if (item.id == this.getId()) {
             this.updateprofile = item;
           }
         });
       },
-      error: err =>{
+      error: err => {
         console.log(err)
       }
     });
   }
 
 
-  callback():void
-  {
+  callback(): void {
+    this.isEdit = false;
+    this.isChangePassword =false;
     this.close();
   }
-  
-  edit():void
-  {
-    this.isEdit = true;
+
+  edit(): void {
+  this.isEdit = true;
+  this.isChangePassword = false;
   }
-  close()
+  changePassword()
   {
+    this.isChangePassword = true;
+    this.isEdit = false;
+  }
+
+  close() {
     this.getUser();
     this.isEdit = false;
     this.getAddress();
@@ -57,32 +62,29 @@ export class UserProfileComponent implements OnInit {
     this.getFullName();
     this.getPhone();
     this.getUserType();
+    console.log(this.isEdit)
   }
 
-  getFullName():string
-  {
+  getFullName(): string {
     return this.updateprofile?.fullName;
   }
 
-  getPhone():string
-  {
+  getPhone(): string {
     return this.updateprofile?.phoneNumber;
   }
-  getEmail():string
-  {
+  getEmail(): string {
     return this.updateprofile?.email;
   }
-  getAddress():string
-  {
+  getAddress(): string {
     return this.updateprofile?.address;
   }
-  getUserType():string
-  {
+  getUserType(): string {
     return this.updateprofile?.userType;
   }
-  getId()
-  {
-    return this._authService.userInfo?.id??'';
+  getId() {
+    return this._authService.userInfo?.id ?? '';
   }
+
+
 
 }

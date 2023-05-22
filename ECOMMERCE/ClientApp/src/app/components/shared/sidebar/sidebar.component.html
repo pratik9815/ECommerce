@@ -4,12 +4,13 @@
         <li class="list"><a class="link" routerLink="/dashboard">Dashboard</a></li>
         <li class="list"><a class="link" routerLink="/product-list">Product </a></li>
         <li class="list"><a class="link" routerLink="/category-list">Category</a></li>
-        <li class="list dropdown">
+        <!-- <li class="list"><a class="link" routerLink="/product-with-category">ProductCategorys</a></li> -->
+
+        <li class="list dropdown" *ngIf="hasRole">
             <a class="link dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
                 aria-expanded="false">Settings</a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" routerLink="/create-user">Create User</a></li>
                 <li><a class="dropdown-item" routerLink="/user-list">User List</a></li>
             </ul>
         </li>

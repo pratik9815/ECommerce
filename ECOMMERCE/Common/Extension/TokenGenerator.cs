@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Common;
 using DataAccessLayer.Models.Identity;
+using ECOMMERCE.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,16 +12,18 @@ namespace ECOMMERCE.Common.Extension
 {
     public class TokenGenerator
     {
-        public static string GenerateToken(ApplicationUser user, IConfiguration configuration)
+        public static string GenerateToken(TokenGenerateDetail user, IConfiguration configuration)
         {
             var claims = GetClaims(user);
             return GetToken(claims, configuration);
         }
-        public static List<Claim> GetClaims(ApplicationUser user)
+        public static List<Claim> GetClaims(TokenGenerateDetail user)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                //new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(Constants.Id, user.UserId),
+                new Claim(Constants.UniqueKey, user.UniqueKey),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.FullName),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(Constants.FullName, user.FullName),

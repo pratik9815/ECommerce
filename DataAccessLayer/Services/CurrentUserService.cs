@@ -23,7 +23,14 @@ namespace DataAccessLayer.Services
         {
             get
             {
-                return _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                return _contextAccessor.HttpContext?.User?.FindFirstValue(Constants.Id);
+            }
+        }
+        public string UniqueKey
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User?.FindFirstValue(Constants.UniqueKey);
             }
         }
 

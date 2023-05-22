@@ -4,55 +4,37 @@
             This is the container for image
         </div>
         <div class=" col-5">
-<!-- {{myForm.get('name')?.value}} -->
-
             <p><i class="bi bi-person-fill"></i>&nbsp;Name : {{getFullName()}}</p>
-            
+
             <p><i class="bi bi-telephone-fill"></i>&nbsp;Phone : {{getPhone()}}</p>
-            <p><i class="bi bi-person-fill-gear"></i>&nbsp;User type : {{getUserType()}}</p>  
+            <p><i class="bi bi-person-fill-gear"></i>&nbsp;User type : {{getUserType()}}</p>
             <p><i class="bi bi-envelope-fill"></i>&nbsp;Email : {{getEmail()}}</p>
             <p><i class="bi bi-geo-alt-fill"></i>&nbsp;Address : {{getAddress()}}</p>
 
         </div>
         <hr>
-        <p>
-            <button type="button" (click)="edit()"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateUser">Edit
-                Profile</button> &nbsp;
-
-            <button class="btn btn-secondary"data-bs-toggle="modal" data-bs-target="#changePass">Change password</button><br>
-
-        </p>
-    </div>
-
-    <!-- update details -->
- 
-        <div  class="modal fade" id="updateUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateUserLabel" aria-hidden="true">
-            <div  class="modal-dialog modal-lg" style="max-width:550px">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title h3" id="exampleModalLabel">Update details</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="close()" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" *ngIf="isEdit">
-                        <app-update-profile [update-profile]="updateprofile" (User-Update)="callback()"></app-update-profile>
-                        <!-- we are sending the value to the child component for patch -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    <!-- //Password  -->
-    <div  class="modal fade" id="changePass" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changePassLabel" aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="modal-body">
-                   <app-change-pass></app-change-pass>
-                </div>
-            </div>
-        </div>
     </div>
 
 
+    <ul class="nav nav-tabs mr-3" id="myTab" role="tablist" >
+        <li class="nav-item" role="presentation" >
+            <button   class="nav-link" id="edit-tab" type="button" (click)="edit()" [style.background-color]="isEdit? default:firstColor">Edit Profile</button>
+        </li>
+        <li class="nav-item" role="presentation"> 
+            <button class="nav-link" id="password-tab"  type="button"
+                role="tab" (click)="changePassword()" [style.background-color]="isChangePassword? default:secondColor">Change Password</button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane" id="edit" role="tabpanel"  *ngIf="isEdit" style="display: block;">
+
+            <app-update-profile [update-profile]="updateprofile"
+                        (User-Update)="callback()"></app-update-profile>
+        </div>  
+        <div class="tab-pane" id="password" role="tabpanel" *ngIf="isChangePassword" style="display:block">
+            <app-change-pass (change-pass)="callback()"></app-change-pass>
+        </div>
+    </div>
 
 </div>

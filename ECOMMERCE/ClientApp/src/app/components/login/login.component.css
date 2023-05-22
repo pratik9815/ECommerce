@@ -6,7 +6,6 @@ button {
     color: white;
     background-color: rgb(0, 145, 255);
     transition: all 0.2s ease-in-out;
-
     border: none;
   }
   
@@ -84,7 +83,6 @@ button {
   }
   
   input {
-
     margin: 4%;
     padding: 10px 35px;
     width: 89%;
@@ -93,8 +91,7 @@ button {
     display: flex;
   }
   
-  input.ng-touched.ng-invalid {
-    border: 1px solid red;
+  input {
     display: block;
   }
   

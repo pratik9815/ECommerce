@@ -34,7 +34,6 @@ namespace DataAccessLayer.Models
                 ProductId = ProductId,
                 Price = order.Amount,
                 Quantity = 1,
-               
             };
             OrderDetails.Add(newOrder);
         }

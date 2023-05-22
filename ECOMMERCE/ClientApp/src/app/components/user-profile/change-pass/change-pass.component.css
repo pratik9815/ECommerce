@@ -1,5 +1,9 @@
 .column-second{
     position: relative;
+    padding: 1px;
+    background-color: white;
+
+    width: 50%;
 }
 
   .row{
@@ -17,12 +21,22 @@
 .bi.bi-eye-fill,
 .bi-eye-slash-fill{
   position: absolute;
-  top: 8px;
-  left: 381px;
+  top: 9px;
+  /* left: 381px; */
+  right: 15px;
 }
 
 .form-control{
   background-position: left calc(0.1rem) center;
   padding-left: 20px;
   font-weight: bold;
+}
+
+.oldpass{
+  position: relative;
+  width: 300px;
+}
+.newPass{
+  position: relative;
+  width: 300px;
 }

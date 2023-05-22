@@ -16,6 +16,17 @@ export class UserService {
     return this._httpClient.get(this.apiUrl+"get-user");
   }
 
+
+
+  getSuperAdminUser()
+  {
+    return this._httpClient.get(this.apiUrl+"get-superadmin-user");
+  }
+  getAdminUser()
+  {
+    return this._httpClient.get(this.apiUrl+"get-admin-user");
+  }
+
   createUser(body:any)
   {
     return this._httpClient.post(this.apiApplication,body,
@@ -23,5 +34,6 @@ export class UserService {
   }
   
 
+  
 
 }

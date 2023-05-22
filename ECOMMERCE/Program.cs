@@ -36,7 +36,10 @@ builder.Services.AddScoped<IProductRepository,ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IOrderDetails, OrderDetails>();
+builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+builder.Services.AddScoped<ISystemAccessLog, SystemAccessLogRepository>();
+builder.Services.AddScoped<ICarouselRepository, CarouselRepository>();
+
 
 //Http Configuration
 builder.Services.AddHttpContextAccessor();

@@ -182,6 +182,9 @@ namespace DataAccessLayer.DataContext
                 .WithMany(c => c.SubCategories)
                 .HasForeignKey(sc => sc.CategoryId);
 
+            builder.Entity<SystemAccessLog>()
+                .HasKey(a => a.Id);
+
 
         }
        //public DbSet<ApplicationUser> Users { get; set; }
@@ -192,6 +195,7 @@ namespace DataAccessLayer.DataContext
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<SystemAccessLog> SystemAccessLogs { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

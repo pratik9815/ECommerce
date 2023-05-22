@@ -9,7 +9,11 @@ import { UserService } from 'src/app/service/user/user.service';
 })
 export class UserListComponent implements OnInit {
 
-  userData:any;
+  createUserPopUpModal:boolean = false;
+
+  superAdminUserData:any;
+  adminUserData: any;
+
 
   userColDef:any;
   domLayout:any;
@@ -20,7 +24,8 @@ export class UserListComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.getSuperAdminUser();
+    this.getAdminUser();
     this.userColDef = [
       { headerName: "S.N", valueGetter: 'node.rowIndex+1', width: 70, resizable: true },
       { headerName: "Name", field: 'fullName', sortable: true, resizable: true, filter: true, width: 150 },
@@ -40,18 +45,43 @@ export class UserListComponent implements OnInit {
     e.api.refreshCells();
   }
 
-  getUsers()
+  getSuperAdminUser()
   {
-    this._userService.getUser().subscribe({
+    this._userService.getSuperAdminUser().subscribe({
       next: res =>{
-        console.log(res)
-        this.userData = res;
+        this.superAdminUserData = res;
       },
       error: err =>{
         this._toastrService.error("Something went wrong","Error");
         console.log(err);
       }
-    })
+    });
+  }
+  getAdminUser()
+  {
+    this._userService.getAdminUser().subscribe({
+      next: res =>{
+        this.adminUserData = res;
+      },
+      error: err =>{
+        this._toastrService.error("Something went wrong","Error");
+        console.log(err);
+      }
+    });
+  }
+
+  onCreateUser()
+  {
+    this.createUserPopUpModal = true;
+  }
+  close()
+  {
+    this.createUserPopUpModal = false;
+  }
+  callback()
+  {
+    this.createUserPopUpModal = false;
+    this.getSuperAdminUser();
   }
 
 }

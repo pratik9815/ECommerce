@@ -10,35 +10,37 @@
           <h3>Login</h3>
         </div>
         <label for="username">Username:</label>
-        
-          <div class="user">
-            <i class="bi bi-person-circle"></i>
-            <input type="text" placeholder='username' [ngClass]="{ 'is-invalid': submitted && getFormControl.username.errors }" formControlName="username" />  
-            <span *ngIf="submitted && getFormControl.username.errors" class="invalid-feedback text-danger error">
-              <div *ngIf="getFormControl.username.errors?.required">Username required.</div>
+
+        <div class="user">
+          <i class="bi bi-person-circle"></i>
+          <input type="text" placeholder='username'
+            [ngClass]="{ 'is-invalid': submitted && getFormControl.username.errors }" formControlName="username" class="form-control"/>
+            
+          <span *ngIf="submitted && getFormControl.username.errors" class="invalid-feedback text-danger error">
+            <div *ngIf="getFormControl.username.errors?.required">Username required.</div>
           </span>
         </div>
-       
-       
+
+
         <label for="password">Password:</label>
-        <div class="eye-catcher">
+        <div class="eye-catcher"  >
           <i class="bi bi-lock-fill"></i>
-          <input  [type]="changeType? 'password':'text'"  [ngClass]="{ 'is-invalid': submitted && getFormControl.password.errors }"  placeholder='password' formControlName="password" />
+          <input [type]="changeType? 'password':'text'"
+            [ngClass]="{ 'is-invalid': submitted && getFormControl.password.errors }" placeholder='password' class="form-control"
+            formControlName="password" />
           <i (click)="viewpass()" [ngClass]="visible? 'bi bi-eye-fill':'bi bi-eye-slash-fill'"></i>
 
-          <span class="error text-danger"
-          *ngIf="submitted && getFormControl.password.hasError('minlength')">Min 8
-          characters
-          required</span>
-          
-          <span *ngIf="submitted && getFormControl.password.errors" class="invalid-feedback text-danger error">
+          <span class="error text-danger invalid-feedback"
+            *ngIf="submitted && getFormControl.password.errors?.minlength">
+            <div *ngIf="getFormControl.password.errors?.minlength"> Min 8 characters required</div>
+          </span>
+
+          <span class="error text-danger invalid-feedback" *ngIf="submitted && getFormControl.password.errors">
             <div *ngIf="getFormControl.password.errors?.required">Password
               required</div>
-        </span>
-        
-
+          </span>
         </div>
-          
+
 
         <button (click)="onLogin()">Login</button>
         <span *ngIf="submitted && loginForm.isInvalid">{{errorMsg}}</span>

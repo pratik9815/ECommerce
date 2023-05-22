@@ -16,12 +16,27 @@ namespace ECOMMERCE.Controllers
         {
             _userRepository = userRepository;
         }
+
         [HttpGet("get-user")]
         [Authorize]
-        public async Task<ActionResult<List<UserDTO>>> GetUserDetails()
+        public async Task<ActionResult<List<UserDTO>>> GetAllAdminUsers()
         {
-            var users = await _userRepository.GetAdminUsers();
+            var users = await _userRepository.GetAllAdminUsers();
             return Ok(users);
         }
+        [HttpGet("get-superadmin-user")]
+        [Authorize]
+        public async Task<ActionResult<List<UserDTO>>> GetSuperAdminUserDetails()
+        {
+            var users = await _userRepository.GetSuperAdminUsers();
+            return Ok(users);
+        }
+        [HttpGet("get-admin-user")]
+        public async Task<ActionResult<List<UserDTO>>> GetAdminUser()
+        {
+            var users = await _userRepository.GetAdminUser();
+            return Ok(users);
+        }
+
     }
 }

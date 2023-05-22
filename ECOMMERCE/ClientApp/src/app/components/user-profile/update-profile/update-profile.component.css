@@ -1,12 +1,17 @@
 
 .second{
-    border-radius: 5px;
+    /* border-radius: 5px; */
     position: relative;
+    background-color: white;
+    width: 60%;
+    height: 38%;
+    margin: 0;
+    padding: 0  ;
 }
 input {
     border: 1px solid #ccc;
     padding: 0.4rem;
-    width: 16vw;
+    width: 17vw;
     border-radius: 5px;
   }
 .bi.bi-x-circle{
@@ -20,4 +25,8 @@ input {
     }
 .form-control{
       font-weight: bold;
+    }
+
+    .invalid-feedback{
+        position: absolute;
     }

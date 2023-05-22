@@ -60,11 +60,9 @@ export class CategoryListComponent implements OnInit {
   public actions() {
     return function(params:any){
       return ` 
-      <button type="button" data-action-type="Edit" class="btn ag-btn btn-primary"  
-              data-toggle="tooltip" data-placement="bottom" title = "Edit" ><i class="fa-solid fa-pen-to-square"></i></button> &nbsp; &nbsp;
+      <button type="button" data-action-type="Edit" class="btn" ><i data-action-type="Edit" class="bi bi-pencil-square text-success"></i></button> 
 
-              <button type="button" data-action-type="Remove" class="btn ag-btn btn-danger" 
-              data-toggle="tooltip" data-placement="bottom" title = "Remove" ><i class="fa-solid fa-trash"></i></button>`;
+              <button type="button" data-action-type="Remove" class="btn" ><i  data-action-type="Remove" class="bi bi-trash3-fill text-danger"></i></button>`;
     }
   }
 
