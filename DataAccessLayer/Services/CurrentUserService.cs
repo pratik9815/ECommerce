@@ -79,6 +79,14 @@ namespace DataAccessLayer.Services
                 return _contextAccessor.HttpContext?.User.FindFirstValue(Constants.FullName);
             }
         }
+        public string CustomerId
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User.FindFirstValue(Constants.CustomerId);
+            }
+        }
+
 
     }
 }

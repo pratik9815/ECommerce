@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/service/category/category.service';
 import { ProductService } from 'src/app/services/product/product.service';
+import { ProductStatus } from 'src/app/services/web-api-client';
 
 @Component({
   selector: 'app-addproduct',
@@ -25,6 +26,22 @@ export class AddproductComponent implements OnInit {
 
   imageSource: any;
 
+
+  productStatus: any = [{
+    id: ProductStatus.InStock,
+    name: "InStock"
+  },
+  {
+    id: ProductStatus.OutOfStock,
+    name: "OutOfStock"
+  },
+  {
+    id: ProductStatus.Damaged,
+    name: "Damaged"
+  },
+]
+
+
   constructor(private _formBuilder: FormBuilder,
     private _productService: ProductService,
     private _toastrService: ToastrService,
@@ -39,6 +56,7 @@ export class AddproductComponent implements OnInit {
       quantity: ['', [Validators.required]],
       description: ['', [Validators.required]],
       categoryId:[null,[Validators.required]],
+      productStatus:[0,[Validators.required]]
     });
     console.log(this.productForm.value);
   }

@@ -190,7 +190,7 @@ namespace DataAccessLayer.Repositories
                 productDetails.Price = product.Price;
                 productDetails.UpdatedBy = _service?.UserId;
                 productDetails.UpdatedDate = DateTime.UtcNow;
-
+                productDetails.ProductStatus = product.ProductStatus;
 
                 var productCategories = await _context.ProductCategories.Where(c => c.ProductId == product.Id).ToListAsync();
                 foreach (var category in productCategories)
@@ -272,6 +272,7 @@ namespace DataAccessLayer.Repositories
                     newProduct.Price = product.Price;
                     newProduct.Quantity = product.Quantity;
                     newProduct.Description = product.Description;
+                    newProduct.ProductStatus = product.ProductStatus;
                     foreach (var category in product.CategoryId)
                     {
                         var productCategory = new ProductCategory
@@ -356,6 +357,7 @@ namespace DataAccessLayer.Repositories
                         CategoryId = x.CategoryId,
                         CategoryName = x.Category.CategoryName
                     }).ToList(),
+
                 }).ToListAsync();
 
             foreach (var item in products)
@@ -371,7 +373,7 @@ namespace DataAccessLayer.Repositories
             }
             return products;
         }
-
+        //Used in angular
         public async Task<List<GetProductWithCategory>> GetProductWithCategories(string categoryId)
         {
             var productWithCategory = await _context.ProductCategories
@@ -383,6 +385,7 @@ namespace DataAccessLayer.Repositories
                                                     Quantity = x.Product.Quantity,
                                                     Description = x.Product.Description,
                                                     Price = x.Product.Price,
+                                                    
                                                     Img = x.Product.ProductImages.Select(i => new ImageList
                                                     {
                                                         ImageName = i.ImageName

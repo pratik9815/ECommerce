@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Command.ApplicationUser;
 using DataAccessLayer.Common;
+using DataAccessLayer.Common.Customer;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
 using DataAccessLayer.Models.Identity;
@@ -23,23 +24,45 @@ namespace ECOMMERCE.Controllers
         private readonly IConfiguration _configuration;
         private readonly ICurrentUserService _currentUserService;
         private readonly ISystemAccessLog _systemAccessLog;
+        private readonly ApplicationDbContext _context;
         public ApplicationUserController(UserManager<ApplicationUser> userManager,
                                          SignInManager<ApplicationUser> signInManager,
                                          IConfiguration configuration,
                                          ICurrentUserService currentUserService,
-                                         ISystemAccessLog systemAccessLog)
+                                         ISystemAccessLog systemAccessLog,
+                                         ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _currentUserService = currentUserService;
             _systemAccessLog = systemAccessLog;
+            _context = context;
         }
         [HttpPost("create-user")]
         public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
+            var customer = new Customer
+            {
+                Id = Guid.NewGuid(),
+                FullName = command.FullName,
+                Email = command.Email,
+                Phone = command.PhoneNumber,
+                Gender = command.Gender,
+                DOB = command.DOB,
+                Address = command.Address
+
+            };
+
+            if (command.UserType is UserType.Customer)
+            {
+                _context.Customers.Add(customer);
+                await _context.SaveChangesAsync();
+            }
+
             var newUser = new ApplicationUser
             {
+                Id = Guid.NewGuid().ToString(),
                 UserName = command.UserName,
                 FullName = command.FullName,
                 Gender = command.Gender,
@@ -47,19 +70,41 @@ namespace ECOMMERCE.Controllers
                 UserType = command.UserType,
                 PhoneNumber = command.PhoneNumber,
                 Address = command.Address,
-                DOB = command.DOB
-
+                DOB = command.DOB,
+                CustomerId = command.UserType is UserType.Customer ? customer.Id : null,
             };
+
             var result = await _userManager.CreateAsync(newUser, command.Password);
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
             return Ok(newUser.Id);
         }
+
         [HttpPost("autheticate-user")]
         public async Task<ActionResult> AuthenticateUser([FromBody] AuthenticateRequest request)
         {
+
+            List<string> adminUserOrigin = _configuration.GetSection("AdminOrigin").Get<List<string>>();
+            List<string> customerUserOrigin = _configuration.GetSection("CustomerOrigin").Get<List<string>>();
+            string requestOrigin = HttpContext.Request.Headers["Origin"].ToString();
+
+
             var identityUser = await _userManager.FindByNameAsync(request.Username);
             if (identityUser == null) return Unauthorized();
+
+            if (identityUser.UserType == UserType.Customer && adminUserOrigin.Any(x => x == requestOrigin))
+            {
+                return Unauthorized();
+            }
+            if (identityUser.UserType == UserType.Admin && customerUserOrigin.Any(x => x == requestOrigin))
+            {
+                return Unauthorized();
+            }
+            if (identityUser.UserType == UserType.SuperAdmin && customerUserOrigin.Any(x => x == requestOrigin))
+            {
+                return Unauthorized();
+            }
+
 
             var isUserLoggedIn = await _systemAccessLog.CheckIfUserIsLoggedIn( identityUser.Id);
 
@@ -154,7 +199,8 @@ namespace ECOMMERCE.Controllers
                 Address = user.Address,
                 FullName = user.FullName,
                 UniqueKey = uniqueKey,
-                UserType = user.UserType
+                UserType = user.UserType,
+                CustomerId = user.CustomerId.ToString(),
             };
         }
 
@@ -171,7 +217,7 @@ namespace ECOMMERCE.Controllers
         public string Address { get; set; }
         public string FullName { get; set; }
         public string UniqueKey { get; set; }
-
+        public string CustomerId { get; set; }
 
     }
 }

@@ -10,7 +10,6 @@ namespace ECOMMERCE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
@@ -33,6 +32,13 @@ namespace ECOMMERCE.Controllers
             if(response.ResponseCode is not 200)
                 return BadRequest(response);
             return Ok(response);
+        }
+
+        [HttpGet("get-by-id")]
+        public async Task<ActionResult<GetOrderCommand>> GetOrderDetails(Guid customerId)
+        {
+            var orderDetails = await _orderRepository.GetProductWithCustomerId(customerId).ToListAsync();
+            return Ok(orderDetails);    
         }
     }
 }

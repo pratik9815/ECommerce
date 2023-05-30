@@ -37,6 +37,11 @@ namespace ECOMMERCE.Controllers
             var users = await _userRepository.GetAdminUser();
             return Ok(users);
         }
-
+        [HttpGet("get-customer-user")]
+        public async Task<ActionResult<List<UserDTO>>> GetCustomerUser()
+        {
+            var users = await _userRepository.GetCustomer();
+            return Ok(users);
+        }
     }
 }

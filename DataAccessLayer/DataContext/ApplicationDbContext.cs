@@ -85,7 +85,7 @@ namespace DataAccessLayer.DataContext
             builder.Entity<Customer>(customer =>
             {
                 customer.HasKey(c => c.Id);
-                customer.Property(t => t.Name)
+                customer.Property(t => t.FullName)
                  .HasMaxLength(50)
                  .IsRequired();
                 customer.Property(t =>t.Address)
@@ -185,6 +185,15 @@ namespace DataAccessLayer.DataContext
             builder.Entity<SystemAccessLog>()
                 .HasKey(a => a.Id);
 
+            builder.Entity<Order>()
+                   .HasOne(o => o.Customer)
+                   .WithMany(c => c.Orders)
+                   .HasForeignKey(o => o.CustomerId);   
+
+            builder.Entity<Product>()
+                .HasMany(p => p.ProductReviews)
+                .WithOne(pr => pr.Product)
+                .HasForeignKey(pr => pr.ProductId);
 
         }
        //public DbSet<ApplicationUser> Users { get; set; }
@@ -196,6 +205,9 @@ namespace DataAccessLayer.DataContext
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<SystemAccessLog> SystemAccessLogs { get; set; }
+        public DbSet<ProductReview> ProductReviews { get; set; }
+        public DbSet<OrderActivityLog> OrderActivityLogs { get; set; }
+        
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

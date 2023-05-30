@@ -20,6 +20,7 @@ export interface IApplicationUserService {
     authenticateUser(request: AuthenticateRequest): Observable<FileResponse>;
     updateUser(command: UpdateUserCommand): Observable<FileResponse>;
     changePassword(request: ChangePasswordRequest): Observable<ApiResponse>;
+    logOut(): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -230,6 +231,119 @@ export class ApplicationUserService implements IApplicationUserService {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ApiResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    logOut(httpContext?: HttpContext): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/ApplicationUser/logout";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processLogOut(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processLogOut(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processLogOut(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+export interface ICarouselService {
+    getImageForCarousel(): Observable<ImageList[]>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class CarouselService implements ICarouselService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://localhost:7069";
+    }
+
+    getImageForCarousel(httpContext?: HttpContext): Observable<ImageList[]> {
+        let url_ = this.baseUrl + "/api/Carousel/carousel-images";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetImageForCarousel(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetImageForCarousel(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ImageList[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ImageList[]>;
+        }));
+    }
+
+    protected processGetImageForCarousel(response: HttpResponseBase): Observable<ImageList[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ImageList[];
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -590,7 +704,7 @@ export interface IProductService {
     getWithImage(): Observable<GetProductQuery[]>;
     getAllWithImage(): Observable<GetProductQuery[]>;
     createProduct(product: CreateProductCommand): Observable<ApiResponse>;
-    createProductWithImages(name: string | null | undefined, description: string | null | undefined, price: number | undefined, quantity: number | undefined, img: FileParameter[] | null | undefined, createdDate: Date | null | undefined, categoryId: string[] | null | undefined): Observable<ApiResponse>;
+    createProductWithImages(name: string | null | undefined, description: string | null | undefined, price: number | undefined, quantity: number | undefined, productStatus: ProductStatus | undefined, img: FileParameter[] | null | undefined, createdDate: Date | null | undefined, categoryId: string[] | null | undefined): Observable<ApiResponse>;
     updateProduct(product: UpdateProductCommand): Observable<ApiResponse>;
     deleteProduct(id: string): Observable<ApiResponse>;
     get(): Observable<GetProductCommand[]>;
@@ -857,7 +971,7 @@ export class ProductService implements IProductService {
         return _observableOf(null as any);
     }
 
-    createProductWithImages(name: string | null | undefined, description: string | null | undefined, price: number | undefined, quantity: number | undefined, img: FileParameter[] | null | undefined, createdDate: Date | null | undefined, categoryId: string[] | null | undefined, httpContext?: HttpContext): Observable<ApiResponse> {
+    createProductWithImages(name: string | null | undefined, description: string | null | undefined, price: number | undefined, quantity: number | undefined, productStatus: ProductStatus | undefined, img: FileParameter[] | null | undefined, createdDate: Date | null | undefined, categoryId: string[] | null | undefined, httpContext?: HttpContext): Observable<ApiResponse> {
         let url_ = this.baseUrl + "/api/Product/create-product-with-multiple-image";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -874,6 +988,10 @@ export class ProductService implements IProductService {
             throw new Error("The parameter 'quantity' cannot be null.");
         else
             content_.append("Quantity", quantity.toString());
+        if (productStatus === null || productStatus === undefined)
+            throw new Error("The parameter 'productStatus' cannot be null.");
+        else
+            content_.append("ProductStatus", productStatus.toString());
         if (img !== null && img !== undefined)
             img.forEach(item_ => content_.append("Img", item_.data, item_.fileName ? item_.fileName : "Img") );
         if (createdDate !== null && createdDate !== undefined)
@@ -1129,7 +1247,9 @@ export class ProductService implements IProductService {
 }
 
 export interface IUserService {
-    getUserDetails(): Observable<UserDTO[]>;
+    getAllAdminUsers(): Observable<UserDTO[]>;
+    getSuperAdminUserDetails(): Observable<UserDTO[]>;
+    getAdminUser(): Observable<UserDTO[]>;
 }
 
 @Injectable({
@@ -1145,7 +1265,7 @@ export class UserService implements IUserService {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://localhost:7069";
     }
 
-    getUserDetails(httpContext?: HttpContext): Observable<UserDTO[]> {
+    getAllAdminUsers(httpContext?: HttpContext): Observable<UserDTO[]> {
         let url_ = this.baseUrl + "/api/User/get-user";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1159,11 +1279,11 @@ export class UserService implements IUserService {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetUserDetails(response_);
+            return this.processGetAllAdminUsers(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetUserDetails(response_ as any);
+                    return this.processGetAllAdminUsers(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<UserDTO[]>;
                 }
@@ -1172,7 +1292,103 @@ export class UserService implements IUserService {
         }));
     }
 
-    protected processGetUserDetails(response: HttpResponseBase): Observable<UserDTO[]> {
+    protected processGetAllAdminUsers(response: HttpResponseBase): Observable<UserDTO[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserDTO[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getSuperAdminUserDetails(httpContext?: HttpContext): Observable<UserDTO[]> {
+        let url_ = this.baseUrl + "/api/User/get-superadmin-user";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSuperAdminUserDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSuperAdminUserDetails(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<UserDTO[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<UserDTO[]>;
+        }));
+    }
+
+    protected processGetSuperAdminUserDetails(response: HttpResponseBase): Observable<UserDTO[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserDTO[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getAdminUser(httpContext?: HttpContext): Observable<UserDTO[]> {
+        let url_ = this.baseUrl + "/api/User/get-admin-user";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAdminUser(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAdminUser(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<UserDTO[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<UserDTO[]>;
+        }));
+    }
+
+    protected processGetAdminUser(response: HttpResponseBase): Observable<UserDTO[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1245,6 +1461,12 @@ export interface ChangePasswordRequest {
     newPassword?: string | undefined;
 }
 
+export interface ImageList {
+    imageId?: string;
+    imageName?: string | undefined;
+    imageUrl?: string | undefined;
+}
+
 export interface GetCategoryCommand {
     id?: string;
     categoryName?: string | undefined;
@@ -1300,12 +1522,6 @@ export interface GetProductCommand {
     createdDate?: Date | undefined;
 }
 
-export interface ImageList {
-    imageId?: string;
-    imageName?: string | undefined;
-    imageUrl?: string | undefined;
-}
-
 export enum ProductStatus {
     InStock = 0,
     OutOfStock = 1,
@@ -1318,17 +1534,17 @@ export interface GetProductQuery {
     description?: string | undefined;
     price?: number;
     quantity?: number;
-    img?: string | undefined;
+    imgThumbnail?: string | undefined;
     productStatus?: ProductStatus;
     createdBy?: string | undefined;
     updatedBy?: string | undefined;
     createdDate?: Date | undefined;
     imageLists?: ImageList[] | undefined;
-    categories?: string[] | undefined;
-    categoryName?: GetCategoryName[] | undefined;
+    categories?: CategoryList[] | undefined;
 }
 
-export interface GetCategoryName {
+export interface CategoryList {
+    categoryId?: string;
     categoryName?: string | undefined;
 }
 

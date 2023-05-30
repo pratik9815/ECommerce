@@ -33,6 +33,8 @@ namespace DataAccessLayer.Models
 
         public ICollection<ProductImage> ProductImages { get; set; }
 
+        public ICollection<ProductReview> ProductReviews { get; set; }
+
         //This is responsible for adding collection of productCategory to the productCategories collection this does not make any changes to the database
         public void AddProductCategory(ProductCategory productCategory)
         {

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/service/category/category.service';
 import { ProductService } from 'src/app/services/product/product.service';
+import { ProductStatus } from 'src/app/services/web-api-client';
 
 @Component({
   selector: 'app-editproduct',
@@ -23,6 +24,19 @@ export class EditproductComponent implements OnInit {
   //category
   categoryList:any;
 
+  productStatus: any = [{
+    id: ProductStatus.InStock,
+    name: "InStock"
+  },
+  {
+    id: ProductStatus.OutOfStock,
+    name: "OutOfStock"
+  },
+  {
+    id: ProductStatus.Damaged,
+    name: "Damaged"
+  },
+]
 
   constructor(private _productService:ProductService,
               private _formBuilder:FormBuilder,
@@ -31,16 +45,27 @@ export class EditproductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategory();
-      this.productForm = this._formBuilder.group({
-        id: [null],
-        name: ['',[Validators.required]],
-        price: ['',[Validators.required]],
-        description: ['',[Validators.required]],
-        quantity: ['',[Validators.required]],
-        categories:[null,[Validators.required]]
-      })
-    this.productForm.patchValue(this.updateProductDetails);
-  
+        this.productForm = this._formBuilder.group({
+          id: [null],
+          name: ['',[Validators.required]],
+          price: ['',[Validators.required]],
+          description: ['',[Validators.required]],
+          quantity: ['',[Validators.required]],
+          categories:[null,[Validators.required]],
+          productStatus:[null,[Validators.required]]
+        })
+      this.productForm.patchValue({
+        id: this.updateProductDetails.id,
+        name: this.updateProductDetails.name,
+        price: this.updateProductDetails.price,
+        description: this.updateProductDetails.description,
+        quantity : this.updateProductDetails.quantity,
+        categories: this.updateProductDetails.categories.map((obj:any) =>
+          obj.categoryId
+        ),
+        productStatus: this.updateProductDetails.productStatus
+      });
+      
   }
 
   get getFormControl(){
@@ -60,26 +85,25 @@ export class EditproductComponent implements OnInit {
         error: err => {
           this._toastrService.error("The product added failed", "Error");
         }
-      })
+      });
   }
-
-
   onChange(event:any)
   {
     this.productForm.value.categoryId = event.id;
   }
-
-
   getCategory()
   {
     this._categoryService.getAllCategory().subscribe({
       next: res =>{
-        console.log(res);
+        // console.log(res)
         this.categoryList = res;
       },
       error: err => {
         console.log(err);
       }
-    })
+    });
   }
+
+
+
 }

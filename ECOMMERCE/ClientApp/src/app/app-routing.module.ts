@@ -11,6 +11,7 @@ import { UserListComponent } from './components/user-profile/user-list/user-list
 import { HasRoleGuard } from './guard/has-role.guard';
 import { ProductWithCategoryComponent } from './components/product-list/product-with-category/product-with-category.component';
 import { LoginComponent } from './components/login/login.component';
+import { CustomerListComponent } from './components/customer-list/customer-list.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,11 @@ const routes: Routes = [
   {
     path: "product-with-category",
     component: ProductWithCategoryComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path: "customer-list",
+    component: CustomerListComponent,
     canActivate:[AuthGuard]
   }
 ];

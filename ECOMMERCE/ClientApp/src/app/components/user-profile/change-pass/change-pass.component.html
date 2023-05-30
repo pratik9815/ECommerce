@@ -1,7 +1,7 @@
-<div class="column-second">
-    <button class="btn-close" style="position:absolute;right:4px;" (click)="cancel()"></button>
+<div class="column-second pt-4">
+    <button class="btn-close" style="position:absolute;right:4px; top:4px;" (click)="cancel()"></button>
     <form [formGroup]="passwordForm" (ngSubmit)="passwordChange()">
-        <div class="row mx-4 my-4">
+        <div class="row  ms-2 mb-4">
             <div class="oldpass">
                 <input [type]="changeTypeOld? 'password':'text'" placeholder="Old password" class="form-control "
                     id="oldPassword" [ngClass]="{'is-invalid':submitted && getFormControl.oldPassword.errors }"
@@ -22,7 +22,7 @@
 
         </div>
 
-        <div class="row mx-4 my-4">
+        <div class="row ms-2 mb-4">
             <div class="newPass">
                 <input [type]="changeTypeNew? 'password':'text'" placeholder="New password" class="form-control p-9"
                     id="newPassword" [ngClass]="{'is-invalid':submitted && getFormControl.newPassword.errors }"
@@ -61,10 +61,10 @@
             </div>
         </div> -->
 
-        <button type="submit" class="btn btn-success mx-4">Confirm</button>
+        <button type="submit" class="btn btn-success ms-4">Confirm</button>
     </form>
     <footer>
-        <div class="my-2" style="font-size:x-small"><span class="text-danger">*Note:</span> Password must be 8+
+        <div class="m-2" style="font-size:small"><span class="text-danger">*Note:</span> Password must be 8+
             characters with at least one digit,
             special character, lowercase, and uppercase.</div>
     </footer>

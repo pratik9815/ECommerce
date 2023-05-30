@@ -32,8 +32,8 @@ export class UserService {
     return this._httpClient.post(this.apiApplication,body,
       {responseType: 'text'});
   }
-  
-
-  
-
+  getCustomer()
+  {
+    return this._httpClient.get(this.apiUrl+"get-customer-user");
+  }
 }

@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Common;
+using DataAccessLayer.Common.Order;
 using DataAccessLayer.Models.Common;
 using DataAccessLayer.Models.Identity;
 using System;
@@ -23,17 +24,19 @@ namespace DataAccessLayer.Models
         public string PhoneNumber { get; set; }
         public DateTime OrderDate { get; set; }
         public OrderStatus OrderStatus { get; set; }
+        public Guid CustomerId { get; set; }
+        public Customer Customer { get; set; }
 
         //Customer and order relationship
         public ICollection<OrderDetails> OrderDetails { get; set; }
-        public void AddOrder(Order order, Guid ProductId)
+        public void AddOrder(Order order, ProductInfo product)
         {
             var newOrder = new OrderDetails
             {
                 OrderId = order.Id,
-                ProductId = ProductId,
+                ProductId = product.ProductId,
                 Price = order.Amount,
-                Quantity = 1,
+                Quantity = product.Quantity,
             };
             OrderDetails.Add(newOrder);
         }

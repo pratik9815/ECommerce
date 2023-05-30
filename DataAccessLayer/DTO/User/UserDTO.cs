@@ -20,6 +20,7 @@ namespace DataAccessLayer.DTO.User
         public DateTime? DOB { get; set; }
         public string Image { get; set; }
         public string CreatedBy { get; set; }   
+        public string CustomerId { get; set; }
 
        
     }

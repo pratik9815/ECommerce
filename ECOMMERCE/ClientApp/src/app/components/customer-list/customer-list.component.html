@@ -1,0 +1,35 @@
+<div style="align-items: stretch;">
+    <div id="content" class="col-sm-12">
+        <div class="page-wrapper">
+            <div class="page-heading">
+                <h4>Customer Lists</h4>
+            </div>
+            <div class="row d-flex ">
+                <div class="col-sm-3 float-left">
+                    <div class="quick-filter ">
+                        <input type="text" (keyup)="onQuickFilterChanged()" class="form-control"
+                            [(ngModel)]="quickSearchValue" placeholder="search..." />
+                    </div>
+                </div>
+                <!-- <div class="col-sm-3 float-right">
+                    <a href="javascript:;" class="btn btn-warning" (click)="onAddNewProductPopUp()"
+                        style="text-decoration: none;position: absolute; right: 20px;">
+                        New Product
+                    </a>
+                </div> -->
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-body p-0">
+                    <ag-grid-angular style="width: 100%;" class="ag-theme-alpine" [rowData]="customerData"
+                        [columnDefs]="customerColDef" [domLayout]="domLayout" [animateRows]="true" [defaultColDef]="defaultColDef"
+                        [paginationPageSize]="7" [enableCellTextSelection]="true" [enableBrowserTooltips]="true"
+                        [pagination]="true" (rowClicked)="onRowClicked($event)"
+                        (filterChanged)="onFilterChanged($event)" (modelUpdated)="onModelUpdated()"
+                        (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

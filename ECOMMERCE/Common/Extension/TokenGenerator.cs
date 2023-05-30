@@ -31,6 +31,7 @@ namespace ECOMMERCE.Common.Extension
                 new Claim(Constants.UserName, user.UserName),
                 new Claim(Constants.UserType, user.UserType.ToString()),
                 new Claim(Constants.Address, user.Address),
+                new Claim(Constants.CustomerId, user.CustomerId),
             };
             return claims;
         }

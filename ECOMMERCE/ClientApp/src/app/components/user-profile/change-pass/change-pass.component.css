@@ -1,19 +1,14 @@
 .column-second{
     position: relative;
-    padding: 1px;
+    /* padding: 1px; */
     background-color: white;
-
-    width: 50%;
+    width: 35%;
 }
 
   .row{
     position: relative;
   }
 
-  /* div.row div{
-    position: absolute;
-    top: 17px;
-  } */
 .div-error{
   position: absolute;
     top: 36px;
@@ -23,7 +18,7 @@
   position: absolute;
   top: 9px;
   /* left: 381px; */
-  right: 15px;
+  right: 18px;
 }
 
 .form-control{
@@ -34,9 +29,9 @@
 
 .oldpass{
   position: relative;
-  width: 300px;
+  width: 350px;
 }
 .newPass{
   position: relative;
-  width: 300px;
+  width: 350px;
 }

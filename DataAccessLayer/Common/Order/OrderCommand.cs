@@ -1,4 +1,6 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.Common.Product;
+using DataAccessLayer.Models;
+using DataAccessLayer.Query.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +15,11 @@ namespace DataAccessLayer.Common.Order
         public string ShippingAddress { get; set; }
         public string OrdersAddress { get; set; }
         public string PhoneNumber { get; set; }
-        public string OrderEmail { get; set; }     
+        public string OrderEmail { get; set; }
         public Guid CustomerId { get; set; }
-        public Guid ProductId { get; set; }
+        public List<ProductInfo> Product { get; set; }
         public DateTime OrderDate { get; set; }
+      
     }
     public class GetOrderCommand
     {
@@ -28,6 +31,13 @@ namespace DataAccessLayer.Common.Order
         public string CustomerId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime OrderDate { get; set; }
+        public List<OrderDetails> OrderDetails { get; set; }
+    }
+
+    public class ProductInfo
+    {
+        public Guid ProductId { get; set; }
+        public int Quantity { get; set; }   
     }
 
 }

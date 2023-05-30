@@ -25,7 +25,7 @@ namespace DataAccessLayer.Models.Identity
         public string DeletedBy { get; set; }
         public DateTime? DeletedDate { get; set; }
         public bool IsDeleted { get; set; }
-
-
+        public Guid? CustomerId { get; set; }
+        public Customer Customer { get; set; }
     }
 }

@@ -101,8 +101,6 @@
               "src/styles.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/@costlydeveloper/ngx-awesome-popup/styles/theme.css"
-
-
             ],
             "scripts": []
           }

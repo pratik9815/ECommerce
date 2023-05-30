@@ -4,7 +4,6 @@
     width: 100%;
     bottom: 0;
     overflow: hidden;
-    /* background-color: rgb(251 182 119); */
 }
 
 .image{
@@ -15,9 +14,31 @@
 button{
    color: black;
 }
-.nav-link:checked{
-    background-color: white;
+button:hover{
+    background-color: rgb(233, 0, 0);
 }
+
+/* .nav-link:focus{
+    background-color: white;
+} */
+
+
+.nav.nav-tabs{
+    width: 270px;
+    height: 40px;
+    background-color: rgb(120 160 121);
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 5px;
+    border: none;
+}
+.nav-link{
+    height: 36px;
+    /* border: none; */
+    border-radius: 10px;
+}
+
+
 
 
 

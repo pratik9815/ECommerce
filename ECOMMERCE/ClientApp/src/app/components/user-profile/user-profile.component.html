@@ -18,20 +18,23 @@
 
     <ul class="nav nav-tabs mr-3" id="myTab" role="tablist" >
         <li class="nav-item" role="presentation" >
-            <button   class="nav-link" id="edit-tab" type="button" (click)="edit()" [style.background-color]="isEdit? default:firstColor">Edit Profile</button>
+            <button role="tab"  class="nav-link" id="edit-tab" type="button" (click)="edit()" [style.background-color]="isEdit? 'white':'rgb(120 160 121)'">Edit Profile</button>
         </li>
         <li class="nav-item" role="presentation"> 
-            <button class="nav-link" id="password-tab"  type="button"
-                role="tab" (click)="changePassword()" [style.background-color]="isChangePassword? default:secondColor">Change Password</button>
+            <button class="nav-link btn" id="password-tab"  type="button"
+                role="tab" (click)="changePassword()" [style.background-color]="isChangePassword? 'white':'rgb(120 160 121)'">Change Password</button>
         </li>
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane" id="edit" role="tabpanel"  *ngIf="isEdit" style="display: block;">
+        <div *ngIf="isEdit">
+            <div class="tab-pane" id="edit" role="tabpanel"  style="display: block;">
 
-            <app-update-profile [update-profile]="updateprofile"
-                        (User-Update)="callback()"></app-update-profile>
-        </div>  
+                <app-update-profile [update-profile]="updateprofile"
+                            (User-Update)="callback()"></app-update-profile>
+            </div>
+        </div>
+        
         <div class="tab-pane" id="password" role="tabpanel" *ngIf="isChangePassword" style="display:block">
             <app-change-pass (change-pass)="callback()"></app-change-pass>
         </div>

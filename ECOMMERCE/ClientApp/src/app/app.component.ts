@@ -12,13 +12,11 @@ export class AppComponent implements OnInit{
   isLoggedIn$ : Observable<boolean>;
 
   constructor(private _authService:AuthService){
-    
     this._authService.showLoginPageIfTokenExpries();
-
   }
 
   ngOnInit():void{
-    this.isLoggedIn$ = this._authService.isLoggedIn$;  
+    this.isLoggedIn$ = this._authService.isLoggedIn$;
   }
   
 }

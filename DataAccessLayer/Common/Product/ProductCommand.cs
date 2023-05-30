@@ -39,6 +39,7 @@ namespace DataAccessLayer.Common.Product
         public double Price { get; set; }
         public int Quantity { get; set; }
         public IFormFile Img { get; set; }
+        public ProductStatus ProductStatus { get; set; }
         public DateTime? CreatedDate { get; set; }
     }
     public class CreateProductWithImagesCommand
@@ -47,6 +48,7 @@ namespace DataAccessLayer.Common.Product
         public string Description { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
+        public ProductStatus ProductStatus { get; set; }
         public IEnumerable<IFormFile> Img { get; set; }
         public DateTime? CreatedDate { get; set; }
         public IEnumerable<Guid> CategoryId  { get; set; }

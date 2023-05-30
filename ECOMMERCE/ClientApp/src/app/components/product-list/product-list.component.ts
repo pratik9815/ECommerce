@@ -7,6 +7,7 @@ import {
   AppearanceAnimation
 } from '@costlydeveloper/ngx-awesome-popup';
 import { ToastrService } from 'ngx-toastr';
+import { ProductStatus } from 'src/app/services/web-api-client';
 
 @Component({
   selector: 'app-product-list',
@@ -34,20 +35,44 @@ export class ProductListComponent implements OnInit {
   CategoryPopUpModal: boolean = false;
   productDetailsPopUpModal: boolean = false;
 
+  productStatus: any = [{
+    id: ProductStatus.InStock,
+    name: "InStock"
+  },
+  {
+    id: ProductStatus.OutOfStock,
+    name: "OutOfStock"
+  },
+  {
+    id: ProductStatus.Damaged,
+    name: "Damaged"
+  },
+  ]
+
   constructor(private _productService: ProductService,
     private _toastrService: ToastrService) {
     this.domLayout = "autoHeight";
-
   }
 
   ngOnInit(): void {
     this.getProduct();
     this.productColDef = [
-      { headerName: "S.N", valueGetter: 'node.rowIndex+1', width: 40, resizable: true },
+      { headerName: "S.N", valueGetter: 'node.rowIndex+1', width: 30, resizable: false },
       { headerName: "Name", field: 'name', sortable: true, resizable: true, filter: true, width: 100 },
       { headerName: "Description", field: 'description', sortable: true, resizable: true, width: 100 },
       { headerName: "Unit Price", field: 'price', sortable: true, resizable: true, width: 100 },
       { headerName: "Quantity", field: 'quantity', sortable: true, resizable: true, width: 100 },
+      {
+        headerName: "ProductStatus",
+        field: 'productStatus',
+        cellRenderer: (data:any) =>{
+          return ProductStatus[data.value]
+        },
+        sortable: true,
+        resizable: true,
+        width: 100,
+        
+      },
       { headerName: "CreatedBy", field: 'createdBy', sortable: true, resizable: true, width: 100 },
       { headerName: "UpdateddBy", field: 'updatedBy', sortable: true, resizable: true, width: 100 },
       { headerName: "Actions", field: 'action', cellRenderer: this.actions(), pinned: 'right', resizable: true, width: 10 },
@@ -69,6 +94,8 @@ export class ProductListComponent implements OnInit {
           </button>`;
     }
   }
+
+
 
   getProduct() {
     this._productService.GetAllProductWithImage().subscribe({
@@ -102,9 +129,9 @@ export class ProductListComponent implements OnInit {
           this.updateProductPopUpModal = true;
           break;
         }
-        case "Remove": 
+        case "Remove":
           return this.onOpenDialog(data);
-        
+
         case "Cateogry": {
           this.productId = data.id;
           this.CategoryPopUpModal = true;

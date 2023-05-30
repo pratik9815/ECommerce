@@ -29,7 +29,7 @@ namespace DataAccessLayer.Repositories
         {
 
             var users = await _context.Users
-                                            .Where(x => x.UserType == UserType.SuperAdmin)
+                                            .Where(x => x.UserType == UserType.SuperAdmin || x.UserType == UserType.Admin)
                                             .OrderBy(x => x.FullName)
                                             .Select(x => new UserDTO
                                             {
@@ -85,6 +85,28 @@ namespace DataAccessLayer.Repositories
                                                 Email = x.Email,
                                                 PhoneNumber = x.PhoneNumber,
                                                 CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName
+                                            }).ToListAsync();
+            return users;
+        }
+
+        public async Task<List<UserDTO>> GetCustomer()
+        {
+            var users = await _context.Users
+                                            .Where(x => x.UserType == UserType.Customer)
+                                            .OrderBy(x => x.FullName)
+                                            .Select(x => new UserDTO
+                                            {
+                                                Id = x.Id,
+                                                FullName = x.FullName,
+                                                UserName = x.UserName,
+                                                Address = x.Address,
+                                                DOB = x.DOB,
+                                                Gender = x.Gender.GetEnumDisplayName(),
+                                                UserType = x.UserType.GetEnumDisplayName(),
+                                                Email = x.Email,
+                                                PhoneNumber = x.PhoneNumber,
+                                                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
+                                                CustomerId = x.CustomerId.ToString()
                                             }).ToListAsync();
             return users;
         }

@@ -12,5 +12,6 @@ namespace DataAccessLayer.Repositories.IRepositories
     {
         IQueryable<GetOrderCommand> GetAllOrders();
         Task<ApiResponse> CreateOrder(CreateOrderCommand order);
+        IQueryable<GetOrderCommand> GetProductWithCustomerId(Guid customerId);
     }
 }

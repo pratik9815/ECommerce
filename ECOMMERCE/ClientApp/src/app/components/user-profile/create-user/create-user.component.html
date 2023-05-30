@@ -73,14 +73,12 @@
             <div class="row mb-4">
                 <div class="form-group col-sm-6">
                     <label><strong>User type</strong></label>
-
                     <ng-select [items]="userType" bindLabel="name" bindValue="id" formControlName="userType" >
                     </ng-select>
                     <div *ngIf="submitted && getFormControl.userType.errors?.required"
                         class="error invalid-feedback text-danger ">
                         <div *ngIf="getFormControl.userType.errors?.required">Username required.</div>
                     </div>
-
                 </div>
 
                 <div class="form-group col-sm-6">

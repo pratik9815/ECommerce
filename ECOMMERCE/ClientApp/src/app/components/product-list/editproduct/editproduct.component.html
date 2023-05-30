@@ -42,19 +42,39 @@
         <div class="row m-2">
           
             <div class="col-sm-6">
-                <label for="category"><b>Category</b><span style="color:red;">*</span></label>
-                <ng-select [items]="categoryList" bindLabel="categoryName"
-                            bindValue="id" placeholder="Select Category" [searchable]="true"
-                            [multiple]="true"
-                            [closeOnSelect]="false"
-                            (change)="onChange($event)"
-                            formControlName="categories">
+                <label for="category"><b>Category<span style="color: red;">*</span></b> </label>
+                <ng-select
+                    [items]="categoryList"
+                    bindLabel="categoryName"
+                    bindValue="id"
+                    [multiple]="true"
+                    placeholder="Select Category"
+                    formControlName="categories"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.categories.errors }">
                 </ng-select>
-                <div *ngIf="submitted && getFormControl.categoryId.errors" class="invalid-feedback text-danger">
-                    <div *ngIf="getFormControl.categoryId.errors?.required">Categoryis required.</div>
-                </div>
+                    <div *ngIf="submitted && getFormControl.categories.errors" class="invalid-feedback text-danger">
+                        <div *ngIf="getFormControl.categories.errors?.required">Category is required.</div>
+                    </div>
+             </div>
+            
+        <div class="form-group col-sm-6">
+            <label><strong>Product Status</strong></label>
+            <ng-select
+            [items]="productStatus" 
+             bindLabel="name"
+             bindValue="id"
+             [multiple]="false"
+             [closeOnSelect]="true"
+             formControlName="productStatus" 
+             placeholder="Product status">
+            </ng-select>
+            <div *ngIf="submitted && getFormControl.productStatus.errors?.required"
+                class="error invalid-feedback text-danger ">
+                <div *ngIf="getFormControl.productStatus.errors?.required">Username required.</div>
             </div>
         </div>
+        </div>
+
         <button class="btn btn-primary" type="submit" label="Save" icon="bi bi-save">Save
             <i class="bi bi-save"></i></button>
     </form>

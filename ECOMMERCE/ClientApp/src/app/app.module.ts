@@ -41,6 +41,7 @@ import { PasswordChangeSuccessComponent } from './components/password-change-suc
 import { CreateUserComponent } from './components/user-profile/create-user/create-user.component';
 import { UserListComponent } from './components/user-profile/user-list/user-list.component';
 import { ProductWithCategoryComponent } from './components/product-list/product-with-category/product-with-category.component';
+import { CustomerListComponent } from './components/customer-list/customer-list.component';
 
 
 
@@ -65,6 +66,7 @@ import { ProductWithCategoryComponent } from './components/product-list/product-
     CreateUserComponent,
     UserListComponent,
     ProductWithCategoryComponent,
+    CustomerListComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,7 +98,8 @@ import { ProductWithCategoryComponent } from './components/product-list/product-
     AuthService,
     AuthGuard,
     {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor,multi:true}, 
-    ProductService  
+    ProductService  ,
+    
 
 
   ],

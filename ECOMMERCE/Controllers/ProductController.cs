@@ -16,7 +16,7 @@ namespace ECOMMERCE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -36,6 +36,7 @@ namespace ECOMMERCE.Controllers
         }
 
         [HttpGet("get-product")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<GetProductCommand>>> GetProducts()
         {
                 var products = await _productRepository.GetAllProducts().ToListAsync();
@@ -44,6 +45,7 @@ namespace ECOMMERCE.Controllers
         }
 
         [HttpGet("getbyid/{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<GetProductQuery>> GetProductById([FromRoute] Guid id)
         {
             var product = await _productRepository.GetById(id);
@@ -51,6 +53,7 @@ namespace ECOMMERCE.Controllers
         }
 
         [HttpGet("get-with-image")]
+        [AllowAnonymous]
         public async Task<List<GetProductQuery>> GetWithImage()
         {
             var product = await _productRepository.GetWithImage();
@@ -58,6 +61,7 @@ namespace ECOMMERCE.Controllers
         }
 
         [HttpGet("get-images-with-all-images")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<GetProductQuery>>> GetAllWithImage()
         {
             var products = await _productRepository.GetAllWithImage();
@@ -99,6 +103,7 @@ namespace ECOMMERCE.Controllers
         }
 
         [HttpGet("get-product-with-image")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<GetProductCommand>>> Get()
         {
             var products = await _productRepository.GetWithImage();
@@ -107,6 +112,7 @@ namespace ECOMMERCE.Controllers
 
 
         [HttpGet("get-product-category")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<GetProductCommand>>> GetProductCategory([FromQuery] string categoryId)
         {
             if (string.IsNullOrEmpty(categoryId))

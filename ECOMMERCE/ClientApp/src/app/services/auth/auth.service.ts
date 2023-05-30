@@ -14,9 +14,11 @@ export class AuthService {
   isLoggedIn$ = this._isLoggedIn$.asObservable();
   private _user: UserInfo;
 
+  
+
   apiUrl = "https://localhost:7069/api/ApplicationUser/";
   //for role guard
-  user: UserModel;
+  user: UserModel;  
 
   constructor(private _httpClient: HttpClient,
     private _toastrService: ToastrService) {
@@ -28,7 +30,6 @@ export class AuthService {
   //Updating user information
   UpdateUser(body: any) {
     return this._httpClient.put(this.apiUrl + "update-user", body)
-
   }
 
 
@@ -97,6 +98,7 @@ export class AuthService {
 
     const date = new Date(0);
     date.setUTCSeconds(decoded.exp);
+    
     return date;
   }
 
@@ -129,8 +131,6 @@ export class AuthService {
     user.address = token.address;
     user.usertype = token.usertype;
     user.id = token.id;
-
-
     return user;
   }
 

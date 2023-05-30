@@ -57,6 +57,14 @@ namespace DataAccessLayer.Common
 
     }
 
+    public enum Rating
+    {
+        VeryBad = 0,
+        Bad =1,
+        Average = 2,    
+        Good = 3,   
+        VeryGood = 4
+    }
 
 
 }

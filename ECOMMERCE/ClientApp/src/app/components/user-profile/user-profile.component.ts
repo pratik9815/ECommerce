@@ -7,9 +7,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  firstColor = "rgb(113, 138, 92)"
-  default = 'white';
-  secondColor = 'rgb(138 169 112)';
+  hoverColor = 'white';
   updateprofile: any;
   isEdit: boolean = false;
   isChangePassword: boolean = false;
@@ -24,7 +22,7 @@ export class UserProfileComponent implements OnInit {
     this._userService.getUser().subscribe({
       next: data => {
         this.res = data;
-        
+        console.log(data)
         this.res.forEach((item: any) => {
           if (item.id == this.getId()) {
             this.updateprofile = item;
