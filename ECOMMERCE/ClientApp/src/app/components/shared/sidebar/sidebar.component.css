@@ -69,3 +69,7 @@
   .dropdown-item:hover{
     background-color: #42584b;
   }
+  .dropdown-menu{
+    width: 100%;
+    border:none;
+  }

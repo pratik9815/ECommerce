@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Common.Product;
 using DataAccessLayer.Models;
+using DataAccessLayer.Models.PaginationResponseModel;
 using DataAccessLayer.Query.Product;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,9 @@ namespace DataAccessLayer.Repositories.IRepositories
         Task<ApiResponse> RemoveProduct(Guid Id);
         Task<ApiResponse> CreateProductWithMultipleImages(CreateProductWithImagesCommand product);
         Task<List<GetProductQuery>> GetAllWithImage();
-        Task<List<GetProductWithCategory>> GetProductWithCategories(string categoryId);
+        //Task<List<GetProductWithCategory>> GetProductWithCategories(string categoryId);
+        Task<ProductWithCategoryResponse> GetProductWithCategories(string categoryId,int page);
+        Task<ProductWithCategoryResponse> GetProductWithRespectiveCategories(string[] categoryId, int page);
+        Task<ProductResponse> GetProductWithPagination(int page);
     }
 }

@@ -39,6 +39,7 @@ namespace DataAccessLayer.Models
                 Quantity = product.Quantity,
             };
             OrderDetails.Add(newOrder);
+            
         }
     }
 }

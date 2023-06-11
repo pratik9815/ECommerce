@@ -13,6 +13,7 @@ namespace DataAccessLayer.Repositories
     public class SystemAccessLogRepository : ISystemAccessLog
     {
         private readonly ApplicationDbContext _context;
+       
         public SystemAccessLogRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -43,7 +44,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task SetUserLoggedInToFalse(string systemAccessId, string userId)
         {
-              var systemAccessLog = await _context.SystemAccessLogs.AsNoTracking()
+            var systemAccessLog = await _context.SystemAccessLogs.AsNoTracking()
                                                   .FirstOrDefaultAsync(x => x.Id == Guid.Parse(systemAccessId) && x.UserId == userId);
             systemAccessLog.LoggedOutDateTime = DateTime.UtcNow.AddHours(5).AddMinutes(45);
             systemAccessLog.IsLoggedIn = false;

@@ -11,6 +11,8 @@ using ECOMMERCE.Common.Extension;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 
 namespace ECOMMERCE.Controllers
@@ -90,6 +92,7 @@ namespace ECOMMERCE.Controllers
 
 
             var identityUser = await _userManager.FindByNameAsync(request.Username);
+            
             if (identityUser == null) return Unauthorized();
 
             if (identityUser.UserType == UserType.Customer && adminUserOrigin.Any(x => x == requestOrigin))
@@ -180,11 +183,12 @@ namespace ECOMMERCE.Controllers
 
         [HttpPost("logout")]
         public async Task<ActionResult> LogOut()
-        {
+        {   
             var userId = _currentUserService.UserId;
             var systemAccessLogId = _currentUserService.UniqueKey;
             if (userId is null || systemAccessLogId is null)
                 return BadRequest();
+
             await _systemAccessLog.SetUserLoggedInToFalse(systemAccessLogId, userId);
             return Ok();
         }
@@ -204,7 +208,21 @@ namespace ECOMMERCE.Controllers
             };
         }
 
-
+        private bool TokenHasExpired(HttpRequest request)
+        {
+            string token = request.Headers["Authorization"];
+            if(!string.IsNullOrEmpty(token)&& token.StartsWith("Bearer "))
+            {
+                token = token.Substring("Bearer ".Length);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                if(jwtToken.ValidTo <  DateTime.UtcNow)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public class TokenGenerateDetail

@@ -5,8 +5,16 @@
       "PackagePath": "staticwebassets\\ECOMMERCE.bundle.scp.css"
     },
     {
+      "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\122ac71c-4342-4573-b78a-0b4320858497.jpg",
+      "PackagePath": "staticwebassets\\Images\\122ac71c-4342-4573-b78a-0b4320858497.jpg"
+    },
+    {
       "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\2140ef4e-5afd-4d5a-9d90-2a613e719ae7.png",
       "PackagePath": "staticwebassets\\Images\\2140ef4e-5afd-4d5a-9d90-2a613e719ae7.png"
+    },
+    {
+      "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\26df6165-3bed-45ac-9b31-4587580da4b4.jpg",
+      "PackagePath": "staticwebassets\\Images\\26df6165-3bed-45ac-9b31-4587580da4b4.jpg"
     },
     {
       "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\30d2a5e3-2eb2-4c3e-8455-7b9b534eaebd.png",
@@ -45,8 +53,16 @@
       "PackagePath": "staticwebassets\\Images\\81fb9d4f-6090-44fa-b295-1f9cd3d61617.jpg"
     },
     {
+      "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\85946ac5-3dd9-4eec-93c7-340763feb6c5.jpg",
+      "PackagePath": "staticwebassets\\Images\\85946ac5-3dd9-4eec-93c7-340763feb6c5.jpg"
+    },
+    {
       "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\87ae8ccc-cdaf-4aa3-82e9-a7780cdaec16.jpg",
       "PackagePath": "staticwebassets\\Images\\87ae8ccc-cdaf-4aa3-82e9-a7780cdaec16.jpg"
+    },
+    {
+      "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\8c255c02-9f85-44c8-9dd3-e1d505854dd4.jpg",
+      "PackagePath": "staticwebassets\\Images\\8c255c02-9f85-44c8-9dd3-e1d505854dd4.jpg"
     },
     {
       "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\933b39ed-91db-42f2-a52f-cb59e42afe1a.png",
@@ -65,6 +81,10 @@
       "PackagePath": "staticwebassets\\Images\\a658aed2-bc9b-4f31-aee0-7d74b951e740.png"
     },
     {
+      "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\ad46c3fc-fe06-4813-8b1a-7728469984c9.jpg",
+      "PackagePath": "staticwebassets\\Images\\ad46c3fc-fe06-4813-8b1a-7728469984c9.jpg"
+    },
+    {
       "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\b0d3d1e6-26ee-47fe-aac3-9f2cce63f04b.png",
       "PackagePath": "staticwebassets\\Images\\b0d3d1e6-26ee-47fe-aac3-9f2cce63f04b.png"
     },
@@ -73,12 +93,20 @@
       "PackagePath": "staticwebassets\\Images\\c3e319dc-67c1-4b64-aaee-5b3a74776da7.jpg"
     },
     {
+      "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\d2a1e860-0715-44de-8b4a-4d61b853e035.png",
+      "PackagePath": "staticwebassets\\Images\\d2a1e860-0715-44de-8b4a-4d61b853e035.png"
+    },
+    {
       "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\de5c301a-80e0-4855-bb12-c4993f9fad34.png",
       "PackagePath": "staticwebassets\\Images\\de5c301a-80e0-4855-bb12-c4993f9fad34.png"
     },
     {
       "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\e60b333b-743f-4853-bc0e-ef0afd50a9a3.jpg",
       "PackagePath": "staticwebassets\\Images\\e60b333b-743f-4853-bc0e-ef0afd50a9a3.jpg"
+    },
+    {
+      "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\f134ee93-66cf-40ce-b04c-73005d4d0dd4.jpg",
+      "PackagePath": "staticwebassets\\Images\\f134ee93-66cf-40ce-b04c-73005d4d0dd4.jpg"
     },
     {
       "Id": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\wwwroot\\Images\\f3dfc337-665c-41e0-b8cc-cde754022739.png",

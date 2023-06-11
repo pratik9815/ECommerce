@@ -1,12 +1,16 @@
 ﻿using DataAccessLayer.Common.Product;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
+using DataAccessLayer.Models.PaginationResponseModel;
 using DataAccessLayer.Query.Product;
 using DataAccessLayer.Repositories.IRepositories;
 using DataAccessLayer.Services;
 using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace DataAccessLayer.Repositories
 {
@@ -15,7 +19,7 @@ namespace DataAccessLayer.Repositories
         private readonly ApplicationDbContext _context;
         private readonly ICurrentUserService _service;
         private readonly IWebHostEnvironment _webHostEnvironment;
-       
+
 
         public ProductRepository(ApplicationDbContext context, ICurrentUserService service,
             IWebHostEnvironment webHostEnvironment)
@@ -131,7 +135,7 @@ namespace DataAccessLayer.Repositories
                     if (img.ImageName is not null)
                     {
                         string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
-                        img.ImageUrl = ImageService.GetByteImage(img,path);
+                        img.ImageUrl = ImageService.GetByteImage(img, path);
                     }
                 }
             }
@@ -357,7 +361,6 @@ namespace DataAccessLayer.Repositories
                         CategoryId = x.CategoryId,
                         CategoryName = x.Category.CategoryName
                     }).ToList(),
-
                 }).ToListAsync();
 
             foreach (var item in products)
@@ -367,17 +370,25 @@ namespace DataAccessLayer.Repositories
                     if (img.ImageName is not null)
                     {
                         string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
-                        img.ImageUrl = ImageService.GetByteImage(img,path);
+                        img.ImageUrl = ImageService.GetByteImage(img, path);
                     }
                 }
             }
             return products;
         }
         //Used in angular
-        public async Task<List<GetProductWithCategory>> GetProductWithCategories(string categoryId)
+        public async Task<ProductWithCategoryResponse> GetProductWithCategories(string categoryId, int page)
         {
+            var pageResult = 3f;
+            var totalCount = _context.ProductCategories
+                .Count(x => x.CategoryId.ToString() == categoryId && !x.Product.IsDeleted);
+
+            var totalPage = (int)Math.Ceiling(totalCount / pageResult);
+
             var productWithCategory = await _context.ProductCategories
+                                                .OrderByDescending(o => o.CreatedDate)
                                                 .Where(x => (x.CategoryId.ToString() == categoryId && !x.Product.IsDeleted)).AsNoTracking()
+                                                .Skip((page - 1) * (int)pageResult).Take((int)pageResult)
                                                 .Select(x => new GetProductWithCategory
                                                 {
                                                     Id = x.ProductId,
@@ -385,7 +396,6 @@ namespace DataAccessLayer.Repositories
                                                     Quantity = x.Product.Quantity,
                                                     Description = x.Product.Description,
                                                     Price = x.Product.Price,
-                                                    
                                                     Img = x.Product.ProductImages.Select(i => new ImageList
                                                     {
                                                         ImageName = i.ImageName
@@ -404,7 +414,135 @@ namespace DataAccessLayer.Repositories
                     }
                 }
             }
-            return productWithCategory;
-        }  
+            var productWithPagination = new ProductWithCategoryResponse
+            {
+                Product = productWithCategory,
+                Pages = page,
+                TotalPage = totalPage
+            };
+            return productWithPagination;
+        }
+
+
+        public async Task<ProductWithCategoryResponse> GetProductWithRespectiveCategories(string[] categoryId, int page)
+        {
+            var pageResult = 3f;
+            //var totalCount = _context.ProductCategories
+            //    .Count(x => categoryId.Contains(x.CategoryId.ToString()) && !x.Product.IsDeleted);
+
+
+            var totalCount = _context.ProductCategories
+                                        .Where(x => categoryId.Contains(x.CategoryId.ToString()) && !x.Product.IsDeleted)
+                                        .Select(x => x.ProductId)
+                                        .Distinct()
+                                        .Count();
+            var totalPage = (int)Math.Ceiling(totalCount / pageResult);
+
+
+
+
+
+            var productWithCategory  =  await _context.ProductCategories
+                                                                            .OrderByDescending(o => o.CreatedDate)
+                                                                            .Where(x => categoryId.Contains(x.CategoryId.ToString()) && !x.Product.IsDeleted)
+                                                                            .Select(x => new GetProductWithCategory
+                                                                            {
+                                                                                Id = x.ProductId,
+                                                                                Name = x.Product.Name,
+                                                                                Quantity = x.Product.Quantity,
+                                                                                Description = x.Product.Description,
+                                                                                Price = x.Product.Price,
+                                                                                Img = x.Product.ProductImages.Select(i => new ImageList
+                                                                                {
+                                                                                    ImageName = i.ImageName
+                                                                                }).FirstOrDefault(),
+                                                                                CategoryName = x.Category.CategoryName,
+                                                                            }).ToListAsync();
+
+            var distinctProductsWithCategory = productWithCategory
+                .GroupBy(x => x.Id)
+                .Select(g => g.FirstOrDefault())
+                .Skip((page - 1) * (int)pageResult)
+                .Take((int)pageResult)
+                .ToList();
+
+            if (productWithCategory != null)
+            {
+                foreach (var product in productWithCategory)
+                {
+                    if (product.Img is not null)
+                    {
+                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
+                        product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
+                    }
+                }
+            }
+
+            var productWithPagination = new ProductWithCategoryResponse
+            {
+                Product = distinctProductsWithCategory,
+                Pages = page,
+                TotalPage = totalPage
+            };
+
+            return productWithPagination;
+        }
+
+
+        public async Task<ProductResponse> GetProductWithPagination(int page)
+        {
+            var pageResult = 3f;
+            var totalCount = _context.Products.Where(x => x.IsDeleted == false).Count();
+
+            var pageCount = Math.Ceiling(_context.Products.Where(x => x.IsDeleted == false).Count() / pageResult);
+
+            //Skip will skip the first (page-1)*()intpageResult
+            //Take will take the first 3 product after skipping 
+            var products = await _context.Products
+                
+                .Where(a => a.IsDeleted == false)
+                .OrderByDescending(o => o.CreatedDate).AsNoTracking()
+                .Skip((page - 1) * (int)pageResult).Take((int)pageResult)
+                .Select(x => new GetProductQuery
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Quantity = x.Quantity,
+                    ProductStatus = x.ProductStatus,
+                    CreatedDate = x.CreatedDate,
+                    ImageLists = x.ProductImages.Select(y => new ImageList
+                    {
+                        ImageId = y.Id,
+                        ImageName = y.ImageName
+                    }).ToList(),
+                    Categories = x.ProductCategories.Select(x => new CategoryList
+                    {
+                        CategoryId = x.CategoryId,
+                        CategoryName = x.Category.CategoryName
+                    }).ToList(),
+                }).ToListAsync();
+
+            foreach (var item in products)
+            {
+                foreach (var img in item.ImageLists)
+                {
+                    if (img.ImageName is not null)
+                    {
+                        string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
+                        img.ImageUrl = ImageService.GetByteImage(img, path);
+                    }
+                }
+            }
+
+            var productWithPagination = new ProductResponse
+            {
+                Product = products,
+                Pages = page,
+                TotalPage = (int)pageCount
+            };
+            return productWithPagination;
+        }
     }
 }

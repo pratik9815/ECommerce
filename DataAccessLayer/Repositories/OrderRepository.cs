@@ -78,6 +78,7 @@ namespace DataAccessLayer.Repositories
             try
             {
                 var customerId = _currentUserService.CustomerId;
+                
                 var newOrder = new Order
                 {
                     Amount = order.Amount,
@@ -93,10 +94,18 @@ namespace DataAccessLayer.Repositories
                 };
                 foreach(var product in order.Product)
                 {
+                    var newQuanitity = _context.Products.FirstOrDefault(x => x.Id == product.ProductId).Quantity -= product.Quantity;
+                    if(newQuanitity<0)
+                    {
+                        return new ApiResponse
+                        {
+                            ResponseCode = 500,
+                            Message = "Not enough quantity!",
+                        };
+                    }
                     newOrder.AddOrder(newOrder,product);
                 }
                 _context.Orders.Add(newOrder);
-
 
                 await _context.SaveChangesAsync();
                 return new ApiResponse

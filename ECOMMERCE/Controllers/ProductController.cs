@@ -2,6 +2,7 @@
 using DataAccessLayer.Common.Product;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
+using DataAccessLayer.Models.PaginationResponseModel;
 using DataAccessLayer.Query.Product;
 using DataAccessLayer.Repositories.IRepositories;
 using DataAccessLayer.Services.Interfaces;
@@ -25,8 +26,8 @@ namespace ECOMMERCE.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public ProductController(ApplicationDbContext context,
-            IProductRepository productRepository, 
-            ICurrentUserService userService, 
+            IProductRepository productRepository,
+            ICurrentUserService userService,
             IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
@@ -39,7 +40,7 @@ namespace ECOMMERCE.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<List<GetProductCommand>>> GetProducts()
         {
-                var products = await _productRepository.GetAllProducts().ToListAsync();
+            var products = await _productRepository.GetAllProducts().ToListAsync();
 
             return Ok(products);
         }
@@ -73,7 +74,7 @@ namespace ECOMMERCE.Controllers
             var response = await _productRepository.CreateProduct(product);
             if (response.ResponseCode is not 200)
                 return BadRequest(response);
-            return Ok(response);  
+            return Ok(response);
         }
         [HttpPost("create-product-with-multiple-image")]
         public async Task<ActionResult<ApiResponse>> CreateProductWithImages([FromForm] CreateProductWithImagesCommand product)
@@ -113,14 +114,33 @@ namespace ECOMMERCE.Controllers
 
         [HttpGet("get-product-category")]
         [AllowAnonymous]
-        public async Task<ActionResult<List<GetProductCommand>>> GetProductCategory([FromQuery] string categoryId)
+        public async Task<ActionResult<ProductWithCategoryResponse>> GetProductCategory([FromQuery] string categoryId, [FromQuery] int page)
         {
             if (string.IsNullOrEmpty(categoryId))
                 return BadRequest();
-
-            var products = await _productRepository.GetProductWithCategories(categoryId);
+            var products = await _productRepository.GetProductWithCategories(categoryId,page);
 
             return Ok(products);
+        }
+        [HttpGet("get-product-respective-category")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ProductWithCategoryResponse>> GetProductWithRespectiveCategories([FromQuery] string[] categoryId, [FromQuery] int page)
+        {
+            //if (string.IsNullOrEmpty(categoryId))
+            //    return BadRequest();
+            var products = await _productRepository.GetProductWithRespectiveCategories(categoryId, page);
+
+            return Ok(products);
+        }
+
+        [HttpGet("get-product-with-pagination/{page}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ProductResponse>> GetProductWithPagination([FromRoute]int page)
+        {
+            var product =await _productRepository.GetProductWithPagination(page);
+            if (product == null)
+                return NotFound();
+            return Ok(product);
         }
 
     }

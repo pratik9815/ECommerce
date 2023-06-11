@@ -66,11 +66,11 @@ export class AuthService {
   }
 
   public showLoginPageIfTokenExpries(): void {
+ 
     if (this.isTokenExpired()) {
       localStorage.removeItem('token');
       this._isLoggedIn$.next(false); // push to subscribers of observable
       this._toastrService.info('You session has expired. Please login again.', 'Info');
-
     }
     else
       this._isLoggedIn$.next(true);  // push to subscribers of observable
