@@ -10,6 +10,7 @@ namespace ECOMMERCE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
@@ -39,6 +40,18 @@ namespace ECOMMERCE.Controllers
         {
             var orderDetails = await _orderRepository.GetProductWithCustomerId(customerId).ToListAsync();
             return Ok(orderDetails);    
+        }
+        [HttpPost("remove-order")]
+        public async Task<ActionResult> RemoveOrder(Guid orderId)
+        {
+            var result = await _orderRepository.RemoveOrder(orderId);
+            if (result == ResponseCodeConstants.Success)
+                return Ok();
+            else if(result == ResponseCodeConstants.NotFound)
+                return NotFound();
+            
+            return BadRequest();
+           
         }
     }
 }

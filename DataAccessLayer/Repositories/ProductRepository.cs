@@ -443,8 +443,9 @@ namespace DataAccessLayer.Repositories
 
 
             var productWithCategory  =  await _context.ProductCategories
-                                                                            .OrderByDescending(o => o.CreatedDate)
+                                                                          
                                                                             .Where(x => categoryId.Contains(x.CategoryId.ToString()) && !x.Product.IsDeleted)
+                                                                             .OrderByDescending(o => o.CreatedDate)
                                                                             .Select(x => new GetProductWithCategory
                                                                             {
                                                                                 Id = x.ProductId,

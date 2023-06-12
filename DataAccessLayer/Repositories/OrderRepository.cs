@@ -49,7 +49,7 @@ namespace DataAccessLayer.Repositories
         {
 
             var orderDetails = _context.Orders.AsNoTracking()
-                                        .Where(x => x.CustomerId == customerId)
+                                        .Where(x => x.CustomerId == customerId && x.IsDeleted == false)
                                         .Select(x => new GetOrderCommand
                                         {
                                             Id = x.Id,
@@ -58,6 +58,7 @@ namespace DataAccessLayer.Repositories
                                             Amount = x.Amount,
                                             OrderEmail = x.OrderEmail,      
                                             OrderDate = x.OrderDate,
+                                            OrderStatus = x.OrderStatus,
                                             OrderDetails = x.OrderDetails
                                             .Where(od => x.Id == od.OrderId)
                                             .Select(od => new OrderDetails
@@ -90,12 +91,12 @@ namespace DataAccessLayer.Repositories
                     CustomerId = Guid.Parse(customerId),
                     CreatedBy = _currentUserService.FullName,
                     CreatedDate = DateTime.UtcNow.AddHours(5).AddMinutes(45),
-                    OrderStatus  = 0,
+                    OrderStatus  = Common.OrderStatus.Pending,
                 };
                 foreach(var product in order.Product)
                 {
                     var newQuanitity = _context.Products.FirstOrDefault(x => x.Id == product.ProductId).Quantity -= product.Quantity;
-                    if(newQuanitity<0)
+                    if(newQuanitity < 1)
                     {
                         return new ApiResponse
                         {
@@ -124,6 +125,29 @@ namespace DataAccessLayer.Repositories
                     Message = "Failed",
                     Errors = errors
                 };
+            }
+        }
+
+        public async Task<int> RemoveOrder(Guid orderId)
+        {
+            
+            try
+            {
+                var delOrder = await _context.Orders.FindAsync(orderId);
+                if (delOrder == null)
+                {
+                    return ResponseCodeConstants.NotFound;
+                }
+
+                delOrder.IsDeleted = true;
+                delOrder.DeletedBy = _currentUserService?.CustomerId;
+                delOrder.DeletedDate = DateTime.UtcNow.AddHours(5).AddMinutes(45);
+                await _context.SaveChangesAsync();
+                return ResponseCodeConstants.Success;
+            }
+            catch
+            {
+                return ResponseCodeConstants.Exception;
             }
         }
     }

@@ -30,6 +30,7 @@ namespace DataAccessLayer.Common.Order
         public string OrderEmail { get; set; }
         public string CustomerId { get; set; }
         public string CreatedBy { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         public DateTime OrderDate { get; set; }
         public List<OrderDetails> OrderDetails { get; set; }
     }
