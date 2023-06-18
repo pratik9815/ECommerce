@@ -1,0 +1,26 @@
+.firstrow{
+    height:160px;
+}
+
+.common{
+    width:220px;
+    height:160px;
+    border-radius: 10px ;
+}
+.secondrow{
+    height:500px
+}
+.classpiechart{
+    height:470px;
+    width: 500px;
+    margin-left: 30px;
+    /* border: 2px solid black; */
+    background-color: white;
+}
+.classbargraph{
+    background-color: white;
+    height: 470px;
+    /* width: 450px; */
+    margin-left: 30px;
+    /* border: 2px solid black; */
+}

@@ -13,7 +13,7 @@ namespace DataAccessLayer.Repositories.IRepositories
     public interface IProductRepository
     {
         IQueryable<GetProductQuery> GetAllProducts();
-        Task<List<GetProductQuery>> GetWithImage();
+        IQueryable<GetProductQuery> GetWithImage();
         Task<GetProductQuery> GetById(Guid id);
         //Task<string> CreateProduct(CreateProductWithImageCommand product);
         Task<ApiResponse> CreateProduct(CreateProductCommand product);

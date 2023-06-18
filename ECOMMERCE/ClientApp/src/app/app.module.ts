@@ -42,6 +42,8 @@ import { CreateUserComponent } from './components/user-profile/create-user/creat
 import { UserListComponent } from './components/user-profile/user-list/user-list.component';
 import { ProductWithCategoryComponent } from './components/product-list/product-with-category/product-with-category.component';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
+import { OrderComponent } from './components/order/order.component';
+import { OrderDetailsComponent } from './components/order/order-details/order-details.component';
 
 
 
@@ -67,6 +69,8 @@ import { CustomerListComponent } from './components/customer-list/customer-list.
     UserListComponent,
     ProductWithCategoryComponent,
     CustomerListComponent,
+    OrderComponent,
+    OrderDetailsComponent,
   ],
   imports: [
     BrowserModule,

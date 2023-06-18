@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Common.Order;
+﻿using DataAccessLayer.Command;
+using DataAccessLayer.Common.Order;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
 using DataAccessLayer.Query.Product;
@@ -17,17 +18,20 @@ namespace DataAccessLayer.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IOrderActivityLogRepository _orderActivityLogRepository;
 
-        public OrderRepository(ApplicationDbContext context, ICurrentUserService currentUserService)
+        public OrderRepository(ApplicationDbContext context, ICurrentUserService currentUserService,IOrderActivityLogRepository orderActivityLogRepository)
         {
             _context = context;
             _currentUserService = currentUserService;
+            _orderActivityLogRepository = orderActivityLogRepository;
         }
 
         public IQueryable<GetOrderCommand> GetAllOrders()
         {
             var orders = _context.Orders.
-                            OrderByDescending(o => o.OrderDate).AsNoTracking().
+                            OrderByDescending(o => o.OrderDate).   
+                            AsNoTracking().
                             Where(o => o.IsDeleted == false).
                             Select(o => new GetOrderCommand
                             {
@@ -37,10 +41,22 @@ namespace DataAccessLayer.Repositories
                                 Amount = o.Amount,
                                 OrderEmail = o.OrderEmail,
                                 OrderDate = o.OrderDate,
-                                CustomerId = _currentUserService.CustomerId,
-                                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == o.CreatedBy).FullName,
-                                OrderDetails = o.OrderDetails.ToList(),
-                            });
+                                CustomerId = o.CustomerId.ToString(),
+                                CreatedBy = _context.Users.FirstOrDefault(a => a.Id == o.CreatedBy).FullName,                           
+                                OrderStatus = o.OrderStatus,
+                                OrderDetails = o.OrderDetails
+                                            .Where(od => o.Id == od.OrderId)
+                                            .Select(od => new OrderDetails
+                                            {
+                                                Id = od.Id,
+                                                Price = od.Price,
+                                                Quantity = od.Quantity,
+                                                OrderId = od.OrderId,
+                                                Product = _context.Products
+                                                                  .FirstOrDefault(p => p.Id == od.ProductId),
+                                                
+                                            }).ToList()
+                                            });
 
             return orders;
         }
@@ -107,8 +123,9 @@ namespace DataAccessLayer.Repositories
                     newOrder.AddOrder(newOrder,product);
                 }
                 _context.Orders.Add(newOrder);
-
                 await _context.SaveChangesAsync();
+                await _orderActivityLogRepository.AddOrderActivityLogs(newOrder);
+
                 return new ApiResponse
                 {
                     ResponseCode = 200,
@@ -139,6 +156,23 @@ namespace DataAccessLayer.Repositories
                     return ResponseCodeConstants.NotFound;
                 }
 
+                var product = await _context.Orders
+                                                        .Where(x => x.Id == orderId)
+                                                        .Select(x => new DeleteOrderCommand
+                                                        {
+                                                            quantity = x.OrderDetails.Select(x => x.Quantity).FirstOrDefault(),
+                                                            ProductId = x.OrderDetails.Select(x => x.ProductId).FirstOrDefault(),
+                                                        }).ToListAsync();
+
+                foreach (var delCommand in product)
+                {
+                     _context.Products
+                    .FirstOrDefault(x => x.Id == delCommand.ProductId)
+                    .Quantity += delCommand.quantity;
+                    
+                    await _context.SaveChangesAsync();
+                }
+                _context.OrderDetails.Where(x => x.OrderId == orderId).FirstOrDefault().IsDeleted = false;
                 delOrder.IsDeleted = true;
                 delOrder.DeletedBy = _currentUserService?.CustomerId;
                 delOrder.DeletedDate = DateTime.UtcNow.AddHours(5).AddMinutes(45);

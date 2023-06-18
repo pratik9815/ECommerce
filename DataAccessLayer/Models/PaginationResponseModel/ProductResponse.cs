@@ -10,7 +10,7 @@ namespace DataAccessLayer.Models.PaginationResponseModel
 {
     public class ProductResponse
     {
-        public List<GetProductQuery> Product { get; set; } = new List<GetProductQuery>();
+        public List<GetProductListCommand> Product { get; set; } = new List<GetProductListCommand>();
         public int Pages { get; set; }
         public int TotalPage { get; set; }
     }

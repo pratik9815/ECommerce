@@ -12,6 +12,7 @@ import { HasRoleGuard } from './guard/has-role.guard';
 import { ProductWithCategoryComponent } from './components/product-list/product-with-category/product-with-category.component';
 import { LoginComponent } from './components/login/login.component';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
+import { OrderComponent } from './components/order/order.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,11 @@ const routes: Routes = [
   {
     path: "customer-list",
     component: CustomerListComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'order-list',
+    component: OrderComponent,
     canActivate:[AuthGuard]
   }
 ];

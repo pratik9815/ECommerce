@@ -1,0 +1,50 @@
+<div class="tableclass">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 10px;">SN</th>
+                <th>OrderId</th>
+                <th>Ordered By</th>
+                <th style="width:100px">Amount(Rs.)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr  *ngFor="let item of orderList; let i = index;">
+                <td>{{i + 1}}</td>
+                <td>{{item.id}}</td>
+                <td>{{item.createdBy}}</td>
+                <td >{{item.amount}}</td>
+                <td>
+                    <!-- <button class="btn btn-primary">Details</button> -->
+                    <button type="button" class="btn btn-primary" (click)="openDetailsButton(item.orderDetails)">
+                        Details
+                    </button>&nbsp;&nbsp;
+                    <button class="btn btn-warning">Change status</button>
+                </td>
+            </tr>
+        </tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Grand Total</b><br><div>{{grandTotal}}</div></td>
+        </tr>
+    </table>
+</div>
+<hr>
+
+
+
+<div class="modal fade show" role="dialog" *ngIf="openDetails" id="orderDetailsModal"
+    style="display: block;background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Order details</h4>
+            <button class="btn-close" (click)="onClose()" ></button>
+            </div>
+            <app-order-details [order-details]="orderDetails"></app-order-details>
+        </div>
+    </div>
+</div>

@@ -26,6 +26,7 @@ namespace DataAccessLayer.Models
         public OrderStatus OrderStatus { get; set; }
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
+        
 
         //Customer and order relationship
         public ICollection<OrderDetails> OrderDetails { get; set; }
@@ -39,7 +40,6 @@ namespace DataAccessLayer.Models
                 Quantity = product.Quantity,
             };
             OrderDetails.Add(newOrder);
-            
         }
     }
 }

@@ -1,0 +1,21 @@
+<div class="modal-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Product name</th>
+                <th>Quantity</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of productData; let i =index">
+            <tr>
+                <td>{{i +1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{orderDetails[i].quantity}}</td>
+                <td>{{item.price * orderDetails[i].quantity}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

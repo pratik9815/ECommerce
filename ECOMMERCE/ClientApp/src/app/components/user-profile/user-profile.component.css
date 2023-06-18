@@ -9,14 +9,12 @@
 .image{
     height: 200px;
     width: 200px;
-    background-color: rgb(81, 105, 105);
+    background-color: rgb(255, 255, 255);
 }
 button{
    color: black;
 }
-button:hover{
-    background-color: rgb(233, 0, 0);
-}
+
 
 /* .nav-link:focus{
     background-color: white;
@@ -26,7 +24,7 @@ button:hover{
 .nav.nav-tabs{
     width: 270px;
     height: 40px;
-    background-color: rgb(120 160 121);
+    background-color: rgb(253, 255, 253);
     justify-content: space-around;
     align-items: center;
     border-radius: 5px;

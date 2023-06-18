@@ -46,8 +46,6 @@ namespace DataAccessLayer.Repositories
                 UpdatedBy = p.UpdatedBy,
                 CreatedBy = _context.Users.FirstOrDefault(a => a.Id == p.CreatedBy).FullName,
                 //Categories = p.ProductCategories.Select(x => x.CategoryId).ToList(),
-
-
                 //This will only return the id and the name , we created a seprate class to return in the getproductquery class which is later modified
             });
             return products;
@@ -100,9 +98,9 @@ namespace DataAccessLayer.Repositories
                 return null;
             return product;
         }
-        public async Task<List<GetProductQuery>> GetWithImage()
+        public  IQueryable<GetProductQuery> GetWithImage()
         {
-            var products = await _context.Products
+            var products =  _context.Products
                  .OrderByDescending(x => x.CreatedDate)
                  .Where(x => x.IsDeleted == false).AsNoTracking()
                  .Select(x => new GetProductQuery
@@ -126,7 +124,7 @@ namespace DataAccessLayer.Repositories
                          ImageName = y.ImageName
                      }).ToList(),
 
-                 }).ToListAsync();
+                 });
 
             foreach (var item in products)
             {
@@ -492,7 +490,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task<ProductResponse> GetProductWithPagination(int page)
         {
-            var pageResult = 3f;
+            var pageResult = 4f;
             var totalCount = _context.Products.Where(x => x.IsDeleted == false).Count();
 
             var pageCount = Math.Ceiling(_context.Products.Where(x => x.IsDeleted == false).Count() / pageResult);
@@ -504,38 +502,32 @@ namespace DataAccessLayer.Repositories
                 .Where(a => a.IsDeleted == false)
                 .OrderByDescending(o => o.CreatedDate).AsNoTracking()
                 .Skip((page - 1) * (int)pageResult).Take((int)pageResult)
-                .Select(x => new GetProductQuery
+                .Select(x => new GetProductListCommand
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Description = x.Description,
                     Price = x.Price,
-                    Quantity = x.Quantity,
                     ProductStatus = x.ProductStatus,
-                    CreatedDate = x.CreatedDate,
                     ImageLists = x.ProductImages.Select(y => new ImageList
                     {
                         ImageId = y.Id,
                         ImageName = y.ImageName
-                    }).ToList(),
-                    Categories = x.ProductCategories.Select(x => new CategoryList
-                    {
-                        CategoryId = x.CategoryId,
-                        CategoryName = x.Category.CategoryName
-                    }).ToList(),
+                    }).FirstOrDefault(),
                 }).ToListAsync();
 
-            foreach (var item in products)
+
+            if (products != null)
             {
-                foreach (var img in item.ImageLists)
+                foreach (var product in products)
                 {
-                    if (img.ImageName is not null)
+                    if (product.ImageLists is not null)
                     {
-                        string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
-                        img.ImageUrl = ImageService.GetByteImage(img, path);
+                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.ImageLists.ImageName;
+                        product.ImageLists.ImageUrl = ImageService.GetByteImage(product.ImageLists, path);
                     }
                 }
             }
+
 
             var productWithPagination = new ProductResponse
             {

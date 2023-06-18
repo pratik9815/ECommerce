@@ -4,17 +4,16 @@
     position: sticky;
     top: 0;
     align-items: center;
-    background-color:white;
+    background-color: #38414a;
+    color: white;
     float:right;
   }
  
   .navbar1 {
-    /* width: 100vw; */
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 100%;
-    /* overflow: hidden;   */
   }
 
   .img {
@@ -48,7 +47,7 @@
   .dropdown-item{
     cursor:pointer;
   }
-  .nav-item a:hover {
-    color: #3498db;
-    cursor: pointer;
-  } 
+  .btn{
+    color: white;
+    border:none;
+  }

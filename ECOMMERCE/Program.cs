@@ -40,6 +40,8 @@ builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
 builder.Services.AddScoped<ISystemAccessLog, SystemAccessLogRepository>();
 builder.Services.AddScoped<ICarouselRepository, CarouselRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();  
+builder.Services.AddScoped<IOrderActivityLogRepository, OrderActivityLogRepository>();
+builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();    
 
 
 //Http Configuration

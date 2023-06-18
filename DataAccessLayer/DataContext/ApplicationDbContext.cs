@@ -193,7 +193,7 @@ namespace DataAccessLayer.DataContext
             builder.Entity<Product>()
                 .HasMany(p => p.ProductReviews)
                 .WithOne(pr => pr.Product)
-                .HasForeignKey(pr => pr.ProductId);
+                .HasForeignKey(pr => pr.ProductId);                    
 
         }
        //public DbSet<ApplicationUser> Users { get; set; }

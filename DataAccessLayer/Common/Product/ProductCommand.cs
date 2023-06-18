@@ -77,4 +77,25 @@ namespace DataAccessLayer.Common.Product
         public ImageList Img { get; set; }
     }
 
+
+    public class GetProductListCommand
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public ImageList ImageLists { get; set; }
+        public ProductStatus ProductStatus { get; set;}
+    }
+    //public Guid Id { get; set; }
+    //public string Name { get; set; }
+    //public string Description { get; set; }
+    //public double Price { get; set; }
+    //public int Quantity { get; set; }
+    //public string ImgThumbnail { get; set; }
+    //public ProductStatus ProductStatus { get; set; }
+    //public string CreatedBy { get; set; }
+    //public string UpdatedBy { get; set; }
+    //public DateTime? CreatedDate { get; set; }
+    //public List<ImageList> ImageLists { get; set; }
+    //public List<CategoryList> Categories { get; set; } //Gives the category of the respective product
 }
