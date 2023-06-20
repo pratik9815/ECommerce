@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Command;
+using DataAccessLayer.Common;
 using DataAccessLayer.Common.Order;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
@@ -111,8 +112,8 @@ namespace DataAccessLayer.Repositories
                 };
                 foreach(var product in order.Product)
                 {
-                    var newQuanitity = _context.Products.FirstOrDefault(x => x.Id == product.ProductId).Quantity -= product.Quantity;
-                    if(newQuanitity < 1)
+                    var newQuantity = _context.Products.FirstOrDefault(x => x.Id == product.ProductId).Quantity -= product.Quantity;
+                    if(newQuantity < 1)
                     {
                         return new ApiResponse
                         {
@@ -120,6 +121,15 @@ namespace DataAccessLayer.Repositories
                             Message = "Not enough quantity!",
                         };
                     }
+                    if (newQuantity == 0)
+                    {
+                        _context.Products.FirstOrDefault().ProductStatus = ProductStatus.OutOfStock;
+                    }
+                    else if(newQuantity < 5)
+                    {
+                        _context.Products.FirstOrDefault().ProductStatus = ProductStatus.LimitedStock;
+                    }
+
                     newOrder.AddOrder(newOrder,product);
                 }
                 _context.Orders.Add(newOrder);

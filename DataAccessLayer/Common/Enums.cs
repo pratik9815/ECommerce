@@ -43,6 +43,8 @@ namespace DataAccessLayer.Common
         OutOfStock = 1,
         [Display(Name = "Damaged")]
         Damaged = 2,
+        [Display(Name = "Limited Stock Available")]
+        LimitedStock = 3,
     }
     public enum OrderStatus
     {

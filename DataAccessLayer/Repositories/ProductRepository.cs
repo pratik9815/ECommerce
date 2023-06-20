@@ -490,7 +490,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task<ProductResponse> GetProductWithPagination(int page)
         {
-            var pageResult = 4f;
+            var pageResult = 6f;
             var totalCount = _context.Products.Where(x => x.IsDeleted == false).Count();
 
             var pageCount = Math.Ceiling(_context.Products.Where(x => x.IsDeleted == false).Count() / pageResult);
