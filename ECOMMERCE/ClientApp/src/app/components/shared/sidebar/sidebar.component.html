@@ -1,0 +1,32 @@
+<div class="sidebar-container left" id="wrapper">
+    <header class="sidebar-header">Sidebar</header>
+    <ul class="ulist">
+        <!-- <li class="list"><a class="link" routerLink="/dashboard">Dashboard</a></li> -->
+
+            <li class="list dropdown btn-group dropend">
+                <a type="button" class="link  dropdown-toggle" role="button" id="dashboardDropdown" data-bs-toggle="dropdown"
+                    aria-expanded="false">Dashboard</a>
+                <ul class="dropdown-menu" aria-labelledby="dashboardDropdown">
+                    <li><a class="dropdown-item" routerLink="/dashboard">Analytics</a></li>
+                    <li><a class="dropdown-item" routerLink="/dashboard-reports">Popular Products</a></li>
+                    <li><a class="dropdown-item" routerLink="/dashboard-analytics"></a></li>
+                </ul>
+            </li>
+       
+
+        <li class="list"><a class="link" routerLink="/product-list">Product </a></li>
+        <li class="list"><a class="link" routerLink="/category-list">Category</a></li>
+        <li class="list"><a class="link" routerLink="/order-list">Orders</a></li>
+        <li class="list"><a class="link" routerLink="/customer-list">Customer</a></li>
+
+        <li class="list dropdown dropend" *ngIf="hasRole">
+            <a class="link dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                aria-expanded="false">Settings</a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" routerLink="/user-list">User List</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+

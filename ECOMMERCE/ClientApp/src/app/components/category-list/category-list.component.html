@@ -1,0 +1,97 @@
+
+<div style="align-items: stretch;">
+    <div id="content" class="col-sm-12">
+        <div class="page-wrapper">
+            <div class="page-heading">
+                <h4>Categorys Lists</h4>
+            </div>
+            <div class="row d-flex ">
+                <div class="col-sm-3 float-left">
+                    <div class="quick-filter ">
+                        <input type="text" (keyup)="onQuickFilterChanged()" class="form-control"
+                           [(ngModel)]="quickSearchValue" placeholder="search..." />
+                    </div>
+                </div>
+                <div class="col-sm-3 float-right" >
+                    <a href="javascript:;" class="btn btn-warning" (click)="onAddNewCategoryPopUp()"
+                        style="text-decoration: none;position: absolute; right: 20px;">
+                        New Category
+                    </a>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-body p-0">
+                    <ag-grid-angular style="width: 100%;" class="ag-theme-alpine" [rowData]="categoryData"
+                        [columnDefs]="categoryColDef" [domLayout]="domLayout" [animateRows]="true"
+                        [paginationPageSize]="7" [enableCellTextSelection]="true" [enableBrowserTooltips]="true"
+                        [pagination]="true" (rowClicked)="onRowClicked($event)"
+                        (filterChanged)="onFilterChanged($event)" (modelUpdated)="onModelUpdated()"
+                        (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade show" id="myModal" role="dialog" *ngIf="addCategoryPopUpModal"
+    style="display: block; background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog modal-lg" style="min-width:60%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>New Category</b></h4>
+                <a type="button" class="close btn-close-modal" (click)="close()"
+                    style="color:rgb(164, 9, 9);font-size:30px; border: none;">
+                    <span aria-hidden="true" class="col-md-1">&times;</span>
+                </a>
+
+            </div>
+            <div class="modal-body">
+                <app-add-category (callBack-category)="callBack()"></app-add-category>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- This is for the update prodct popup -->
+<div class="modal fade show" id="myModal" role="dialog" *ngIf="updateCategoryPopUpModal"
+    style="display: block; background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog modal-lg" style="min-width:60%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Update Category</b></h4>
+                <a type="button" class="close btn-close-modal" (click)="close()"
+                    style="color:rgb(164, 9, 9);font-size:30px; border: none;">
+                    <span aria-hidden="true" class="col-md-1">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <app-update-category (callBack-category)="callBack()" [update-category-details]="updateCategoryDetails"></app-update-category>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- for category -->
+<div class="modal fade show" id="myModal" role="dialog" *ngIf="CategoryPopUpModal"
+    style="display: block; background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog modal-lg" style="min-width:60%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Category</b></h4>
+                <a type="button" class="close btn-close-modal" (click)="close()"
+                    style="color:rgb(164, 9, 9);font-size:30px; border: none;">
+                    <span aria-hidden="true" class="col-md-1">&times;</span>
+                </a>
+
+            </div>
+            <div class="modal-body">
+                <!-- <app-selectcategory [category-id]="categoryId"  (callBack-category-category)="callBack()" ></app-selectcategory> -->
+            </div>
+        </div>
+    </div>

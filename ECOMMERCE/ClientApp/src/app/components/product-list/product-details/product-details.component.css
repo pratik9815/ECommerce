@@ -1,0 +1,19 @@
+.imageContainer{
+    width: 100%;
+    display: flex;
+
+}
+.title{
+    font-size: 23px;
+    color: #0a6464;
+    font-family:'Courier New', Courier, monospace;  
+}
+.content{
+    color: black;
+    font-size: 18px;
+}
+.image_caption{
+    font-size: 20px;
+    display:flex;
+    justify-content: center;
+}

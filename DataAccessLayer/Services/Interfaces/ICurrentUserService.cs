@@ -9,7 +9,13 @@ namespace DataAccessLayer.Services.Interfaces
     public interface ICurrentUserService
     {
         public string UserId { get; }
-        public string CustomerId { get; }
+        public string UniqueKey { get; }
         public string UserName { get; }
+        public string Email { get; }
+        public string Phone { get; }
+        public string Address { get; }
+        public string UserType { get; }
+        public string CustomerId { get; }
+        public string FullName { get; }
     }
 }

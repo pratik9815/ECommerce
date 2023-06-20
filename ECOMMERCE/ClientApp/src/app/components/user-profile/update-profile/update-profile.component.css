@@ -1,0 +1,31 @@
+
+.second{
+    /* border-radius: 5px; */
+    position: relative;
+    background-color: white;
+    width: 50%;
+    margin: 0;
+    padding: 0  ;
+}
+input {
+    border: 1px solid #ccc;
+    padding: 0.4rem;
+    width: 18vw;
+    border-radius: 5px;
+  }
+.bi.bi-x-circle{
+    position: absolute;
+    right: 2%;
+    top: 2%;
+    font-size: 20px;
+    }
+.bi:hover{
+    cursor: pointer;
+    }
+.form-control{
+      font-weight: bold;
+    }
+
+    .invalid-feedback{
+        position: absolute;
+    }

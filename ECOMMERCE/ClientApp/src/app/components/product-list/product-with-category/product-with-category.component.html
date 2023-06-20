@@ -1,0 +1,40 @@
+<div class="col-sm-6">
+    <label for="category"><b>Category</b></label>
+    <ng-select [items]="categoryList" bindLabel="categoryName" bindValue="id" placeholder="Select Category"
+        [searchable]="true" [closeOnSelect]="true" (change)="onChange($event)">
+    </ng-select>
+</div>  
+
+<br>
+
+<div *ngIf="this.isItemSelected" class="row">
+    <div *ngFor="let product of productList" class="col-sm-4">
+        <img [src]="product.img.imageUrl" alt="Image" style="height:120px;width:200px;">
+        <ul>
+            <li>Name : {{product.name}}</li>
+            <li>Price : {{product.price}}</li>
+            <li>Quantity : {{product.quantity}}</li>
+            <button type="button" class="btn btn-primary" (click)="getId(product.id)">GetId</button>
+        </ul>
+    </div>
+</div>
+
+<div class="modal fade show" id="myModal" role="dialog" *ngIf="productDetailsPopUpModal"
+    style="display: block; background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog modal-lg" style="min-width:60%">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Details</b></h4>
+                <a type="button" class="close btn-close-modal" (click)="close()"
+                    style="color:rgb(164, 9, 9);font-size:30px; border: none;">
+                    <span aria-hidden="true" class="col-md-1">&times;</span>
+                </a>
+
+            </div>
+            <div class="modal-body">
+                <app-product-details [product-id]="productId"></app-product-details>
+            </div>
+        </div>
+    </div>
+</div>

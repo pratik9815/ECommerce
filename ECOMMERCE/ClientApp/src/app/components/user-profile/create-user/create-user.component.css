@@ -1,0 +1,11 @@
+/* label{
+    display: grid;
+} */
+
+input{
+    border-radius: 5px;
+}
+
+.invalid-feedback{
+    position:absolute;
+}

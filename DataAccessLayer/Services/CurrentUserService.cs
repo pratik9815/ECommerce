@@ -23,7 +23,14 @@ namespace DataAccessLayer.Services
         {
             get
             {
-                return _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                return _contextAccessor.HttpContext?.User?.FindFirstValue(Constants.Id);
+            }
+        }
+        public string UniqueKey
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User?.FindFirstValue(Constants.UniqueKey);
             }
         }
 
@@ -35,12 +42,51 @@ namespace DataAccessLayer.Services
             }
         }
 
+       
+
+        public string Email
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Email);
+            }
+        }
+        public string Phone
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User?.FindFirstValue(Constants.PhoneNumber);
+            }
+        }
+        public string Address
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User?.FindFirstValue(Constants.Address);
+            }
+        }
+        public string UserType
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User.FindFirstValue(Constants.UserType);
+            }
+        }
+        public string FullName
+        {
+            get
+            {
+                return _contextAccessor.HttpContext?.User.FindFirstValue(Constants.FullName);
+            }
+        }
         public string CustomerId
         {
             get
             {
-                return _contextAccessor.HttpContext?.User?.FindFirstValue(Constants.CustomerId);
+                return _contextAccessor.HttpContext?.User.FindFirstValue(Constants.CustomerId);
             }
         }
+
+
     }
 }

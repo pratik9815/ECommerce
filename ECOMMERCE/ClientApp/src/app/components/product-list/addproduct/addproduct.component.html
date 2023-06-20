@@ -1,0 +1,100 @@
+<div class="modal-content">
+    <form [formGroup]="productForm" (ngSubmit)="onCreate()">
+        <div class="row m-2">
+            <div class="col-sm-6">
+                <label for="name"><b>Name</b><span style="color:red;">*</span></label>
+                <input type="text" id="name" class="form-control p-10" placeholder="Enter Product Name"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.name.errors }" formControlName="name">
+                <div *ngIf="submitted && getFormControl.name.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.name.errors?.required">Product name is required.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="price"><b>Price</b> <span style="color:red;">*</span></label>
+                <input type="text" id="price" class="form-control p-10" placeholder="Enter Price"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.price.errors }" formControlName="price">
+                <div *ngIf="submitted && getFormControl.price.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.price.errors?.required">Product price is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-2">
+            <div class="col-sm-6">
+                <label for="description"><b>Description</b><span style="color:red;">*</span></label>
+                <input type="text" id="description" class="form-control p-10" placeholder="Enter Description"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.description.errors }"
+                    formControlName="description">
+                <div *ngIf="submitted && getFormControl.description.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.description.errors?.required">Product description is required.</div>
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+                <label for="quantity"><b>Quantity</b> <span style="color:red;">*</span></label>
+                <input type="text" id="quantity" class="form-control p-10" placeholder="Enter Quantity"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.quantity.errors }"
+                    formControlName="quantity">
+                <div *ngIf="submitted && getFormControl.quantity.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.quantity.errors?.required">Product quantity is required.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row m-2">
+            <div class="col-sm-6">
+                <label for="name"><b>Image</b><span style="color:red;">*</span></label>
+                <input type="file" id="name" class="form-control p-10" placeholder="Choose image" (change)="onFileChange($event)" #fileInput>
+                <div *ngIf="submitted" class="invalid-feedback text-danger">
+                </div><br>
+                <img [src]="imageSrc" *ngIf="imageSrc" style="height:12vh;width:10vw"/>
+            </div>
+        </div> -->
+        <div class="row m-2">
+            <div class="col-sm-6">
+                <label for="name"><b>Image</b><span style="color:red;">*</span></label>
+                <input type="file" id="name" class="form-control p-10" placeholder="Choose image"
+                    (change)="onFileChange($event)" #fileInput multiple>
+                <div *ngIf="submitted" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.name.errors?.required">Product image is required.</div>
+                </div>
+                <div *ngFor="let src of imageSource" style="padding-top:4px">
+                    <!-- <img [src]="src" *ngIf="imageSource" style="height:10vh;width:10Vh" /> -->
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="category"><b>Category</b><span style="color:red;">*</span></label>
+                <ng-select [items]="categoryList" bindLabel="categoryName" 
+                            bindValue="id" placeholder="Select Category" [searchable]="true"
+                            [multiple]="true"
+                            [closeOnSelect]="false"
+                            (change)="onChange($event)" formControlName="categoryId"
+                            >
+                </ng-select>
+                <div *ngIf="submitted && getFormControl.categoryId.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.categoryId.errors?.required">Categoryis required.</div>
+                </div>
+            </div>
+        </div>
+    
+
+        <!-- <input type="file" class="img-thumbnail" change="imageUpload($event)"> -->
+
+        <div class="row m-2">
+            <div class="form-group col-sm-6">
+                <label><strong>Product Status</strong></label>
+                <ng-select [items]="productStatus" bindLabel="name" bindValue="id" formControlName="productStatus" >
+                </ng-select>
+                <div *ngIf="submitted && getFormControl.productStatus.errors?.required"
+                    class="error invalid-feedback text-danger ">
+                    <div *ngIf="getFormControl.productStatus.errors?.required">Username required.</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" type="submit" label="Save" icon="bi bi-save">Save
+                    <i class="bi bi-save"></i></button>
+            </div>
+        </div>
+    </form>
+</div>

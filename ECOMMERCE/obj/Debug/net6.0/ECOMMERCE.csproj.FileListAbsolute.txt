@@ -12,6 +12,9 @@ D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\ECOMMERCE.deps.json
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\ECOMMERCE.runtimeconfig.json
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\ECOMMERCE.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\ECOMMERCE.pdb
+D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\FluentValidation.dll
+D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\Humanizer.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -46,6 +49,7 @@ D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\NSwag.Core.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\NSwag.Core.Yaml.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\NSwag.Generation.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\NSwag.Generation.AspNetCore.dll
+D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\SixLabors.ImageSharp.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\System.Drawing.Common.dll
 D:\PratikPractice\ECOMMERCE\ECOMMERCE\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll

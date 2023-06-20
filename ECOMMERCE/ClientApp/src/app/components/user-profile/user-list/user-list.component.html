@@ -1,0 +1,99 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item ms-2">
+    <button class="btn active listbutton" id="super-admin-tab" data-bs-toggle="tab" data-bs-target="#superadmin" type="button" role="tab"
+      aria-controls="home" aria-selected="true">Super Admin</button>
+  </li>
+  <li class="nav-item" type="button">
+    <button class="btn listbutton" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab"
+    aria-controls="home" aria-selected="true">Admin</button>
+  </li>
+</ul>
+
+
+
+<!-- first tab contents -->
+<div class="tab-content mt-3" id="myTabContent">
+  <div class="tab-pane fade show active" id="superadmin" role="tabpanel" aria-labelledby="super-admin-tab">
+
+    <div>
+
+      <div style="width:80%">
+        <div class="d-flex justify-content-between mb-2">
+          <h3>User Lists</h3>
+          <button class="btn btn-warning" type="button" (click)="onCreateUser()">Create User</button>
+        </div>
+    
+        <div class="card">
+          <div class="card-body p-0 m-0">
+            <ag-grid-angular style="width: 100%;" class="ag-theme-alpine" [rowData]="superAdminUserData" [columnDefs]="userColDef"
+              [domLayout]="domLayout" [animateRows]="true" [paginationPageSize]="7" [enableCellTextSelection]="true"
+              [enableBrowserTooltips]="true" [pagination]="true" (filterChanged)="onFilterChanged($event)"
+              (gridReady)="onGridReady($event)" style="position:relative">
+            </ag-grid-angular>
+          </div>
+        </div>
+      </div>
+    
+    
+      <!-- tabindex="-1" aria-labelledby="createUserLabel" aria-hidden="true" -->
+      <div class="modal fade show" id="createUser" role="dialog" *ngIf="createUserPopUpModal"
+        style="display:block;background:rgba(0,0,0,0.7);transition: opacity 0.3s ease-in-out;">
+        <div class="modal-dialog modal-lg" style="max-width:55%">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Create User</h1>
+              <button type="button" class="btn-close close btn-close-modal" (click)="close()"></button>
+    
+            </div>
+            <div class="modal-body m-0">
+              <app-create-user (new-event)="callback()"></app-create-user>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second tab content -->
+  <div class="tab-pane fade mt-3" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+    <div>
+
+      <div style="width:80%">
+        <div class="d-flex justify-content-between mb-2">
+          <h3>User Lists</h3>
+          <button class="btn btn-warning" type="button" (click)="onCreateUser()">Create User</button>
+        </div>
+    
+        <div class="card">
+          <div class="card-body p-0 m-0">
+            <ag-grid-angular style="width: 100%;" class="ag-theme-alpine" [rowData]="adminUserData" [columnDefs]="userColDef"
+              [domLayout]="domLayout" [animateRows]="true" [paginationPageSize]="7" [enableCellTextSelection]="true"
+              [enableBrowserTooltips]="true" [pagination]="true" (filterChanged)="onFilterChanged($event)"
+              (gridReady)="onGridReady($event)" style="position:relative">
+            </ag-grid-angular>
+          </div>
+        </div>
+      </div>
+    
+    
+      <!-- tabindex="-1" aria-labelledby="createUserLabel" aria-hidden="true" -->
+      <div class="modal fade show" id="createUser" role="dialog" *ngIf="createUserPopUpModal"
+        style="display:block;background:rgba(0,0,0,0.7);transition: opacity 0.3s ease-in-out;">
+        <div class="modal-dialog modal-lg" style="max-width:55%">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Create User</h1>
+              <button type="button" class="btn-close close btn-close-modal" (click)="close()"></button>
+    
+            </div>
+            <div class="modal-body m-0">
+              <app-create-user (new-event)="callback()"></app-create-user>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    
+    </div>
+  </div>
+</div>

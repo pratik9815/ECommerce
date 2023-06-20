@@ -1,0 +1,81 @@
+<div class="modal-content">
+    <form [formGroup]="productForm" (ngSubmit)="onUpdateProduct()">
+        <div class="row m-2">
+            <div class="col-sm-6">
+                <label for="name"><b>Name</b><span style="color:red;">*</span></label>
+                <input type="text" id="name" class="form-control p-10" placeholder="Enter Product Name"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.name.errors }" formControlName="name">
+                <div *ngIf="submitted && getFormControl.name.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.name.errors?.required">Product name is required.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="price"><b>Price</b> <span style="color:red;">*</span></label>
+                <input type="text" id="price" class="form-control p-10" placeholder="Enter Price"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.price.errors }" formControlName="price">
+
+                <div *ngIf="submitted && getFormControl.price.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.price.errors?.required">Product price is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-2">
+            <div class="col-sm-6">
+                <label for="description"><b>Description</b><span style="color:red;">*</span></label>
+                <input type="text" id="description" class="form-control p-10" placeholder="Enter Description"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.description.errors }"
+                    formControlName="description">
+                <div *ngIf="submitted && getFormControl.description.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.description.errors?.required">Product description is required.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label for="quantity"><b>Quantity</b> <span style="color:red;">*</span></label>
+                <input type="text" id="quantity" class="form-control p-10" placeholder="Enter Price"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.quantity.errors }"
+                    formControlName="quantity">
+                <div *ngIf="submitted && getFormControl.quantity.errors" class="invalid-feedback text-danger">
+                    <div *ngIf="getFormControl.quantity.errors?.required">Product quantity is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-2">
+          
+            <div class="col-sm-6">
+                <label for="category"><b>Category<span style="color: red;">*</span></b> </label>
+                <ng-select
+                    [items]="categoryList"
+                    bindLabel="categoryName"
+                    bindValue="id"
+                    [multiple]="true"
+                    placeholder="Select Category"
+                    formControlName="categories"
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.categories.errors }">
+                </ng-select>
+                    <div *ngIf="submitted && getFormControl.categories.errors" class="invalid-feedback text-danger">
+                        <div *ngIf="getFormControl.categories.errors?.required">Category is required.</div>
+                    </div>
+             </div>
+            
+        <div class="form-group col-sm-6">
+            <label><strong>Product Status</strong></label>
+            <ng-select
+            [items]="productStatus" 
+             bindLabel="name"
+             bindValue="id"
+             [multiple]="false"
+             [closeOnSelect]="true"
+             formControlName="productStatus" 
+             placeholder="Product status">
+            </ng-select>
+            <div *ngIf="submitted && getFormControl.productStatus.errors?.required"
+                class="error invalid-feedback text-danger ">
+                <div *ngIf="getFormControl.productStatus.errors?.required">Username required.</div>
+            </div>
+        </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit" label="Save" icon="bi bi-save">Save
+            <i class="bi bi-save"></i></button>
+    </form>
+</div>

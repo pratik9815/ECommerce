@@ -1,0 +1,37 @@
+.column-second{
+    position: relative;
+    /* padding: 1px; */
+    background-color: white;
+    width: 35%;
+}
+
+  .row{
+    position: relative;
+  }
+
+.div-error{
+  position: absolute;
+    top: 36px;
+}
+.bi.bi-eye-fill,
+.bi-eye-slash-fill{
+  position: absolute;
+  top: 9px;
+  /* left: 381px; */
+  right: 18px;
+}
+
+.form-control{
+  background-position: left calc(0.1rem) center;
+  padding-left: 20px;
+  font-weight: bold;
+}
+
+.oldpass{
+  position: relative;
+  width: 350px;
+}
+.newPass{
+  position: relative;
+  width: 350px;
+}

@@ -1,0 +1,43 @@
+<div class="primary">
+    <div class="row my-3 mx-3">
+        <div class="image col-3">
+            This is the container for image
+        </div>
+        <div class=" col-5">
+            <p><i class="bi bi-person-fill"></i>&nbsp;Name : {{getFullName()}}</p>
+
+            <p><i class="bi bi-telephone-fill"></i>&nbsp;Phone : {{getPhone()}}</p>
+            <p><i class="bi bi-person-fill-gear"></i>&nbsp;User type : {{getUserType()}}</p>
+            <p><i class="bi bi-envelope-fill"></i>&nbsp;Email : {{getEmail()}}</p>
+            <p><i class="bi bi-geo-alt-fill"></i>&nbsp;Address : {{getAddress()}}</p>
+
+        </div>
+        <hr>
+    </div>
+
+
+    <ul class="nav nav-tabs mr-3" id="myTab" role="tablist" >
+        <li class="nav-item" role="presentation" >
+            <button role="tab"  class="nav-link" id="edit-tab" type="button" (click)="edit()" [style.background-color]="isEdit? 'white':'rgb(173 173 173)'">Edit Profile</button>
+        </li>
+        <li class="nav-item" role="presentation"> 
+            <button class="nav-link btn" id="password-tab"  type="button"
+                role="tab" (click)="changePassword()" [style.background-color]="isChangePassword? 'white':'rgb(173 173 173)'">Change Password</button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div *ngIf="isEdit">
+            <div class="tab-pane" id="edit" role="tabpanel"  style="display: block;">
+
+                <app-update-profile [update-profile]="updateprofile"
+                            (User-Update)="callback()"></app-update-profile>
+            </div>
+        </div>
+        
+        <div class="tab-pane" id="password" role="tabpanel" *ngIf="isChangePassword" style="display:block">
+            <app-change-pass (change-pass)="callback()"></app-change-pass>
+        </div>
+    </div>
+
+</div>

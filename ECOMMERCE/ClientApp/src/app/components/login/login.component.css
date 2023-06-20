@@ -1,0 +1,120 @@
+button {
+    padding: 10px;
+    border-radius: 5px;
+    width: 90%;
+    margin: 10px;
+    color: white;
+    background-color: rgb(0, 145, 255);
+    transition: all 0.2s ease-in-out;
+    border: none;
+  }
+  
+  span.error {
+    display: block;
+    font-size:small;
+    position: absolute;
+    top: 45px;
+  }
+  
+  button:hover {
+    cursor: pointer;
+    background-color: #214d5c;
+  }
+  
+  label{
+    color: rgb(0, 0, 0);
+  }
+  
+  .login-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(#c7dd28ba, #d6d6c2); 
+  }
+  .left-container{
+    height: 80%;
+    width: 40%;
+    background-color: rgb(242 170 74 / 98%);
+  
+  
+  }
+  img{
+    height: 100%;
+    width: 100%;
+  }
+  
+  form {
+    /* background-color: #DEB887; */
+    width: 80%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .formContainer {
+    height: 80%;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    /* box-shadow: 0px 0px 0px 8px rgb(123, 107, 107); */
+    /* background-color: rgb(153, 202, 144); */
+    /* backdrop-filter: blur(10px); */
+    /* border-radius: 20px; */
+    overflow: hidden;
+  }
+  
+  .head {
+    text-align: center;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+  }
+  h3{
+    font-weight: bold;
+  }
+  
+  .input-container {
+    position: relative;
+    width: 85%;
+  }
+  
+  input {
+    margin: 4%;
+    padding: 10px 35px;
+    width: 89%;
+    border: 1px solid rgb(39, 62, 69);
+    border-radius: 5px;
+    display: flex;
+  }
+  
+  input {
+    display: block;
+  }
+  
+  i.bi-eye-fill,
+  i.bi-eye-slash-fill {
+    position: absolute;
+    top: 22%;
+    left: 85%;
+    font-size: 18px;
+    color: black;
+  }
+  
+  .eye-catcher, .user{
+    position: relative;
+  }
+  .bi-person-circle{
+    position: absolute;
+    top: 29%;
+    left: 7%;
+  }
+  .bi-lock-fill{
+    position: absolute;
+    z-index: 1;
+    top: 28%;
+    left: 7%;
+  }
