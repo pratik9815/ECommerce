@@ -9,20 +9,18 @@ import { ProductStatus } from 'src/app/services/web-api-client';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
-  @Input("product-details") ProductDetails: any;
+  @Input("product-id") productId: any;
 
-   @Input("product-id") productId : any;
+  //  @Input("product-id") productId : any;
   productStatus:string;
   productData:any;
   constructor(private _productService:ProductService,private _categoryService:CategoryService) { }
 
   ngOnInit(): void {
-    // console.log(this.productId)
-    if(this.productId)
+    // console.log(this.ProductDetails )
+   
       this.getProduct()
 
-    // console.log(ProductStatus[this.ProductDetails.productStatus]); This gives the enum value from the integer value returned from the asp.net
-    this.productStatus = ProductStatus[this.ProductDetails.productStatus]
   }
 
   getProduct()
@@ -31,6 +29,7 @@ export class ProductDetailsComponent implements OnInit {
       next: (res:any) =>{
         console.log(res);
         this.productData = res;
+        this.productStatus = ProductStatus[this.productData.productStatus]
       },
       error: err =>{
         console.log(err);

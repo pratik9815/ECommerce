@@ -16,6 +16,7 @@ import { ProductStatus } from 'src/app/services/web-api-client';
 })
 export class ProductListComponent implements OnInit {
 
+
   //For AgGrid table
   defaultColDef: any;
   productColDef: any;
@@ -138,7 +139,8 @@ export class ProductListComponent implements OnInit {
           break;
         }
         case "Details": {
-          this.ProductDetails = data;
+          // this.ProductDetails = data;
+          this.productId = data.id
           this.productDetailsPopUpModal = true;
           break;
         }
