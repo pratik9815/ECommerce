@@ -1,0 +1,44 @@
+<div class="row  ms-1">
+    <h1><b>Popular products</b>(In terms of quantity sold)</h1>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Product Name</th>
+                    <th>Ordered Quantity</th>
+                    <th>Total Amount(Rs.)</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of popularProduct; let i = index;">
+                <tr>
+                    <td>{{i + 1}}</td>
+                    <td>{{item.productName}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.totalPrice}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h1><b>Popular products</b>(In terms of amount)</h1>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Product Name</th>
+                    <th>Ordered Quantity</th>
+                    <th>Total Amount(Rs.)</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of popularProductAmount; let i = index;">
+                <tr>
+                    <td>{{i + 1}}</td>
+                    <td>{{item.productName}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.totalPrice}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

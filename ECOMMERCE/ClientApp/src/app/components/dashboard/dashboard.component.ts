@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   dashboardData:any;
   amount:number[] = [];
   categoryName:string[] = [];
-  popularProduct:any;
+
 
   firstColor: string = 'rgb(255,0,0)'
   secondColor:string = 'rgb(178, 255, 102)'
@@ -34,18 +34,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDashboardData();  
-    this.getProductData();
   }
 
-  getProductData()
-  {
-    this._dashboardService.getPopularProduct().subscribe({
-      next: res =>{
-        this.popularProduct = res;
-        console.log(this.popularProduct)
-      }
-    })
-  }
+
 
   getDashboardData()
   {

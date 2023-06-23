@@ -13,6 +13,7 @@ import { ProductWithCategoryComponent } from './components/product-list/product-
 import { LoginComponent } from './components/login/login.component';
 import { CustomerListComponent } from './components/customer-list/customer-list.component';
 import { OrderComponent } from './components/order/order.component';
+import { PopularProductListComponent } from './components/popular-product-list/popular-product-list.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,11 @@ const routes: Routes = [
     path:'order-list',
     component: OrderComponent,
     canActivate:[AuthGuard]
+  },
+  {
+    path:'popular-product',
+    component:PopularProductListComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

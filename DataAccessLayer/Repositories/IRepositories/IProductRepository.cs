@@ -25,5 +25,6 @@ namespace DataAccessLayer.Repositories.IRepositories
         Task<ProductWithCategoryResponse> GetProductWithCategories(string categoryId,int page);
         Task<ProductWithCategoryResponse> GetProductWithRespectiveCategories(string[] categoryId, int page);
         Task<ProductResponse> GetProductWithPagination(int page);
+        Task<List<GetProductListCommand>> GetLimitedProducts();
     }
 }

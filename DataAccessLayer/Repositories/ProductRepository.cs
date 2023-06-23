@@ -98,9 +98,9 @@ namespace DataAccessLayer.Repositories
                 return null;
             return product;
         }
-        public  IQueryable<GetProductQuery> GetWithImage()
+        public IQueryable<GetProductQuery> GetWithImage()
         {
-            var products =  _context.Products
+            var products = _context.Products
                  .OrderByDescending(x => x.CreatedDate)
                  .Where(x => x.IsDeleted == false).AsNoTracking()
                  .Select(x => new GetProductQuery
@@ -421,7 +421,7 @@ namespace DataAccessLayer.Repositories
             return productWithPagination;
         }
 
-
+        //Used in angular
         public async Task<ProductWithCategoryResponse> GetProductWithRespectiveCategories(string[] categoryId, int page)
         {
             var pageResult = 3f;
@@ -440,10 +440,10 @@ namespace DataAccessLayer.Repositories
 
 
 
-            var productWithCategory  =  await _context.ProductCategories
-                                                                          
+            var productWithCategory = await _context.ProductCategories
+
                                                                             .Where(x => categoryId.Contains(x.CategoryId.ToString()) && !x.Product.IsDeleted)
-                                                                             .OrderByDescending(o => o.CreatedDate)
+                                                                            .OrderByDescending(o => o.CreatedDate)
                                                                             .Select(x => new GetProductWithCategory
                                                                             {
                                                                                 Id = x.ProductId,
@@ -487,7 +487,7 @@ namespace DataAccessLayer.Repositories
             return productWithPagination;
         }
 
-
+        //Used in angular
         public async Task<ProductResponse> GetProductWithPagination(int page)
         {
             var pageResult = 6f;
@@ -498,7 +498,7 @@ namespace DataAccessLayer.Repositories
             //Skip will skip the first (page-1)*()intpageResult
             //Take will take the first 3 product after skipping 
             var products = await _context.Products
-                
+
                 .Where(a => a.IsDeleted == false)
                 .OrderByDescending(o => o.CreatedDate).AsNoTracking()
                 .Skip((page - 1) * (int)pageResult).Take((int)pageResult)
@@ -536,6 +536,41 @@ namespace DataAccessLayer.Repositories
                 TotalPage = (int)pageCount
             };
             return productWithPagination;
+        }
+
+
+        public async Task<List<GetProductListCommand>> GetLimitedProducts()
+        {
+            //Random random = new Random();
+            var products =await _context.Products
+                .Where(x => !x.IsDeleted)
+                .OrderBy(r => Guid.NewGuid())
+                .AsNoTracking()
+                .Take(3).
+                Select(x => new GetProductListCommand
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Price = x.Price,
+                    ProductStatus = x.ProductStatus,
+                    ImageLists = x.ProductImages.Select(y => new ImageList
+                    {
+                        ImageId = y.Id,
+                        ImageName = y.ImageName
+                    }).FirstOrDefault(),
+                }).ToListAsync();
+            if (products != null)
+            {
+                foreach (var product in products)
+                {
+                    if (product.ImageLists is not null)
+                    {
+                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.ImageLists.ImageName;
+                        product.ImageLists.ImageUrl = ImageService.GetByteImage(product.ImageLists, path);
+                    }
+                }
+            }
+            return products;
         }
     }
 }

@@ -147,5 +147,13 @@ namespace ECOMMERCE.Controllers
             return Ok(product);
         }
 
+        [HttpGet("get-random-product")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<GetProductListCommand>>> GetRandomProduct()
+        {
+            var products =await _productRepository.GetLimitedProducts(); 
+            return Ok(products);
+        }
+
     }
 }

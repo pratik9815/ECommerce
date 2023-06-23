@@ -45,25 +45,3 @@
 
     </div>
 </div>
-
-<div class="row mt-5 ms-3">
-    <h1><b>Popular products</b></h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>S.N.</th>
-                <th>Product Name</th>
-                <th>Ordered Quantity</th>
-                <th>Total Amount(Rs.)</th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let item of popularProduct; let i = index;">
-            <tr>
-                <td>{{i + 1}}</td>
-                <td>{{item.productName}}</td>
-                <td>{{item.quantity}}</td>
-                <td>{{item.totalPrice}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
