@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Common.Product;
+﻿using DataAccessLayer.Common.Dashboard;
+using DataAccessLayer.Common.Product;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
 using DataAccessLayer.Models.PaginationResponseModel;
@@ -9,6 +10,7 @@ using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -538,11 +540,9 @@ namespace DataAccessLayer.Repositories
             return productWithPagination;
         }
 
-
         public async Task<List<GetProductListCommand>> GetLimitedProducts()
         {
-            //Random random = new Random();
-            var products =await _context.Products
+            var products = await _context.Products
                 .Where(x => !x.IsDeleted)
                 .OrderBy(r => Guid.NewGuid())
                 .AsNoTracking()
@@ -559,6 +559,9 @@ namespace DataAccessLayer.Repositories
                         ImageName = y.ImageName
                     }).FirstOrDefault(),
                 }).ToListAsync();
+
+
+
             if (products != null)
             {
                 foreach (var product in products)
@@ -572,5 +575,41 @@ namespace DataAccessLayer.Repositories
             }
             return products;
         }
+
+        public IQueryable<GetPopularProductsWithImage> GetPopularProduct()
+        {
+            var products = _context.OrderDetails
+                                                            .Where(o => !o.IsDeleted && !o.Order.IsDeleted)
+                                                            .GroupBy(od => new { od.Product.Name, od.ProductId, od.Product.Price })
+                                                            .Select(x => new GetPopularProductsWithImage
+                                                            {
+                                                                Quantity = x.Sum(od => od.Quantity),
+                                                                TotalPrice = x.Key.Price,
+                                                                ProductId = x.Key.ProductId,
+                                                                ProductName = x.Key.Name,
+                                                            }).OrderByDescending(o => o.Quantity).Take(3).ToList();
+
+            if (products != null)
+            {
+                foreach (var product in products)
+                {
+                    var image = _context.ProductImages.FirstOrDefault(y => y.ProductId == product.ProductId);
+                    if (image != null)
+                    {
+                        string path = _webHostEnvironment.WebRootPath + @"/images/" + image.ImageName;
+                        product.ImageList = new ImageList
+                        {
+                            ImageId = image.Id,
+                            ImageName = image.ImageName,
+                        };
+                        product.ImageList.ImageUrl = ImageService.GetByteImage(product.ImageList, path);
+                    }
+
+                }
+            }
+
+            return products.AsQueryable();
+        }
+
     }
 }

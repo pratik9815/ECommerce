@@ -139,9 +139,54 @@ namespace DataAccessLayer.Repositories
                     Errors = errors
                 };
             }
-
         }
 
-       
+
+        public async Task<ApiResponse> CreateCategoryWithSubCategory(CreateCategoryWithSubCategoryCommand category)
+        {
+            try
+            {
+                var oldCategory = _context.Categories
+                          .Where(c => c.IsDeleted == false)
+                          .FirstOrDefault(a => a.CategoryName == category.CategoryName);
+                if (oldCategory != null)
+                {
+                    return new ApiResponse
+                    {
+                        ResponseCode = 400,
+                        Message = "Category already exists",
+                    };
+                }
+
+                var newCategory = new CreateCategoryWithSubCategoryCommand
+                {
+                    CategoryName = category.CategoryName,
+                    Description = category.Description,
+                    subCategory = category.subCategory,
+                };
+
+                await _context.AddAsync(category);
+                _context.SaveChanges();
+                return new ApiResponse()
+                {
+                    ResponseCode = 200,
+                    Message = "Success"
+                };
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<string>();
+                errors.Add(ex.Message);
+                return new ApiResponse
+                {
+                    ResponseCode = 500,
+                    Message = "Failed",
+                    Errors = errors
+                };
+            }
+        }
+
+
+
     }
 }

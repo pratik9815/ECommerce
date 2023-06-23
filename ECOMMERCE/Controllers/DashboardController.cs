@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Common.Dashboard;
 using DataAccessLayer.Repositories.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ namespace ECOMMERCE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DashboardController : ControllerBase
     {
         private readonly IDashboardRepository _dashboardRepository;
@@ -26,7 +28,11 @@ namespace ECOMMERCE.Controllers
         public async Task<ActionResult<List<GetPopularProducts>>> GetPopularProductForDashboard()
         {
             var result = await _dashboardRepository.GetPopularProductForDashboard().ToListAsync();
-            return Ok(result);
+            if(result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound("No records are available");
         }
     }
 }

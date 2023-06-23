@@ -27,4 +27,11 @@ namespace DataAccessLayer.Common.Category
         public string Description { get; set; }
     }
 
+
+    public class CreateCategoryWithSubCategoryCommand
+    {
+        public string CategoryName { get; set; }
+        public string[] subCategory { get; set; }
+        public string Description { get; set; }
+    }
 }

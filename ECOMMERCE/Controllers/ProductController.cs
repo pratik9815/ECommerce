@@ -1,4 +1,5 @@
 ﻿
+using DataAccessLayer.Common.Dashboard;
 using DataAccessLayer.Common.Product;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
@@ -154,6 +155,19 @@ namespace ECOMMERCE.Controllers
             var products =await _productRepository.GetLimitedProducts(); 
             return Ok(products);
         }
+
+        [HttpGet("get-popular-product")]
+        [AllowAnonymous]
+        public ActionResult<List<GetPopularProducts>> GetPopularProduct()
+        {
+            var result = _productRepository.GetPopularProduct().ToList();
+            if(result != null)
+            {
+                return Ok(result);
+            }
+            return NotFound("There are no product avaible");
+        }
+        
 
     }
 }

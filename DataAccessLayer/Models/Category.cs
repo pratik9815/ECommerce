@@ -19,4 +19,9 @@ namespace DataAccessLayer.Models
         public ICollection<SubCategory> SubCategories { get; set; }
 
     }
+
+    public void AddSubCategories(SubCategory)
+    {
+
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Query.Product;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,15 @@ namespace DataAccessLayer.Common.Dashboard
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public double TotalPrice { get; set; }
+    }
+
+    public class GetPopularProductsWithImage
+    {
+        public Guid ProductId { get; set; }
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
+        public double TotalPrice { get; set; }
+        public ImageList ImageList { get; set; }
     }
 
 }

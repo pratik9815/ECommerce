@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/service/category/category.service';
 
@@ -25,26 +25,52 @@ export class AddCategoryComponent implements OnInit {
 
       categoryName: ['', [Validators.required]],
       description: ['', [Validators.required]],
-
+      subCategory: this._formBuilder.array([])
     });
   }
+
+  subCategory():FormArray
+  {
+    return this.categoryForm.get("subCategory") as FormArray;
+  }
+
+  newSubCategory():FormGroup
+  {
+    return this._formBuilder.group({
+      subCat : ['',Validators.required],
+    })
+  }
+
+  removeSubCategory(i:any)
+  {
+    this.subCategory().removeAt(i);
+  }
+  addSubCategory()
+  {
+    this.subCategory().push(this.newSubCategory());
+  }
+
+
   get getFormControl() {
     return this.categoryForm.controls;
   }
   onCreate()
   {
+    console.log(this.categoryForm.value)
     this.submitted = true;
-    if (this.categoryForm.invalid) return;
+    // if (this.categoryForm.invalid) return;
 
-      this._categoryService.createCategory(this.categoryForm.value).subscribe({
-        next: data => {
-          this._toastrService.info("The category has been added", "Success");
-          this.callBack.emit();
-        },
-        error: err => {
-          this._toastrService.error("The category added failed", "Error");
-        }
-      });
+    //   this._categoryService.createCategory(this.categoryForm.value).subscribe({
+    //     next: data => {
+    //       this._toastrService.info("The category has been added", "Success");
+    //       this.callBack.emit();
+    //     },
+    //     error: err => {
+    //       this._toastrService.error("The category added failed", "Error");
+    //     }
+    //   });
   }
+
+
 
 }

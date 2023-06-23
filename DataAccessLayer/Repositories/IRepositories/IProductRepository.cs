@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Common.Product;
+﻿using DataAccessLayer.Common.Dashboard;
+using DataAccessLayer.Common.Product;
 using DataAccessLayer.Models;
 using DataAccessLayer.Models.PaginationResponseModel;
 using DataAccessLayer.Query.Product;
@@ -26,5 +27,6 @@ namespace DataAccessLayer.Repositories.IRepositories
         Task<ProductWithCategoryResponse> GetProductWithRespectiveCategories(string[] categoryId, int page);
         Task<ProductResponse> GetProductWithPagination(int page);
         Task<List<GetProductListCommand>> GetLimitedProducts();
+        IQueryable<GetPopularProductsWithImage> GetPopularProduct();
     }
 }
