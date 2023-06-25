@@ -37,8 +37,9 @@ export class AddCategoryComponent implements OnInit {
   newSubCategory():FormGroup
   {
     return this._formBuilder.group({
-      subCat : ['',Validators.required],
-    })
+      subCategoryName : ['',Validators.required],
+      description: ['',[Validators.required]]
+    });
   }
 
   removeSubCategory(i:any)
@@ -54,21 +55,25 @@ export class AddCategoryComponent implements OnInit {
   get getFormControl() {
     return this.categoryForm.controls;
   }
+
+
+
+  
   onCreate()
   {
     console.log(this.categoryForm.value)
     this.submitted = true;
-    // if (this.categoryForm.invalid) return;
+    if (this.categoryForm.invalid) return;
 
-    //   this._categoryService.createCategory(this.categoryForm.value).subscribe({
-    //     next: data => {
-    //       this._toastrService.info("The category has been added", "Success");
-    //       this.callBack.emit();
-    //     },
-    //     error: err => {
-    //       this._toastrService.error("The category added failed", "Error");
-    //     }
-    //   });
+      this._categoryService.createCategoryWithSubCategory(this.categoryForm.value).subscribe({
+        next: data => {
+          this._toastrService.info("The category has been added", "Success");
+          this.callBack.emit();
+        },
+        error: err => {
+          this._toastrService.error("The category added failed", "Error");
+        }
+      });
   }
 
 

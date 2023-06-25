@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,25 @@ namespace DataAccessLayer.Common.Category
     public class CreateCategoryWithSubCategoryCommand
     {
         public string CategoryName { get; set; }
-        public string[] subCategory { get; set; }
         public string Description { get; set; }
+        public IEnumerable<CreateSubCategory> subCategory { get; set; }
+    }
+    public class CreateSubCategory
+    {
+        public string SubCategoryName { get; set; }
+        public string SubCategoryDescription { get; set; }
+    }
+    public class GetCategoryWithSubCategory
+    {
+        public Guid id { get; set; }
+        public string CategoryName { get; set; }
+        public string Description { get; set; }
+        public List<GetSubCategory> subCategories { get; set; }
+    }
+    public class GetSubCategory
+    {
+        public Guid Id { get; set; }
+        public string SubCategoryName { get; set; }
+        public string Description { get; set; } 
     }
 }

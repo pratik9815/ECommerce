@@ -207,6 +207,7 @@ namespace DataAccessLayer.DataContext
         public DbSet<SystemAccessLog> SystemAccessLogs { get; set; }
         public DbSet<ProductReview> ProductReviews { get; set; }
         public DbSet<OrderActivityLog> OrderActivityLogs { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }   
         
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

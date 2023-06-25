@@ -14,6 +14,7 @@ namespace DataAccessLayer.Repositories.IRepositories
         Task<ApiResponse> CreateCategory(CreateCategoryCommand category);
         Task<ApiResponse> UpdateCategory(UpdateCategoryCommand category);
         Task<ApiResponse> RemoveCategory(Guid Id);
-
+        Task<ApiResponse> CreateCategoryWithSubCategory(CreateCategoryWithSubCategoryCommand category);
+        IQueryable<GetCategoryWithSubCategory> GetCategoryWithSubCategory();
     }
 }

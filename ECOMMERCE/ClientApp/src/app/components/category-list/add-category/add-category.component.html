@@ -26,28 +26,27 @@
 
 
         <div formArrayName="subCategory">
-            <!-- <div class="row m-2">
-                <div class="col-sm-6">
-                    <label for="subCategory"><b>SubCateogry</b><span style="color:red;">*</span></label>
-                    <input type="text" id="subCategory" class="form-control p-10" placeholder="Enter sub-category"
-                        [ngClass]="{ 'is-invalid': submitted && getFormControl.subCategory.errors }"
-                        formControlName="">
-                    <div *ngIf="submitted && getFormControl.subCategory.errors" class="invalid-feedback text-danger">
-                        <div *ngIf="getFormControl.subCategory.errors?.required">At least one subcategory is required.</div>
-                    </div>
-                </div>
-            </div> -->
+
             <button type="button" class="row mt-2 ms-3 btn btn-primary" (click)="addSubCategory()">Add sub category</button>
-    
+            
             <div  *ngFor="let subCategory of subCategory().controls; let i = index" [formGroupName]="i">
                 <div class="row m-2">
                     <div class="col-sm-6">
-                        <label for="subCategory"><b>SubCateogry</b><span style="color:red;">*</span></label>
-                        <input type="text" id="subCategory" class="form-control p-10" placeholder="Enter sub-category"
-                            [ngClass]="{ 'is-invalid': submitted && getFormControl.subCategory.errors }"
-                            formControlName="subCat">
-                        <div *ngIf="submitted && getFormControl.subCategory.errors" class="invalid-feedback text-danger">
-                            <div *ngIf="getFormControl.subCategory.errors?.required">At least one subcategory is required.</div>
+                        <label for="SubCategoryName"><b>SubCategory Name</b><span style="color:red;">*</span></label>
+                        <input type="text" id="SubCategoryName" class="form-control p-10" placeholder="Enter sub-category name"
+                            [ngClass]="{ 'is-invalid': submitted && subCategory.get('subCategoryName')?.errors }"
+                            formControlName="subCategoryName">
+                        <div *ngIf="submitted &&submitted && subCategory.get('subCategoryName')?.errors" class="invalid-feedback text-danger">
+                            <div *ngIf="submitted && subCategory.get('subCategoryName')?.errors?.['required']">At least one subcategory is required.</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="Description"><b>SubCategory Description</b><span style="color:red;">*</span></label>
+                        <input type="text" id="Description" class="form-control p-10" placeholder="Enter sub-category decription"
+                            [ngClass]="{ 'is-invalid': submitted && subCategory.get('description')?.errors}"
+                            formControlName="description">
+                        <div *ngIf="submitted && submitted && subCategory.get('description')?.errors" class="invalid-feedback text-danger">
+                            <div *ngIf=" subCategory.get('description')?.errors?.['required']">SubCategory description is required.</div>
                         </div>
                     </div>
                 </div>

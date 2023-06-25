@@ -9,6 +9,10 @@ namespace DataAccessLayer.Models
 {
     public class Category : AuditableEntity
     {
+        public Category()
+        {
+            SubCategories = new List<SubCategory>();
+        }
         public Guid Id { get; set; }
         public string CategoryName { get; set; }    
         public string Description { get; set; }
@@ -18,10 +22,12 @@ namespace DataAccessLayer.Models
         //for multiple category
         public ICollection<SubCategory> SubCategories { get; set; }
 
+
+        public void AddSubCategories(SubCategory subCategory)
+        {
+            SubCategories.Add(subCategory); 
+        }
+
     }
 
-    public void AddSubCategories(SubCategory)
-    {
-
-    }
 }

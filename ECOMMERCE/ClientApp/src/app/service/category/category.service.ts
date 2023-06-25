@@ -26,4 +26,8 @@ export class CategoryService {
   {
     return this._httpClient.delete(this.apiUrl+"delete-category/"+id);
   }
+  createCategoryWithSubCategory(category:any)
+  {
+    return this._httpClient.post(this.apiUrl+'create-category-with-sub-category',category);
+  }
 }

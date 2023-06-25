@@ -3,6 +3,7 @@ using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
 using DataAccessLayer.Repositories.IRepositories;
 using DataAccessLayer.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -145,7 +146,7 @@ namespace DataAccessLayer.Repositories
         public async Task<ApiResponse> CreateCategoryWithSubCategory(CreateCategoryWithSubCategoryCommand category)
         {
             try
-            {
+             {
                 var oldCategory = _context.Categories
                           .Where(c => c.IsDeleted == false)
                           .FirstOrDefault(a => a.CategoryName == category.CategoryName);
@@ -158,14 +159,26 @@ namespace DataAccessLayer.Repositories
                     };
                 }
 
-                var newCategory = new CreateCategoryWithSubCategoryCommand
+                var newCategory = new Category  
                 {
+                    Id = Guid.NewGuid(),
                     CategoryName = category.CategoryName,
                     Description = category.Description,
-                    subCategory = category.subCategory,
                 };
 
-                await _context.AddAsync(category);
+
+                foreach (var subCategory in category.subCategory)
+                {
+                    var newSubCategory = new SubCategory
+                    {
+                        Id = Guid.NewGuid(),
+                        SubCategoryName = subCategory.SubCategoryName,
+                        SubCategoryDescription = subCategory.SubCategoryDescription
+                    };
+                    newCategory.AddSubCategories(newSubCategory);
+                }
+
+                await _context.AddAsync(newCategory);
                 _context.SaveChanges();
                 return new ApiResponse()
                 {
@@ -186,7 +199,22 @@ namespace DataAccessLayer.Repositories
             }
         }
 
-
-
+        public IQueryable<GetCategoryWithSubCategory> GetCategoryWithSubCategory()
+        {
+            var category = _context.Categories.Where(x => !x.IsDeleted).
+                                Select(x => new GetCategoryWithSubCategory
+                                {
+                                    id = x.Id,
+                                    CategoryName = x.CategoryName,
+                                    Description = x.Description,    
+                                    subCategories = x.SubCategories.Select(s => new GetSubCategory
+                                    {
+                                        Id = s.Id,
+                                        SubCategoryName = s.SubCategoryName,
+                                        Description = s.SubCategoryDescription
+                                    }).ToList(),
+                                });
+            return category;
+        }
     }
 }

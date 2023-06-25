@@ -56,5 +56,22 @@ namespace ECOMMERCE.Controllers
                 return BadRequest(response);
             return Ok(response);
         }
+
+
+        [HttpPost("create-category-with-sub-category")]
+        public async Task<ActionResult<ApiResponse>> CreateCategoryWithSubCategory([FromBody] CreateCategoryWithSubCategoryCommand category)
+        {
+            var response = await _categoryRepository.CreateCategoryWithSubCategory(category);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);
+        }
+        [HttpGet("get-category-with-sub-category")]
+        [AllowAnonymous]
+        public async Task<ActionResult<GetCategoryWithSubCategory>> GetCategoryWithSubCategory()
+        {
+            var result = await _categoryRepository.GetCategoryWithSubCategory().ToListAsync();
+            return Ok(result);  
+        }
     }
 }
