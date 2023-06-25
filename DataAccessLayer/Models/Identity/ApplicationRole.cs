@@ -11,7 +11,6 @@ namespace DataAccessLayer.Models.Identity
 {
     public class ApplicationRole : IdentityRole , IAuditableEntity
     {
-        public RoleType RoleType { get; set; }
         //Relationship  both the applicatonuser and applicationuserRole
         public ICollection<ApplicationUser> Users { get; set; }
         public ICollection<ApplicationUserRole> UserRoles { get; set; }

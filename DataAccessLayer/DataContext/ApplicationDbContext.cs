@@ -36,9 +36,9 @@ namespace DataAccessLayer.DataContext
             builder.Entity<ApplicationRole>()
                     .HasKey(x => x.Id);
 
-            builder.Entity<ApplicationRole>()
-                    .Property(x => x.RoleType)
-                    .IsRequired();
+            //builder.Entity<ApplicationRole>()
+            //        .Property(x => x.RoleType)
+            //        .IsRequired();
 
             builder.Entity<ApplicationUserRole>()
                     .ToTable("AspNetUserRoles");
@@ -149,6 +149,11 @@ namespace DataAccessLayer.DataContext
                 o.Property(t => t.OrderEmail)
               .HasMaxLength(50)
               .IsRequired();
+            });
+
+            builder.Entity<ProductSubCategories>(psc =>
+            {
+                psc.HasKey(c => c.Id);
             });
 
             //configuring product and order details relationship

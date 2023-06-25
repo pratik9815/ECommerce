@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   changeType:boolean = true;
   submitted:boolean = false;
   errorMsg:string ; 
-  
+  isLoading:boolean = true;
 
   visible:boolean =true;
 
@@ -42,9 +42,17 @@ export class LoginComponent implements OnInit {
       this.errorMsg = "UserName and Password are required."
       return;
     }
+    if(this.isLoading)
+    {
+      this._toastrService.info('Please wait...', 'Loading');
+    }
     this._authService.onLogin(this.loginForm.value).subscribe(
       {
         next: res => {  
+          this.isLoading = false;
+          if(this.isLoading == false){
+            this._toastrService.clear(); 
+          }
           this._toastrService.success("Login successful", "success");
           this._router.navigate(['/dashboard']);
         },

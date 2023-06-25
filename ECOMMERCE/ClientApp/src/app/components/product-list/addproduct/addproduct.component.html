@@ -64,7 +64,7 @@
             <div class="col-sm-6">
                 <label for="category"><b>Category</b><span style="color:red;">*</span></label>
                 <ng-select [items]="categoryList" bindLabel="categoryName" bindValue="id" placeholder="Select Category"
-                    [searchable]="true" [multiple]="false" [closeOnSelect]="false" (change)="onChange($event)"
+                    [searchable]="true" [multiple]="true" [closeOnSelect]="false" (change)="onChange($event)"
                     formControlName="categoryId">
                 </ng-select>
                 <div *ngIf="submitted && getFormControl.categoryId.errors" class="invalid-feedback text-danger">
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="row m-2" *ngIf="subCategoryList">
+        <!-- <div class="row m-2" *ngIf="subCategoryList">
             <div class="col-sm-6">
                 <label for="subCategory"><b>Sub-Category</b><span style="color:red;">*</span></label>
                 <ng-select [items]="subCategoryList" bindLabel="subCategoryName" bindValue="id" placeholder="Select Sub-Category"
@@ -83,7 +83,7 @@
                     <div *ngIf="getFormControl.categoryId.errors?.required">Categoryis required.</div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- <input type="file" class="img-thumbnail" change="imageUpload($event)"> -->
 

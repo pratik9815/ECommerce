@@ -58,7 +58,7 @@ export class AddproductComponent implements OnInit {
       description: ['', [Validators.required]],
       categoryId:[null,[Validators.required]],
       productStatus:[0,[Validators.required]],
-      subCategoryId:[null,[Validators.required]]
+      // subCategoryId:[null,[Validators.required]]
     });
     console.log(this.productForm.value);
   }
@@ -79,12 +79,20 @@ export class AddproductComponent implements OnInit {
     input.append('description', this.productForm.value.description);
     input.append('quantity', this.productForm.value.quantity);
     
-    // input.append('categoryId',this.productForm.value.categoryId);
-    const categoryIds = this.productForm.get('categoryId').value;   
+  // input.append('categoryId',this.productForm.value.categoryId);
+  const categoryIds = this.productForm.get('categoryId').value;   
   for (let i = 0; i < categoryIds.length; i++) {
     input.append('categoryId', categoryIds[i]);
   }
-  
+
+  // const subCategoryIds = this.productForm.get('subCategoryId').value; 
+  // for(let i = 0; i < subCategoryIds.length; i++)
+  // {
+  //   input.append('subCategoryId',subCategoryIds[i]);
+  // }
+  // input.forEach((value, key) => {
+  //   console.log(key + ': ' + value);
+  // });
 
     this._productService.CreateProductWithMultipleImages(input).subscribe({
       next: data => {
@@ -145,15 +153,15 @@ export class AddproductComponent implements OnInit {
   }
   onChange(e:any)
   {
-    console.log(e)
-    this.subCategoryList = e.subCategories;
-    console.log(this.subCategoryList)
+    // this.subCategoryList = e.subCategories;
+    // console.log(this.subCategoryList)
     this.productForm.value.categoryId = e.id;
   }
 
   onChangeSubCategory(e:any)
   {
     console.log(e)
+    this.productForm.value.subcategoryId = e.id;
     // this.subCategoryList = e.subCategories;
     // console.log(this.subCategoryList)
     // this.productForm.value.categoryId = e.id;

@@ -21,14 +21,14 @@ export class DashboardComponent implements OnInit {
   secondColor:string = 'rgb(178, 255, 102)'
   thirdColor:string = 'rgb(255, 255, 102)'
   fourthColor:string = 'rgb(255, 138, 102)'
-  fifthColor:string = 'rgb(51, 51, 255)'
+  fifthColor:string = 'aqua'
 
 
   firstBorderColor:string = 'rgba(255, 0, 0,1)'
   secondBorderColor:string = 'rgba(0, 255, 0,1)'
   thirdBorderColor:string = 'rgba(255, 255, 0,1)'
   fourthBorderColor:string = 'rgba(255, 138, 0,1)'
-  fifthBorderColor:string = 'rgba(51, 51, 255,1)'
+  fifthBorderColor:string = 'aqua'
 
   constructor(private _dashboardService:DashboardService) { }
 

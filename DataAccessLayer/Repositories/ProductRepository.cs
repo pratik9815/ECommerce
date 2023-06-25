@@ -144,31 +144,67 @@ namespace DataAccessLayer.Repositories
             return products;
         }
 
-        public async Task<ApiResponse> CreateProduct(CreateProductCommand product)
+        //This is to add subcategry and images at the same time 
+        public async Task<ApiResponse> CreateProduct(CreateCommand product)
         {
             try
             {
+                List<string> errors = new List<string>();
 
-                var newProduct = new Product
+                if (product.Img != null)
                 {
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
-                    Quantity = product.Quantity
-                };
-                var category = new ProductCategory
-                {
-                    CategoryId = product.CategoryId
-                };
-                newProduct.AddProductCategory(category);
+                    Product newProduct = new Product();
+                    newProduct.Name = product.Name;
+                    newProduct.Price = product.Price;
+                    newProduct.Quantity = product.Quantity;
+                    newProduct.Description = product.Description;
+                    newProduct.ProductStatus = product.ProductStatus;
+                    
+                    //Here we will map the product and subCategoryId in the productsubcategory table
+                    //Here the product will have just one category and multiple subcategory
 
-                _context.Products.Add(newProduct);
-                await _context.SaveChangesAsync();
-                return new ApiResponse
+                    foreach (var category in product.SubCategoryId)
+                    {
+                        var productCategory = new ProductCategory
+                        {
+                            CategoryId = category
+                        };
+                        newProduct.AddProductCategory(productCategory);
+                    }
+                    //var webRootPath = _webHostEnvironment.WebRootPath;
+                    string fileWithPath = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+
+                    if (!Directory.Exists(fileWithPath))
+                    {
+                        Directory.CreateDirectory(fileWithPath);
+                    }
+                    string[] allowedExtensions = new string[] { ".jpg", ".png", ".jpeg", ".pdf", ".avif" };
+
+                    foreach (var image in product.Img)
+                    {
+                        var productImage = await ImageService.StoreImage(image, fileWithPath);
+                        _context.ProductImages.Add(productImage);
+                        newProduct.AddProductImages(productImage);
+                    }
+
+                    _context.Add(newProduct);
+                    await _context.SaveChangesAsync();
+                    return new ApiResponse
+                    {
+                        ResponseCode = 200,
+                        Message = "Success"
+                    };
+                }
+                else
                 {
-                    ResponseCode = 200,
-                    Message = "Success"
-                };
+                    errors.Add("Please select atleast one image");
+                    return new ApiResponse
+                    {
+                        ResponseCode = 400,
+                        Message = "Failed",
+                        Errors = errors
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -176,7 +212,7 @@ namespace DataAccessLayer.Repositories
                 errors.Add(ex.Message);
                 return new ApiResponse
                 {
-                    ResponseCode = 400,
+                    ResponseCode = 500,
                     Message = "Failed",
                     Errors = errors
                 };

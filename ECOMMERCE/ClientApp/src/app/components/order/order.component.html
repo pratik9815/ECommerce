@@ -5,6 +5,9 @@
                 <th style="width: 10px;">SN</th>
                 <th>OrderId</th>
                 <th>Ordered By</th>
+                <th>Shipping Address</th>
+                <th>order Address</th>
+                <th>Order Email</th>
                 <th style="width:100px">Amount(Rs.)</th>
                 <th>Actions</th>
             </tr>
@@ -14,17 +17,23 @@
                 <td>{{i + 1}}</td>
                 <td>{{item.id}}</td>
                 <td>{{item.createdBy}}</td>
+                <td>{{item.shippingAddress}}</td>
+                <td>{{item.ordersAddress}}</td>
+                <td>{{item.orderEmail}}</td>
                 <td >{{item.amount}}</td>
                 <td>
                     <!-- <button class="btn btn-primary">Details</button> -->
                     <button type="button" class="btn btn-primary" (click)="openDetailsButton(item.orderDetails)">
                         Details
                     </button>&nbsp;&nbsp;
-                    <button class="btn btn-warning">Change status</button>
+                    <button class="btn btn-warning">Clear Order</button>
                 </td>
             </tr>
         </tbody>
         <tr>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

@@ -47,5 +47,10 @@ namespace DataAccessLayer.Models
             ProductImages.Add(image);
         }
 
+        //public void AddSubCategory(SubCategory productCategory)
+        //{
+        //    ProductCategories.Add(productCategory)
+        //}
+
     }
 }

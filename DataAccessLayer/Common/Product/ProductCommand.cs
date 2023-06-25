@@ -53,6 +53,20 @@ namespace DataAccessLayer.Common.Product
         public DateTime? CreatedDate { get; set; }
         public IEnumerable<Guid> CategoryId  { get; set; }
     }
+
+    //This is to add subcategory and images
+    public class CreateCommand
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
+        public ProductStatus ProductStatus { get; set; }
+        public IEnumerable<IFormFile> Img { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public Guid CategoryId { get; set; } 
+        public IEnumerable<Guid> SubCategoryId { get; set; } 
+    }
     public class UpdateProductCommand
     {
         public Guid Id { get; set; }
