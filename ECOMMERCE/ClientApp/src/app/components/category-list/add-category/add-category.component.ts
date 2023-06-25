@@ -25,7 +25,9 @@ export class AddCategoryComponent implements OnInit {
 
       categoryName: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      subCategory: this._formBuilder.array([])
+      subCategory: this._formBuilder.array([
+        this.newSubCategory() 
+      ])
     });
   }
 

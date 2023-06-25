@@ -1,16 +1,16 @@
-
 <div class="modal-content">
     <form [formGroup]="categoryForm" (ngSubmit)="onCreate()">
         <div class="row m-2">
             <div class="col-sm-6">
                 <label for="categoryName"><b>Category name</b><span style="color:red;">*</span></label>
                 <input type="text" id="name" class="form-control p-10" placeholder="Enter Category Name"
-                    [ngClass]="{ 'is-invalid': submitted && getFormControl.categoryName.errors }" formControlName="categoryName">
+                    [ngClass]="{ 'is-invalid': submitted && getFormControl.categoryName.errors }"
+                    formControlName="categoryName">
                 <div *ngIf="submitted && getFormControl.categoryName.errors" class="invalid-feedback text-danger">
                     <div *ngIf="getFormControl.categoryName.errors?.required">Category name is required.</div>
                 </div>
-            </div>  
-            
+            </div>
+
         </div>
         <div class="row m-2">
             <div class="col-sm-6">
@@ -24,29 +24,34 @@
             </div>
         </div>
 
-
+        <!-- This is for the sub category -->
         <div formArrayName="subCategory">
-
-            <button type="button" class="row mt-2 ms-3 btn btn-primary" (click)="addSubCategory()">Add sub category</button>
-            
-            <div  *ngFor="let subCategory of subCategory().controls; let i = index" [formGroupName]="i">
+            <button type="button" class="row mt-2 ms-3 btn btn-primary" (click)="addSubCategory()">Add sub
+                category</button>
+            <div *ngFor="let subCategory of subCategory().controls; let i = index" [formGroupName]="i">
                 <div class="row m-2">
                     <div class="col-sm-6">
                         <label for="SubCategoryName"><b>SubCategory Name</b><span style="color:red;">*</span></label>
-                        <input type="text" id="SubCategoryName" class="form-control p-10" placeholder="Enter sub-category name"
+                        <input type="text" id="SubCategoryName" class="form-control p-10"
+                            placeholder="Enter sub-category name"
                             [ngClass]="{ 'is-invalid': submitted && subCategory.get('subCategoryName')?.errors }"
                             formControlName="subCategoryName">
-                        <div *ngIf="submitted &&submitted && subCategory.get('subCategoryName')?.errors" class="invalid-feedback text-danger">
-                            <div *ngIf="submitted && subCategory.get('subCategoryName')?.errors?.['required']">At least one subcategory is required.</div>
+                        <div *ngIf="submitted &&submitted && subCategory.get('subCategoryName')?.errors"
+                            class="invalid-feedback text-danger">
+                            <div *ngIf="submitted && subCategory.get('subCategoryName')?.errors?.['required']">At least
+                                one subcategory is required.</div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <label for="Description"><b>SubCategory Description</b><span style="color:red;">*</span></label>
-                        <input type="text" id="Description" class="form-control p-10" placeholder="Enter sub-category decription"
+                        <input type="text" id="Description" class="form-control p-10"
+                            placeholder="Enter sub-category decription"
                             [ngClass]="{ 'is-invalid': submitted && subCategory.get('description')?.errors}"
                             formControlName="description">
-                        <div *ngIf="submitted && submitted && subCategory.get('description')?.errors" class="invalid-feedback text-danger">
-                            <div *ngIf=" subCategory.get('description')?.errors?.['required']">SubCategory description is required.</div>
+                        <div *ngIf="submitted && submitted && subCategory.get('description')?.errors"
+                            class="invalid-feedback text-danger">
+                            <div *ngIf=" subCategory.get('description')?.errors?.['required']">SubCategory description
+                                is required.</div>
                         </div>
                     </div>
                 </div>
@@ -54,9 +59,9 @@
             </div>
         </div>
 
-        
+
         <!-- <input type="file" class="img-thumbnail" change="imageUpload($event)"> -->
-        
+
         <div class="row m-2">
             <div class="col-sm-10">
             </div>

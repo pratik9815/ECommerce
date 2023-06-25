@@ -23,6 +23,7 @@ export class AddproductComponent implements OnInit {
   submitted: boolean = false;
   // isCreated: boolean;
   categoryList:any;
+  subCategoryList:any;
 
   imageSource: any;
 
@@ -56,7 +57,8 @@ export class AddproductComponent implements OnInit {
       quantity: ['', [Validators.required]],
       description: ['', [Validators.required]],
       categoryId:[null,[Validators.required]],
-      productStatus:[0,[Validators.required]]
+      productStatus:[0,[Validators.required]],
+      subCategoryId:[null,[Validators.required]]
     });
     console.log(this.productForm.value);
   }
@@ -97,7 +99,7 @@ export class AddproductComponent implements OnInit {
 
   getCategory()
   {
-    this._categoryService.getAllCategory().subscribe({
+    this._categoryService.getCategoryWithSubCategory().subscribe({
       next: res =>{
         console.log(res);
         this.categoryList = res;
@@ -143,8 +145,20 @@ export class AddproductComponent implements OnInit {
   }
   onChange(e:any)
   {
+    console.log(e)
+    this.subCategoryList = e.subCategories;
+    console.log(this.subCategoryList)
     this.productForm.value.categoryId = e.id;
   }
+
+  onChangeSubCategory(e:any)
+  {
+    console.log(e)
+    // this.subCategoryList = e.subCategories;
+    // console.log(this.subCategoryList)
+    // this.productForm.value.categoryId = e.id;
+  }
+
 
 
 }

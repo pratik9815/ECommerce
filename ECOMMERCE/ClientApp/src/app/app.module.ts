@@ -45,6 +45,7 @@ import { CustomerListComponent } from './components/customer-list/customer-list.
 import { OrderComponent } from './components/order/order.component';
 import { OrderDetailsComponent } from './components/order/order-details/order-details.component';
 import { PopularProductListComponent } from './components/popular-product-list/popular-product-list.component';
+import { CategoryDetailsComponent } from './components/category-list/category-details/category-details.component';
 
 
 
@@ -73,6 +74,7 @@ import { PopularProductListComponent } from './components/popular-product-list/p
     OrderComponent,
     OrderDetailsComponent,
     PopularProductListComponent,
+    CategoryDetailsComponent,
   ],
   imports: [
     BrowserModule,

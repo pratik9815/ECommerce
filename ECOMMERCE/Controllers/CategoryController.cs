@@ -73,5 +73,13 @@ namespace ECOMMERCE.Controllers
             var result = await _categoryRepository.GetCategoryWithSubCategory().ToListAsync();
             return Ok(result);  
         }
+        [HttpPut("update-category-with-sub-category")]
+        public async Task<ActionResult<ApiResponse>> UpdateCategoryWithSubCategory([FromBody] UpdateCategoryWithSubCategoryCommand category)
+        {
+            var response = await _categoryRepository.UpdateCategoryWithSubCategory(category);
+            if (response.ResponseCode is not 200)
+                return BadRequest(response);
+            return Ok(response);
+        }
     }
 }

@@ -30,4 +30,12 @@ export class CategoryService {
   {
     return this._httpClient.post(this.apiUrl+'create-category-with-sub-category',category);
   }
+  updateCategoryWithSubCategory(category:any)
+  {
+    return this._httpClient.put(this.apiUrl+'update-category-with-sub-category',category);
+  }
+  getCategoryWithSubCategory()
+  {
+    return this._httpClient.get(this.apiUrl+'get-category-with-sub-category');
+  }
 }

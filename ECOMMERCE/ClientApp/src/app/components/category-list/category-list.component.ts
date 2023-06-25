@@ -25,6 +25,9 @@ export class CategoryListComponent implements OnInit {
   addCategoryPopUpModal: boolean = false;
     updateCategoryPopUpModal: boolean = false;
     CategoryPopUpModal: boolean = false;
+
+  categoryDetails: any;
+  categoryDetailsPopUpModal: boolean = false;
   
     constructor(private _categoryService:CategoryService,
                 private _toastrService:ToastrService) {
@@ -46,7 +49,7 @@ export class CategoryListComponent implements OnInit {
 
   getCategory()
   {
-    this._categoryService.getAllCategory().subscribe({
+    this._categoryService.getCategoryWithSubCategory().subscribe({
       next: (data:any) =>{
         this.categoryData = data;
       this.categoryDataClone = [...data];
@@ -60,9 +63,10 @@ export class CategoryListComponent implements OnInit {
   public actions() {
     return function(params:any){
       return ` 
-      <button type="button" data-action-type="Edit" class="btn" ><i data-action-type="Edit" class="bi bi-pencil-square text-success"></i></button> 
+      <button type="button" data-action-type="Edit" class="btn" style="border:none;"><i data-action-type="Edit" class="bi bi-pencil-square text-success"></i></button> 
 
-              <button type="button" data-action-type="Remove" class="btn" ><i  data-action-type="Remove" class="bi bi-trash3-fill text-danger"></i></button>`;
+              <button type="button" data-action-type="Remove" class="btn" style="border:none;"><i  data-action-type="Remove" class="bi bi-trash3-fill text-danger"></i></button>
+              <button type="button" data-action-type="Remove" class="btn" style="border:none;"><i  data-action-type="" class="bi bi-eye-fill text-primary"></i></button>`;
     }
   }
 
@@ -90,6 +94,11 @@ export class CategoryListComponent implements OnInit {
         }
         case "Remove": {
           return this.onOpenDialog(data);
+        }
+        case "Details":{
+          this.categoryDetails = data;
+          this.categoryDetailsPopUpModal = true;
+          break;
         }
         case "Cateogry":{
           this.categoryId = data.id;

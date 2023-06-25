@@ -203,7 +203,7 @@ namespace DataAccessLayer.Repositories
                 }
 
                 foreach (var category in product.Categories)
-                {
+                {   
                     var productCategory = new ProductCategory
                     {
                         CategoryId = category

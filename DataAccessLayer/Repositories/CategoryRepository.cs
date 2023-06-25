@@ -211,10 +211,59 @@ namespace DataAccessLayer.Repositories
                                     {
                                         Id = s.Id,
                                         SubCategoryName = s.SubCategoryName,
-                                        Description = s.SubCategoryDescription
+                                        SubCategoryDescription = s.SubCategoryDescription
                                     }).ToList(),
                                 });
             return category;
+        }
+
+        public async Task<ApiResponse> UpdateCategoryWithSubCategory(UpdateCategoryWithSubCategoryCommand category)
+        {
+            try
+            {
+                var categoryDetails = await _context.Categories.FindAsync(category.Id);
+                if (categoryDetails == null)
+                {
+                    return new ApiResponse
+                    {
+                        ResponseCode = 400,
+                        Message = "Category not found"
+                    };
+                }
+                categoryDetails.CategoryName = category.CategoryName;
+                categoryDetails.Description = category.Description;
+
+                var subCategories = await _context.SubCategories.Where(sc => sc.CategoryId == categoryDetails.Id).ToListAsync();
+                foreach (var subCategory in subCategories)
+                {
+                    _context.SubCategories.Remove(subCategory);
+                }
+                foreach (var subCategory in category.subCategory)
+                {
+                    var newSubCategory = new SubCategory
+                    {
+                        SubCategoryName = subCategory.SubCategoryName,
+                        SubCategoryDescription = subCategory.SubCategoryDescription
+                    };
+                    categoryDetails.AddSubCategories(newSubCategory);
+                }
+                categoryDetails.UpdatedDate = DateTime.UtcNow.AddHours(5).AddMinutes(45);
+                _context.Categories.Update(categoryDetails);
+                await _context.SaveChangesAsync();
+                return new ApiResponse { ResponseCode = 200, Message = "Success" };
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<string>();
+                errors.Add(ex.Message);
+                return new ApiResponse
+                {
+                    ResponseCode = 500,
+                    Message = "Failed",
+                    Errors = errors
+                };
+            }
+
         }
     }
 }
