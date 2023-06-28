@@ -19,6 +19,7 @@ namespace ECOMMERCE.Controllers
             _dashboardRepository = dashboardRepository;
         }
         [HttpGet("get-dashboard-data")]
+        [AllowAnonymous]
         public async  Task<ActionResult<List<DashboardCommand>>> GetDashboardData()
         {
             var result = await _dashboardRepository.GetDataForDashboard().ToListAsync();
@@ -33,6 +34,13 @@ namespace ECOMMERCE.Controllers
                 return Ok(result);
             }
             return NotFound("No records are available");
+        }
+        [HttpGet("get-dashboard-data-with")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<DashboardCommand>>> GetDataForDashboardUsingMethodSyntax()
+        {
+            var result = await _dashboardRepository.GetDataForDashboardUsingMethodSyntax().ToListAsync();
+            return Ok(result);
         }
     }
 }

@@ -24,10 +24,10 @@ export class ProductService {
     return this._httpClient.get(this.apiUrl+'get-product-with-image')
   }
 
-  // CreateProduct(product : any)
-  // {
-  //   return this._httpClient.post(this.apiUrl+"create-product", product);
-  // }
+  CreateProduct(product : any)
+  {
+    return this._httpClient.post(this.apiUrl+"create-product", product);
+  }
 
   CreateProductWithMultipleImages(product : any)
   {

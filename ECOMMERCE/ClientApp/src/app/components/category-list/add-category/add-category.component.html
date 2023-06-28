@@ -43,14 +43,14 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <label for="Description"><b>SubCategory Description</b><span style="color:red;">*</span></label>
-                        <input type="text" id="Description" class="form-control p-10"
+                        <label for="subCategoryDescription"><b>SubCategory Description</b><span style="color:red;">*</span></label>
+                        <input type="text" id="subCategoryDescription" class="form-control p-10"
                             placeholder="Enter sub-category decription"
                             [ngClass]="{ 'is-invalid': submitted && subCategory.get('description')?.errors}"
-                            formControlName="description">
-                        <div *ngIf="submitted && submitted && subCategory.get('description')?.errors"
+                            formControlName="subCategoryDescription">
+                        <div *ngIf="submitted && submitted && subCategory.get('subCategoryDescription')?.errors"
                             class="invalid-feedback text-danger">
-                            <div *ngIf=" subCategory.get('description')?.errors?.['required']">SubCategory description
+                            <div *ngIf=" subCategory.get('subCategoryDescription')?.errors?.['required']">SubCategory description
                                 is required.</div>
                         </div>
                     </div>

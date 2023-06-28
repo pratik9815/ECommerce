@@ -150,9 +150,6 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("RoleType")
-                        .HasColumnType("int");
-
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -578,6 +575,47 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("ProductReviews");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.ProductSubCategory", b =>
+                {
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SubCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CategoryId", "SubCategoryId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.ToTable("ProductSubCategories");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.SubCategory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -824,6 +862,25 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.ProductSubCategory", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Product", "Product")
+                        .WithMany("ProductSubCategories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.SubCategory", "SubCategory")
+                        .WithMany("ProductSubCategories")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("SubCategory");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.SubCategory", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Category", "Category")
@@ -907,6 +964,13 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("ProductImages");
 
                     b.Navigation("ProductReviews");
+
+                    b.Navigation("ProductSubCategories");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.SubCategory", b =>
+                {
+                    b.Navigation("ProductSubCategories");
                 });
 #pragma warning restore 612, 618
         }

@@ -58,7 +58,7 @@ export class AddproductComponent implements OnInit {
       description: ['', [Validators.required]],
       categoryId:[null,[Validators.required]],
       productStatus:[0,[Validators.required]],
-      // subCategoryId:[null,[Validators.required]]
+      subCategoryId:[null,[Validators.required]]
     });
     console.log(this.productForm.value);
   }
@@ -79,22 +79,22 @@ export class AddproductComponent implements OnInit {
     input.append('description', this.productForm.value.description);
     input.append('quantity', this.productForm.value.quantity);
     
-  // input.append('categoryId',this.productForm.value.categoryId);
-  const categoryIds = this.productForm.get('categoryId').value;   
-  for (let i = 0; i < categoryIds.length; i++) {
-    input.append('categoryId', categoryIds[i]);
-  }
-
-  // const subCategoryIds = this.productForm.get('subCategoryId').value; 
-  // for(let i = 0; i < subCategoryIds.length; i++)
-  // {
-  //   input.append('subCategoryId',subCategoryIds[i]);
+  input.append('categoryId',this.productForm.value.categoryId);
+  // const categoryIds = this.productForm.get('categoryId').value;   
+  // for (let i = 0; i < categoryIds.length; i++) {
+  //   input.append('categoryId', categoryIds[i]);
   // }
+
+  const subCategoryIds = this.productForm.get('subCategoryId').value; 
+  for(let i = 0; i < subCategoryIds.length; i++)
+  {
+    input.append('subCategoryId',subCategoryIds[i]);
+  }
   // input.forEach((value, key) => {
   //   console.log(key + ': ' + value);
   // });
 
-    this._productService.CreateProductWithMultipleImages(input).subscribe({
+    this._productService.CreateProduct(input).subscribe({
       next: data => {
         this._toastrService.info("The product has been added", "Success");
         this.callBack.emit();
@@ -153,7 +153,7 @@ export class AddproductComponent implements OnInit {
   }
   onChange(e:any)
   {
-    // this.subCategoryList = e.subCategories;
+    this.subCategoryList = e.subCategories;
     // console.log(this.subCategoryList)
     this.productForm.value.categoryId = e.id;
   }

@@ -163,14 +163,21 @@ namespace DataAccessLayer.Repositories
                     //Here we will map the product and subCategoryId in the productsubcategory table
                     //Here the product will have just one category and multiple subcategory
 
-                    foreach (var category in product.SubCategoryId)
+                    foreach(var subcategoryId in product.SubCategoryId)
                     {
-                        var productCategory = new ProductCategory
+                        var productSubCategory = new ProductSubCategory
                         {
-                            CategoryId = category
+                            CategoryId = product.CategoryId,
+                            SubCategoryId = subcategoryId
                         };
-                        newProduct.AddProductCategory(productCategory);
+                        newProduct.AddProductSubCategory(productSubCategory);
                     }
+                    var productCategory = new ProductCategory
+                    {
+                        CategoryId = product.CategoryId
+                    };
+                    newProduct.AddProductCategory(productCategory);
+
                     //var webRootPath = _webHostEnvironment.WebRootPath;
                     string fileWithPath = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
 
@@ -179,6 +186,7 @@ namespace DataAccessLayer.Repositories
                         Directory.CreateDirectory(fileWithPath);
                     }
                     string[] allowedExtensions = new string[] { ".jpg", ".png", ".jpeg", ".pdf", ".avif" };
+
 
                     foreach (var image in product.Img)
                     {

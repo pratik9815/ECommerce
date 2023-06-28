@@ -40,7 +40,7 @@ export class AddCategoryComponent implements OnInit {
   {
     return this._formBuilder.group({
       subCategoryName : ['',Validators.required],
-      description: ['',[Validators.required]]
+      subCategoryDescription: ['',[Validators.required]]
     });
   }
 

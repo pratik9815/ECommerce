@@ -151,9 +151,13 @@ namespace DataAccessLayer.DataContext
               .IsRequired();
             });
 
-            builder.Entity<ProductSubCategories>(psc =>
+            builder.Entity<ProductSubCategory>(psc =>
             {
-                psc.HasKey(c => c.Id);
+                psc.HasKey(c => new
+                {
+                    c.CategoryId,
+                    c.SubCategoryId
+                });
             });
 
             //configuring product and order details relationship
@@ -182,10 +186,7 @@ namespace DataAccessLayer.DataContext
             builder.Entity<SubCategory>()
                 .HasKey(a => a.Id);
 
-            builder.Entity<SubCategory>()
-                .HasOne(sc => sc.Category)
-                .WithMany(c => c.SubCategories)
-                .HasForeignKey(sc => sc.CategoryId);
+
 
             builder.Entity<SystemAccessLog>()
                 .HasKey(a => a.Id);
@@ -198,10 +199,30 @@ namespace DataAccessLayer.DataContext
             builder.Entity<Product>()
                 .HasMany(p => p.ProductReviews)
                 .WithOne(pr => pr.Product)
-                .HasForeignKey(pr => pr.ProductId);                    
+                .HasForeignKey(pr => pr.ProductId);
+
+            //category and subcategory one to may relationship
+            builder.Entity<SubCategory>()
+                .HasOne(sc => sc.Category)
+                .WithMany(c => c.SubCategories)
+                .HasForeignKey(sc => sc.CategoryId);
+
+            //productsubcategory and product one to many relationship
+            builder.Entity<ProductSubCategory>()
+                .HasOne(psc => psc.Product)
+                .WithMany(p => p.ProductSubCategories)
+                .HasForeignKey(psc => psc.ProductId);
+
+            //productsubcategory nad subcategory relationship
+            builder.Entity<ProductSubCategory>()
+                .HasOne(psc => psc.SubCategory)
+                .WithMany(sc => sc.ProductSubCategories)
+                .HasForeignKey(psc => psc.SubCategoryId);
+
+            // productsubcategory and subcategory relationship
+
 
         }
-       //public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product>  Products { get; set; }
@@ -213,7 +234,7 @@ namespace DataAccessLayer.DataContext
         public DbSet<ProductReview> ProductReviews { get; set; }
         public DbSet<OrderActivityLog> OrderActivityLogs { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }   
-        
+        public DbSet<ProductSubCategory> ProductSubCategories { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

@@ -67,7 +67,7 @@ namespace ECOMMERCE.Controllers
 
         //Used in angular to create the product with image
         [HttpPost("create-product")]
-        public async Task<ActionResult<ApiResponse>> CreateProduct([FromBody] CreateCommand product)
+        public async Task<ActionResult<ApiResponse>> CreateProduct([FromForm] CreateCommand product)
         {
             var response = await _productRepository.CreateProduct(product);
             if (response.ResponseCode is not 200)

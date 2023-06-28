@@ -15,6 +15,7 @@ namespace DataAccessLayer.Models
         {
             ProductCategories = new List<ProductCategory>();
             ProductImages = new List<ProductImage>();
+            ProductSubCategories = new List<ProductSubCategory>();
         }
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -35,6 +36,8 @@ namespace DataAccessLayer.Models
 
         public ICollection<ProductReview> ProductReviews { get; set; }
 
+        public ICollection<ProductSubCategory> ProductSubCategories { get; set; }   
+
         //This is responsible for adding collection of productCategory to the productCategories collection this does not make any changes to the database
         public void AddProductCategory(ProductCategory productCategory)
         {
@@ -47,10 +50,9 @@ namespace DataAccessLayer.Models
             ProductImages.Add(image);
         }
 
-        //public void AddSubCategory(SubCategory productCategory)
-        //{
-        //    ProductCategories.Add(productCategory)
-        //}
-
+        public void AddProductSubCategory(ProductSubCategory productSubCategory)
+        {
+            ProductSubCategories.Add(productSubCategory);
+        }
     }
 }

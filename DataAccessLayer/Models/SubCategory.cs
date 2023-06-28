@@ -13,5 +13,7 @@ namespace DataAccessLayer.Models
         public string SubCategoryDescription { get; set;}
         public Category Category { get; set; }
         public Guid CategoryId { get; set; }
+
+        public ICollection<ProductSubCategory> ProductSubCategories { get; set; }
     }
 }

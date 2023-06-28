@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {Chart , registerables} from 'node_modules/chart.js'
 import { first } from 'rxjs';
 import { DashboardService } from 'src/app/service/dashboard/dashboard.service';
@@ -10,7 +10,7 @@ Chart.register(...registerables);
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   dashboardData:any;
   amount:number[] = [];
@@ -29,18 +29,23 @@ export class DashboardComponent implements OnInit {
   thirdBorderColor:string = 'rgba(255, 255, 0,1)'
   fourthBorderColor:string = 'rgba(255, 138, 0,1)'
   fifthBorderColor:string = 'aqua'
+  //For ngOnDestory
+  data: any;
 
   constructor(private _dashboardService:DashboardService) { }
+
+  ngOnDestroy(): void {
+    console.log("This method is destroyed");
+    this.data.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.getDashboardData();  
   }
 
-
-
   getDashboardData()
   {
-    this._dashboardService.getDashboardData().subscribe({
+   this.data =  this._dashboardService.getDashboardData().subscribe({
       next: res =>{
         this.dashboardData =  res;
         this.dashboardData.map((data:any) =>{
@@ -59,19 +64,8 @@ export class DashboardComponent implements OnInit {
       datasets: [{
         label: 'Performances by category',
         data: this.amount,
-        // backgroundColor: [
-        //   'rgb(255,0,0)',
-        //   'rgb(178, 255, 102)',
-        //   'rgb(255, 255, 102)',
-        //   'rgb(255, 138, 102)',   
-        // ],
         backgroundColor:[this.fifthColor],
-        borderColor: [this.fifthBorderColor
-          // 'rgba(255, 0, 0,1)',
-          // 'rgba(0, 255, 0,1)',
-          // 'rgba(255, 255, 0,1)',
-          // 'rgba(255, 138, 0,1)',      
-        ],
+        borderColor: [this.fifthBorderColor],
         borderWidth:1,
         hoverOffset: 4,
         outerStart:20,
@@ -102,16 +96,6 @@ export class DashboardComponent implements OnInit {
       {
         data.datasets[0].backgroundColor.push(this.thirdColor);
         data.datasets[0].borderColor.push(this.thirdBorderColor);
-      // }
-      // else if(i === 3)
-      // {
-      //   data.datasets[0].backgroundColor.push(this.fourthColor);
-      //   data.datasets[0].borderColor.push(this.fourthBorderColor);
-      // }
-      // else if(i === 4)
-      // {
-      //   data.datasets[0].backgroundColor.push(this.fifthColor);
-      //   data.datasets[0].borderColor.push(this.fifthBorderColor);
       }
     }
 
@@ -156,7 +140,6 @@ export class DashboardComponent implements OnInit {
 
 
     const lineChart = new Chart("lineChart",{
-    
         type: 'line',
         data: data,
       
