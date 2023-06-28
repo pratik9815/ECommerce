@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Common;
+using DataAccessLayer.Common.Category;
 using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace DataAccessLayer.Query.Product
         public DateTime? CreatedDate { get; set; }
         public List<ImageList> ImageLists { get; set; }
         public List<CategoryList> Categories { get; set; } //Gives the category of the respective product
+        public List<SubCategoryList> SubCategories { get; set; }
     }
     public class ImageList
     {
@@ -33,6 +35,11 @@ namespace DataAccessLayer.Query.Product
     {
         public Guid CategoryId { get; set;}
         public string CategoryName { get; set; }
+    }
+    public class SubCategoryList
+    {
+        public Guid SubCategoryId { get; set; }
+        public string SubCategoryName { get; set;}
     }
 
 }

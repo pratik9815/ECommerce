@@ -81,8 +81,15 @@ namespace DataAccessLayer.Repositories
                                               Categories = x.ProductCategories.Select(x => new CategoryList
                                               {
                                                   CategoryId = x.CategoryId,
-                                                  CategoryName = x.Category.CategoryName
+                                                  CategoryName = x.Category.CategoryName,
                                               }).ToList(),
+
+                                              SubCategories = x.ProductSubCategories.Select(x => new SubCategoryList
+                                              {
+                                                    SubCategoryId = x.SubCategoryId,
+                                                    SubCategoryName = x.SubCategory.SubCategoryName
+                                              }).ToList()
+
                                           }).FirstAsync();
 
             foreach (var img in product.ImageLists)
@@ -163,15 +170,17 @@ namespace DataAccessLayer.Repositories
                     //Here we will map the product and subCategoryId in the productsubcategory table
                     //Here the product will have just one category and multiple subcategory
 
-                    foreach(var subcategoryId in product.SubCategoryId)
-                    {
-                        var productSubCategory = new ProductSubCategory
+                        foreach (var subcategoryId in product.SubCategoryId)
                         {
-                            CategoryId = product.CategoryId,
-                            SubCategoryId = subcategoryId
-                        };
-                        newProduct.AddProductSubCategory(productSubCategory);
-                    }
+                            var productSubCategory = new ProductSubCategory
+                            {
+                                CategoryId = product.CategoryId,
+                                SubCategoryId = subcategoryId
+                            };
+                            newProduct.AddProductSubCategory(productSubCategory);
+                        }
+
+
                     var productCategory = new ProductCategory
                     {
                         CategoryId = product.CategoryId
@@ -654,6 +663,56 @@ namespace DataAccessLayer.Repositories
 
             return products.AsQueryable();
         }
+
+        public async Task<ProductWithSubCategoryResponse> GetProductWithSubCategories(string subCategoryId, int page)
+        {
+            var pageResult = 3f;
+            var totalCount = _context.ProductSubCategories
+                .Count(x => x.SubCategoryId.ToString() == subCategoryId && !x.Product.IsDeleted);
+
+            var totalPage = (int)Math.Ceiling(totalCount / pageResult);
+
+            var productWithSubCategory = await _context.ProductSubCategories
+                                                .OrderByDescending(o => o.CreatedDate)
+                                                .Where(x => (x.SubCategoryId.ToString() == subCategoryId && !x.Product.IsDeleted)).AsNoTracking()
+                                                .Skip((page - 1) * (int)pageResult).Take((int)pageResult)
+                                                .Select(x => new GetProductWithSubCategory
+                                                {
+                                                    Id = x.ProductId,
+                                                    Name = x.Product.Name,
+                                                    Quantity = x.Product.Quantity,
+                                                    Description = x.Product.Description,
+                                                    Price = x.Product.Price,
+                                                    Img = x.Product.ProductImages.Select(i => new ImageList
+                                                    {
+                                                        ImageName = i.ImageName
+                                                    }).FirstOrDefault(),
+                                                    SubCategoryName = x.SubCategory.SubCategoryName,
+
+                                                }).ToListAsync();
+
+            if (productWithSubCategory != null)
+            {
+                foreach (var product in productWithSubCategory)
+                {
+                    if (product.Img is not null)
+                    {
+                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
+                        product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
+                    }
+                }
+            }
+            var productWithPagination = new ProductWithSubCategoryResponse
+            {
+                Product = productWithSubCategory,
+                Pages = page,
+                TotalPage = totalPage
+            };
+            return productWithPagination;
+        }
+
+
+
 
     }
 }

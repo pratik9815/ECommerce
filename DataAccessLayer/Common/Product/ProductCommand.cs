@@ -100,6 +100,17 @@ namespace DataAccessLayer.Common.Product
         public ImageList ImageLists { get; set; }
         public ProductStatus ProductStatus { get; set;}
     }
+
+    public class GetProductWithSubCategory
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
+        public string SubCategoryName { get; set; }
+        public ImageList Img { get; set; }
+    }
     //public Guid Id { get; set; }
     //public string Name { get; set; }
     //public string Description { get; set; }

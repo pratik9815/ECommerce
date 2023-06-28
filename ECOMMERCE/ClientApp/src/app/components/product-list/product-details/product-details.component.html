@@ -16,9 +16,15 @@
       <div class="title">Product Status:
         <p class="content">{{productStatus}}</p>
       </div>
-      <div class="title">Category:
-        <div class="content" *ngFor="let product of productData.categories ">{{product.categoryName}}</div>
+      <div class="d-flex">
+        <div class="title col-sm-6">Category:
+          <div class="content" *ngFor="let product of productData.categories ">{{product.categoryName}}</div>
+        </div>
+        <div class="title col-sm-6">SubCategory:
+          <div class="content" *ngFor="let product of productData.subCategories ">{{product.subCategoryName}}</div>
+        </div>
       </div>
+
     </div>
     <!-- <div class="col-sm-1"></div> -->
     <form class="col-sm-7 ">

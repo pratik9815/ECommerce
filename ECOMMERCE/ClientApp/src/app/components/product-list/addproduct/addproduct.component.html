@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="row m-2" *ngIf="subCategoryList">
+        <div class="row m-2" *ngIf="subCategoryList.length > 0">
             <div class="col-sm-6">
                 <label for="subCategory"><b>Sub-Category</b><span style="color:red;">*</span></label>
                 <ng-select [items]="subCategoryList" bindLabel="subCategoryName" bindValue="id" placeholder="Select Sub-Category"

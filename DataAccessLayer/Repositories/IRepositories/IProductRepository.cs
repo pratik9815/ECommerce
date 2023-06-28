@@ -28,5 +28,6 @@ namespace DataAccessLayer.Repositories.IRepositories
         Task<ProductResponse> GetProductWithPagination(int page);
         Task<List<GetProductListCommand>> GetLimitedProducts();
         IQueryable<GetPopularProductsWithImage> GetPopularProduct();
+        Task<ProductWithSubCategoryResponse> GetProductWithSubCategories(string subCategoryId, int page);
     }
 }

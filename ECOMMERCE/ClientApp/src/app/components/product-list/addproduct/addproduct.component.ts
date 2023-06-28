@@ -23,7 +23,7 @@ export class AddproductComponent implements OnInit {
   submitted: boolean = false;
   // isCreated: boolean;
   categoryList:any;
-  subCategoryList:any;
+  subCategoryList:any[] = [];
 
   imageSource: any;
 
@@ -67,7 +67,8 @@ export class AddproductComponent implements OnInit {
   }
   onCreate() {
     this.submitted = true;
-    if (this.productForm.invalid) return;
+        if (this.productForm.invalid) return;
+    
 
     let input = new FormData();
     // input.append('img', this.fileInput.nativeElement.files[0]);
@@ -84,12 +85,15 @@ export class AddproductComponent implements OnInit {
   // for (let i = 0; i < categoryIds.length; i++) {
   //   input.append('categoryId', categoryIds[i]);
   // }
+ 
+    const subCategoryIds = this.productForm.get('subCategoryId').value; 
+    for(let i = 0; i < subCategoryIds.length; i++)
+    {
+      input.append('subCategoryId',subCategoryIds[i]);
+    }
+  
 
-  const subCategoryIds = this.productForm.get('subCategoryId').value; 
-  for(let i = 0; i < subCategoryIds.length; i++)
-  {
-    input.append('subCategoryId',subCategoryIds[i]);
-  }
+
   // input.forEach((value, key) => {
   //   console.log(key + ': ' + value);
   // });
@@ -154,17 +158,14 @@ export class AddproductComponent implements OnInit {
   onChange(e:any)
   {
     this.subCategoryList = e.subCategories;
-    // console.log(this.subCategoryList)
     this.productForm.value.categoryId = e.id;
   }
 
   onChangeSubCategory(e:any)
   {
+    if(this.subCategoryList.length > 0)
     console.log(e)
     this.productForm.value.subcategoryId = e.id;
-    // this.subCategoryList = e.subCategories;
-    // console.log(this.subCategoryList)
-    // this.productForm.value.categoryId = e.id;
   }
 
 

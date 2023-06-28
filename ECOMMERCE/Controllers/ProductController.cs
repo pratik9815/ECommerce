@@ -167,7 +167,17 @@ namespace ECOMMERCE.Controllers
             }
             return NotFound("There are no product avaible");
         }
-        
+        [HttpGet("get-product-with-subCategory")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ProductWithSubCategoryResponse>> GetProductSubCategory([FromQuery] string subCategoryId, [FromQuery] int page)
+        {
+            if (string.IsNullOrEmpty(subCategoryId))
+                return BadRequest();
+            var products = await _productRepository.GetProductWithSubCategories(subCategoryId, page);
+
+            return Ok(products);
+        }
+
 
     }
 }

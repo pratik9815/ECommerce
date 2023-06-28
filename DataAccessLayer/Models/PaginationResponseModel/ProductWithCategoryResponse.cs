@@ -14,4 +14,10 @@ namespace DataAccessLayer.Models.PaginationResponseModel
         public int Pages { get; set; }
         public int TotalPage { get; set; }
     }
+    public class ProductWithSubCategoryResponse
+    {
+        public List<GetProductWithSubCategory> Product { get; set; } = new List<GetProductWithSubCategory>();
+        public int Pages { get; set; }
+        public int TotalPage { get; set; }
+    }
 }
