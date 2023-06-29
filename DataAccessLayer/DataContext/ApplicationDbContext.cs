@@ -156,7 +156,8 @@ namespace DataAccessLayer.DataContext
                 psc.HasKey(c => new
                 {
                     c.CategoryId,
-                    c.SubCategoryId
+                    c.SubCategoryId,
+                    c.ProductId
                 });
             });
 

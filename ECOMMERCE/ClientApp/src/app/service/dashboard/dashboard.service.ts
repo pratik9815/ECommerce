@@ -17,5 +17,8 @@ export class DashboardService {
   {
     return this._httpClient.get(this.apiUrl + 'get-popular-product');
   }
-  
+  getOrderStatus()
+  {
+    return this._httpClient.get(this.apiUrl+'get-order-status-for-dashboard');
+  }
 }

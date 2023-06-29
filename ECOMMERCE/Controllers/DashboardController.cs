@@ -42,5 +42,12 @@ namespace ECOMMERCE.Controllers
             var result = await _dashboardRepository.GetDataForDashboardUsingMethodSyntax().ToListAsync();
             return Ok(result);
         }
+        [HttpGet("get-order-status-for-dashboard")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<GetOrderStatus>>> GetProductStatus()
+        {
+            var result = await _dashboardRepository.GetProductStatus().ToListAsync();
+            return Ok(result);
+        }
     }
 }

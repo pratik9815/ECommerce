@@ -1,6 +1,8 @@
-﻿using DataAccessLayer.Common.Dashboard;
+﻿using DataAccessLayer.Common;
+using DataAccessLayer.Common.Dashboard;
 using DataAccessLayer.Common.Order;
 using DataAccessLayer.DataContext;
+using DataAccessLayer.Models;
 using DataAccessLayer.Repositories.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -94,6 +96,22 @@ namespace DataAccessLayer.Repositories
 
 
         }
+
+
+        //Pending,Requested and completed sales
+
+        public IQueryable<GetOrderStatus> GetProductStatus()
+        {
+            var orderStatus = _context.Orders.Where(o => !o.IsDeleted)
+                                        .GroupBy(o => o.OrderStatus)
+                                        .Select(x => new GetOrderStatus
+                                        {
+                                           OrderedQuantity =  x.Count(),
+                                           OrderStatus = x.Key
+                                        });
+            return orderStatus;
+        }
+        
 
     }
 }

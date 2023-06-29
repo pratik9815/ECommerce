@@ -32,4 +32,10 @@ namespace DataAccessLayer.Common.Dashboard
         public ImageList ImageList { get; set; }
     }
 
+    public class GetOrderStatus
+    {
+        public int OrderedQuantity { get; set; }
+        public OrderStatus OrderStatus { get; set; } 
+    }
+
 }
