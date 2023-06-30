@@ -46,6 +46,7 @@ import { OrderComponent } from './components/order/order.component';
 import { OrderDetailsComponent } from './components/order/order-details/order-details.component';
 import { PopularProductListComponent } from './components/popular-product-list/popular-product-list.component';
 import { CategoryDetailsComponent } from './components/category-list/category-details/category-details.component';
+import { GetOrdersWithStatusComponent } from './components/order/get-orders-with-status/get-orders-with-status.component';
 
 
 
@@ -75,6 +76,7 @@ import { CategoryDetailsComponent } from './components/category-list/category-de
     OrderDetailsComponent,
     PopularProductListComponent,
     CategoryDetailsComponent,
+    GetOrdersWithStatusComponent,
   ],
   imports: [
     BrowserModule,

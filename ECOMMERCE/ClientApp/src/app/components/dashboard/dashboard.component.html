@@ -2,53 +2,85 @@
     <!-- <div class="col-sm-1"></div> -->
     <div class="col-sm-2" >
         <div class=" common text-center" style="background-color:rgba(255,0,0,0.4);;">
-            <h4 class="pt-2">Total Sales</h4>
+            <i class="bi bi-currency-dollar" style="font-size:70px; margin:0;"></i>
+            <div>
+                <h4>Total Sales</h4>
+                <h4>&#36;500</h4>
+            </div>
+
            
         </div>
     </div>
     <div class="col-sm-1"></div>
     <div class="col-sm-2">
-        <div class="common"  style="background-color: rgba(0,0,255,0.4);"></div>
+        <div class="common"  style="background-color: rgba(0,0,255,0.4);">
+            <i class="bi bi-cart-fill ms-1" style="font-size:70px;"></i>
+            <div>
+                <h4 class="row ms-2">Total Requests</h4>
+                <h4 class="row ms-5">220</h4>
+            </div>
+        </div>
     </div>
     <div class="col-sm-1"></div>
     <div class="col-sm-2" >
-        <div class="common" style="background-color:rgba(0,255,0,0.4);;"></div>
+        <div class="common" style="background-color:rgba(0,255,0,0.4);;">
+            <i class="bi bi-percent ms-1" style="font-size:70px;"></i>
+            <div>
+                <h4 class="row ms-2">Daily Sales</h4>
+                <h4 class="row ms-4">&#36;50</h4>
+            </div>
+        </div>
     </div>
     <div class="col-sm-1"></div>
     <div class="col-sm-2" >
-        <div class="common" style="background-color:rgba(255,255,0,0.4);;"></div>
+        <div class="common" style="background-color:rgba(255,255,0,0.4);;">
+            <i class="bi bi-basket3-fill" style="font-size:70px;"></i>
+            <div>
+                <h4 class="row ms-2">New Products</h4>
+                <h4 class="row ms-5">20</h4>
+            </div>
+        </div>
     </div>
-
 </div>
 
 
-<div class="row secondrow">
-    <div class="col-sm-6 classpiechart">
-        <h2>Pie Chart</h2>
+<div class="d-flex secondrow">
+    <div class="classpiechart">
+        <h2 class="mt-2 ms-2">Performence by category</h2>
         <canvas id="piechart">
+        </canvas>
+    </div>
+
+    <div class="classbargraph">
+        <h2 class="mt-2 ms-2">Graph for orders</h2>
+        <canvas id="barGraphForOrderStatus" >
+        </canvas>
+    </div>
+    <div class="classpiechart">
+        <h2 class="mt-2">Line Chart</h2>
+        <canvas id="lineChart">
 
         </canvas>
     </div>
-    <div class="col-sm-6 classbargraph">
-        <h2>Bar Graph</h2>
-        <canvas id="bargraph" >
-
-        </canvas>
-    </div>
+    
 </div>
 
-<div class="thirdrow row">
-    <div class="col-sm-6" style="width: 550px;">
+<!-- <div class="thirdrow row">
+    <div class="col-sm-6" style="width: 560px; background-color:white;margin-left:20px;">
+        <h2 class="mt-2">Line Chart</h2>
         <canvas id="lineChart">
 
         </canvas>
 
     </div>
-
-    <div class="col-sm-6">
-        <h2>Bar Graph</h2>
-        <canvas id="barGraphForOrderStatus" >
+    <div class="col-sm-6 classbargraph">
+        <h2 class="mt-2">Bar Graph</h2>
+        <canvas id="bargraph" >
 
         </canvas>
     </div>
-</div>
+
+</div> -->
+
+
+<!-- Revenue vs order line chart -->

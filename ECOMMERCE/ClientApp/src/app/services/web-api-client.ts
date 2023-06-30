@@ -362,6 +362,7 @@ export interface ICategoryService {
     deleteProduct(id: string): Observable<ApiResponse>;
     createCategoryWithSubCategory(category: CreateCategoryWithSubCategoryCommand): Observable<ApiResponse>;
     getCategoryWithSubCategory(): Observable<GetCategoryWithSubCategory>;
+    updateCategoryWithSubCategory(category: UpdateCategoryWithSubCategoryCommand): Observable<ApiResponse>;
 }
 
 @Injectable({
@@ -679,11 +680,65 @@ export class CategoryService implements ICategoryService {
         }
         return _observableOf(null as any);
     }
+
+    updateCategoryWithSubCategory(category: UpdateCategoryWithSubCategoryCommand, httpContext?: HttpContext): Observable<ApiResponse> {
+        let url_ = this.baseUrl + "/api/Category/update-category-with-sub-category";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(category);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateCategoryWithSubCategory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateCategoryWithSubCategory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ApiResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ApiResponse>;
+        }));
+    }
+
+    protected processUpdateCategoryWithSubCategory(response: HttpResponseBase): Observable<ApiResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ApiResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export interface IDashboardService {
     getDashboardData(): Observable<DashboardCommand[]>;
     getPopularProductForDashboard(): Observable<GetPopularProducts[]>;
+    getDataForDashboardUsingMethodSyntax(): Observable<DashboardCommand[]>;
+    getProductStatus(): Observable<GetOrderStatus[]>;
 }
 
 @Injectable({
@@ -794,6 +849,102 @@ export class DashboardService implements IDashboardService {
         }
         return _observableOf(null as any);
     }
+
+    getDataForDashboardUsingMethodSyntax(httpContext?: HttpContext): Observable<DashboardCommand[]> {
+        let url_ = this.baseUrl + "/api/Dashboard/get-dashboard-data-with";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDataForDashboardUsingMethodSyntax(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDataForDashboardUsingMethodSyntax(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DashboardCommand[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DashboardCommand[]>;
+        }));
+    }
+
+    protected processGetDataForDashboardUsingMethodSyntax(response: HttpResponseBase): Observable<DashboardCommand[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as DashboardCommand[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getProductStatus(httpContext?: HttpContext): Observable<GetOrderStatus[]> {
+        let url_ = this.baseUrl + "/api/Dashboard/get-order-status-for-dashboard";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProductStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProductStatus(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetOrderStatus[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetOrderStatus[]>;
+        }));
+    }
+
+    protected processGetProductStatus(response: HttpResponseBase): Observable<GetOrderStatus[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetOrderStatus[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export interface IOrderService {
@@ -801,6 +952,8 @@ export interface IOrderService {
     createOrders(order: CreateOrderCommand): Observable<ApiResponse>;
     getOrderDetails(customerId: string | undefined): Observable<GetOrderCommand>;
     removeOrder(orderId: string | undefined): Observable<FileResponse>;
+    getOrderWithOrderStatus(orderStatus: OrderStatus): Observable<GetOrderCommand[]>;
+    changeOrderStatus(orderId: string | null, orderStatus: OrderStatus | undefined): Observable<ApiResponse>;
 }
 
 @Injectable({
@@ -1018,6 +1171,112 @@ export class OrderService implements IOrderService {
         }
         return _observableOf(null as any);
     }
+
+    getOrderWithOrderStatus(orderStatus: OrderStatus, httpContext?: HttpContext): Observable<GetOrderCommand[]> {
+        let url_ = this.baseUrl + "/api/Order/get-order-with-status/{orderStatus}";
+        if (orderStatus === undefined || orderStatus === null)
+            throw new Error("The parameter 'orderStatus' must be defined.");
+        url_ = url_.replace("{orderStatus}", encodeURIComponent("" + orderStatus));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOrderWithOrderStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOrderWithOrderStatus(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetOrderCommand[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetOrderCommand[]>;
+        }));
+    }
+
+    protected processGetOrderWithOrderStatus(response: HttpResponseBase): Observable<GetOrderCommand[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetOrderCommand[];
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    changeOrderStatus(orderId: string | null, orderStatus: OrderStatus | undefined, httpContext?: HttpContext): Observable<ApiResponse> {
+        let url_ = this.baseUrl + "/api/Order/change-order-status/{orderId}?";
+        if (orderId === undefined || orderId === null)
+            throw new Error("The parameter 'orderId' must be defined.");
+        url_ = url_.replace("{orderId}", encodeURIComponent("" + orderId));
+        if (orderStatus === null)
+            throw new Error("The parameter 'orderStatus' cannot be null.");
+        else if (orderStatus !== undefined)
+            url_ += "orderStatus=" + encodeURIComponent("" + orderStatus) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processChangeOrderStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processChangeOrderStatus(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ApiResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ApiResponse>;
+        }));
+    }
+
+    protected processChangeOrderStatus(response: HttpResponseBase): Observable<ApiResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ApiResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export interface IOrderDetailsService {
@@ -1094,7 +1353,7 @@ export interface IProductService {
     getProducts(): Observable<GetProductCommand[]>;
     getProductById(id: string): Observable<GetProductQuery>;
     getAllWithImage(): Observable<GetProductQuery[]>;
-    createProduct(product: CreateProductCommand): Observable<ApiResponse>;
+    createProduct(name: string | null | undefined, description: string | null | undefined, price: number | undefined, quantity: number | undefined, productStatus: ProductStatus | undefined, img: FileParameter[] | null | undefined, createdDate: Date | null | undefined, categoryId: string | undefined, subCategoryId: string[] | null | undefined): Observable<ApiResponse>;
     createProductWithImages(name: string | null | undefined, description: string | null | undefined, price: number | undefined, quantity: number | undefined, productStatus: ProductStatus | undefined, img: FileParameter[] | null | undefined, createdDate: Date | null | undefined, categoryId: string[] | null | undefined): Observable<ApiResponse>;
     updateProduct(product: UpdateProductCommand): Observable<ApiResponse>;
     deleteProduct(id: string): Observable<ApiResponse>;
@@ -1104,6 +1363,7 @@ export interface IProductService {
     getProductWithPagination(page: number): Observable<ProductResponse>;
     getRandomProduct(): Observable<GetProductListCommand[]>;
     getPopularProduct(): Observable<GetPopularProducts[]>;
+    getProductSubCategory(subCategoryId: string | null | undefined, page: number | undefined): Observable<ProductWithSubCategoryResponse>;
 }
 
 @Injectable({
@@ -1266,11 +1526,37 @@ export class ProductService implements IProductService {
         return _observableOf(null as any);
     }
 
-    createProduct(product: CreateProductCommand, httpContext?: HttpContext): Observable<ApiResponse> {
+    createProduct(name: string | null | undefined, description: string | null | undefined, price: number | undefined, quantity: number | undefined, productStatus: ProductStatus | undefined, img: FileParameter[] | null | undefined, createdDate: Date | null | undefined, categoryId: string | undefined, subCategoryId: string[] | null | undefined, httpContext?: HttpContext): Observable<ApiResponse> {
         let url_ = this.baseUrl + "/api/Product/create-product";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(product);
+        const content_ = new FormData();
+        if (name !== null && name !== undefined)
+            content_.append("Name", name.toString());
+        if (description !== null && description !== undefined)
+            content_.append("Description", description.toString());
+        if (price === null || price === undefined)
+            throw new Error("The parameter 'price' cannot be null.");
+        else
+            content_.append("Price", price.toString());
+        if (quantity === null || quantity === undefined)
+            throw new Error("The parameter 'quantity' cannot be null.");
+        else
+            content_.append("Quantity", quantity.toString());
+        if (productStatus === null || productStatus === undefined)
+            throw new Error("The parameter 'productStatus' cannot be null.");
+        else
+            content_.append("ProductStatus", productStatus.toString());
+        if (img !== null && img !== undefined)
+            img.forEach(item_ => content_.append("Img", item_.data, item_.fileName ? item_.fileName : "Img") );
+        if (createdDate !== null && createdDate !== undefined)
+            content_.append("CreatedDate", createdDate.toJSON());
+        if (categoryId === null || categoryId === undefined)
+            throw new Error("The parameter 'categoryId' cannot be null.");
+        else
+            content_.append("CategoryId", categoryId.toString());
+        if (subCategoryId !== null && subCategoryId !== undefined)
+            subCategoryId.forEach(item_ => content_.append("SubCategoryId", item_.toString()));
 
         let options_ : any = {
             body: content_,
@@ -1278,7 +1564,6 @@ export class ProductService implements IProductService {
             responseType: "blob",
             context: httpContext,
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
@@ -1796,6 +2081,60 @@ export class ProductService implements IProductService {
         }
         return _observableOf(null as any);
     }
+
+    getProductSubCategory(subCategoryId: string | null | undefined, page: number | undefined, httpContext?: HttpContext): Observable<ProductWithSubCategoryResponse> {
+        let url_ = this.baseUrl + "/api/Product/get-product-with-subCategory?";
+        if (subCategoryId !== undefined && subCategoryId !== null)
+            url_ += "subCategoryId=" + encodeURIComponent("" + subCategoryId) + "&";
+        if (page === null)
+            throw new Error("The parameter 'page' cannot be null.");
+        else if (page !== undefined)
+            url_ += "page=" + encodeURIComponent("" + page) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProductSubCategory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProductSubCategory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ProductWithSubCategoryResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ProductWithSubCategoryResponse>;
+        }));
+    }
+
+    protected processGetProductSubCategory(response: HttpResponseBase): Observable<ProductWithSubCategoryResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProductWithSubCategoryResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export interface IUserService {
@@ -2109,7 +2448,14 @@ export interface GetCategoryWithSubCategory {
 export interface GetSubCategory {
     id?: string;
     subCategoryName?: string | undefined;
+    subCategoryDescription?: string | undefined;
+}
+
+export interface UpdateCategoryWithSubCategoryCommand {
+    id?: string;
+    categoryName?: string | undefined;
     description?: string | undefined;
+    subCategory?: CreateSubCategory[] | undefined;
 }
 
 export interface DashboardCommand {
@@ -2126,6 +2472,18 @@ export interface GetPopularProducts {
     totalPrice?: number;
 }
 
+export interface GetOrderStatus {
+    orderedQuantity?: number;
+    orderStatus?: OrderStatus;
+}
+
+export enum OrderStatus {
+    Pending = 0,
+    OrderRejected = 1,
+    OrderProcessing = 2,
+    OrderDelivered = 3,
+}
+
 export interface GetOrderCommand {
     id?: string;
     amount?: number;
@@ -2138,13 +2496,6 @@ export interface GetOrderCommand {
     orderStatus?: OrderStatus;
     orderDate?: Date;
     orderDetails?: OrderDetails[] | undefined;
-}
-
-export enum OrderStatus {
-    Pending = 0,
-    OrderRejected = 1,
-    OrderProcessing = 2,
-    OrderDelivered = 3,
 }
 
 export interface AuditableEntity {
@@ -2204,6 +2555,7 @@ export interface Product extends AuditableEntity {
     orderDetails?: OrderDetails[] | undefined;
     productImages?: ProductImage[] | undefined;
     productReviews?: ProductReview[] | undefined;
+    productSubCategories?: ProductSubCategory[] | undefined;
 }
 
 export enum ProductStatus {
@@ -2235,6 +2587,15 @@ export interface SubCategory {
     subCategoryDescription?: string | undefined;
     category?: Category | undefined;
     categoryId?: string;
+    productSubCategories?: ProductSubCategory[] | undefined;
+}
+
+export interface ProductSubCategory extends AuditableEntity {
+    categoryId?: string;
+    subCategory?: SubCategory | undefined;
+    subCategoryId?: string;
+    product?: Product | undefined;
+    productId?: string;
 }
 
 export interface ProductImage {
@@ -2303,6 +2664,7 @@ export interface GetProductQuery {
     createdDate?: Date | undefined;
     imageLists?: ImageList[] | undefined;
     categories?: CategoryList[] | undefined;
+    subCategories?: SubCategoryList[] | undefined;
 }
 
 export interface CategoryList {
@@ -2310,12 +2672,9 @@ export interface CategoryList {
     categoryName?: string | undefined;
 }
 
-export interface CreateProductCommand {
-    name?: string | undefined;
-    description?: string | undefined;
-    price?: number;
-    quantity?: number;
-    categoryId?: string;
+export interface SubCategoryList {
+    subCategoryId?: string;
+    subCategoryName?: string | undefined;
 }
 
 export interface UpdateProductCommand {
@@ -2357,6 +2716,22 @@ export interface GetProductListCommand {
     price?: number;
     imageLists?: ImageList | undefined;
     productStatus?: ProductStatus;
+}
+
+export interface ProductWithSubCategoryResponse {
+    product?: GetProductWithSubCategory[] | undefined;
+    pages?: number;
+    totalPage?: number;
+}
+
+export interface GetProductWithSubCategory {
+    id?: string;
+    name?: string | undefined;
+    description?: string | undefined;
+    price?: number;
+    quantity?: number;
+    subCategoryName?: string | undefined;
+    img?: ImageList | undefined;
 }
 
 export interface UserDTO {

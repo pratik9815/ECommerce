@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Common.Order;
+﻿using DataAccessLayer.Common;
+using DataAccessLayer.Common.Order;
 using DataAccessLayer.Models;
 using DataAccessLayer.Repositories.IRepositories;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +53,23 @@ namespace ECOMMERCE.Controllers
             
             return BadRequest();
            
+        }
+        [HttpGet("get-order-with-status/{orderStatus}")]
+        public async Task<ActionResult<List<GetOrderCommand>>> GetOrderWithOrderStatus([FromRoute]OrderStatus orderStatus)
+        {
+            var orders = await _orderRepository.GetOrderWithStatus(orderStatus);
+            return Ok(orders);  
+        }
+        [HttpPost("change-order-status/{orderId}")]
+        public async Task<ActionResult<ApiResponse>> ChangeOrderStatus(string orderId,[FromBody]OrderStatus orderStatus)
+        {
+            var result = await _orderRepository.ChangeOrderStatus(orderId,orderStatus);
+            if (result == ResponseCodeConstants.Success)
+                return Ok();
+            else if (result == ResponseCodeConstants.NotFound)
+                return NotFound();
+
+            return BadRequest();
         }
     }
 }

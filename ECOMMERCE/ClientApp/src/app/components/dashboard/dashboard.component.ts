@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Chart, registerables } from 'node_modules/chart.js'
-import { first } from 'rxjs';
 import { DashboardService } from 'src/app/service/dashboard/dashboard.service';
-import { OrderStatus, ProductStatus } from 'src/app/services/web-api-client';
+import { OrderStatus } from 'src/app/services/web-api-client';
 
 
 Chart.register(...registerables);
@@ -18,20 +17,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   categoryName: string[] = [];
 
 
-  firstColor: string = '#FF3333'
-  secondColor: string = '#32FF62'
-  thirdColor: string = '#E9EF39ss'
+  firstColor: string = '#32FF62'
+  secondColor: string = '#FF3333'
+  thirdColor: string = '#E9EF39'
   fourthColor: string = 'rgb(255, 138, 102)'
   fifthColor: string = 'aqua'
 
 
-  firstBorderColor: string = '#FF3333'
-  secondBorderColor: string = '#32FF62'
+  firstBorderColor: string = '#32FF62'
+  secondBorderColor: string = '#FF3333'
   thirdBorderColor: string = '#E9EF39'
   fourthBorderColor: string = 'rgba(255, 138, 0,1)'
   fifthBorderColor: string = 'aqua'
   //For ngOnDestory
   data: any;
+
   orderStatusData: any;
   orderStatus: any[] = [];
   orderedQuantity: number[] = [];
@@ -111,7 +111,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         data.datasets[0].borderColor.push(this.firstBorderColor);
       }
       else if (i % 3 === 0) {
-        data.datasets[0].backgroundColor.push(this.fourthColor);
+        data.datasets[0].backgroundColor.push(this.fourthColor);  
         data.datasets[0].borderColor.push(this.fourthBorderColor);
       }
       else if (i % 2 === 0) {
@@ -127,36 +127,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     for (var i = 0; i < this.orderStatusData.length; i++) {
       if (i === 0) {
-        data.datasets[0].backgroundColor.push(this.firstColor);
-        data.datasets[0].borderColor.push(this.firstBorderColor);
+        orderStatusData.datasets[0].backgroundColor.push(this.secondColor);
+        orderStatusData.datasets[0].borderColor.push(this.secondBorderColor);
       }
       else if (i % 3 === 0) {
-        data.datasets[0].backgroundColor.push(this.fourthColor);
-        data.datasets[0].borderColor.push(this.fourthBorderColor);
+        orderStatusData.datasets[0].backgroundColor.push(this.fourthColor);
+        orderStatusData.datasets[0].borderColor.push(this.fourthBorderColor);
       }
       else if (i % 2 === 0) {
-        data.datasets[0].backgroundColor.push(this.secondColor);
-        data.datasets[0].borderColor.push(this.secondBorderColor);
+        orderStatusData.datasets[0].backgroundColor.push(this.secondColor);
+        orderStatusData.datasets[0].borderColor.push(this.secondBorderColor);
       }
       else {
-        data.datasets[0].backgroundColor.push(this.thirdColor);
-        data.datasets[0].borderColor.push(this.thirdBorderColor);
+        orderStatusData.datasets[0].backgroundColor.push(this.thirdColor);
+        orderStatusData.datasets[0].borderColor.push(this.thirdBorderColor);
       }
     }
 
 
-    const barGraph = new Chart("bargraph",
-      {
-        type: 'bar',
-        data: data,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        },
-      });
+    // const barGraph = new Chart("bargraph",
+    //   {
+    //     type: 'bar',
+    //     data: data,
+    //     options: {
+    //       scales: {
+    //         y: {
+    //           beginAtZero: true
+    //         }
+    //       }
+    //     },
+    //   });
 
     const pieChart = new Chart("piechart", {
       type: 'pie',
@@ -167,7 +167,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             enabled: true,
           },
         },
-        radius: 160,
+        radius: 140,
         elements: {
           arc: {
             borderWidth: 10,
@@ -205,8 +205,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
       });
   }
-}
-interface getOrderStatusData {
-  OrderedQuantity: number,
-  OrderStatus: OrderStatus
 }

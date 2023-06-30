@@ -14,14 +14,24 @@
 
         <li class="list"><a class="link" routerLink="/product-list">Product </a></li>
         <li class="list"><a class="link" routerLink="/category-list">Category</a></li>
-        <li class="list"><a class="link" routerLink="/order-list">Orders</a></li>
-        <li class="list"><a class="link" routerLink="/customer-list">Customer</a></li>
+        <li class="list dropdown btn-group dropend">
+            <a class="link" >Orders<i class="fa fa-angle-right mt-1" style="opacity: 0.6;margin-left:70px;"></i></a>
+            <ul class="dropdown-menu" aria-labelledby="dashboardDropdown">
+                <li><a class="dropdown-item" routerLink="/order-list">All order request</a></li>
+                <li><a class="dropdown-item" (click)="orderListWithStatusNavigation(0)">Order requests</a></li>
+                <li><a class="dropdown-item" (click)="orderListWithStatusNavigation(2)">Pending Orders</a></li>
+                <li><a class="dropdown-item" (click)="orderListWithStatusNavigation(3)">Completed order</a></li>
+            </ul>
+        </li>
+
+        <!-- <li class="list"><a class="link" routerLink="/customer-list">Customer</a></li> -->
 
         <li class="list dropdown dropend" *ngIf="hasRole">
             <a class="link" role="button" id="dropdownMenuLink">Settings<i class="fa fa-angle-right mt-1" style="opacity: 0.6;margin-left:62px;"></i></a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li><a class="dropdown-item" routerLink="/user-list">User List</a></li>
+                <li><a class="dropdown-item" routerLink="/customer-list">Customer List</a></li>
             </ul>
         </li>
     </ul>

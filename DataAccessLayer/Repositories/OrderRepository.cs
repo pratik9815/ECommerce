@@ -182,6 +182,7 @@ namespace DataAccessLayer.Repositories
                     
                     await _context.SaveChangesAsync();
                 }
+                _context.OrderActivityLogs.Find(orderId).IsDeleted = false;
                 _context.OrderDetails.Where(x => x.OrderId == orderId).FirstOrDefault().IsDeleted = false;
                 delOrder.IsDeleted = true;
                 delOrder.DeletedBy = _currentUserService?.CustomerId;
@@ -193,6 +194,48 @@ namespace DataAccessLayer.Repositories
             {
                 return ResponseCodeConstants.Exception;
             }
+        }
+
+        public async Task<List<GetOrderCommand>> GetOrderWithStatus(OrderStatus orderStatus)
+        {
+            var orders = await _context.Orders.
+                Where(x => !x.IsDeleted &&  x.OrderStatus == orderStatus).
+                Select( x => new GetOrderCommand
+                {
+                    Id = x.Id,
+                    Amount = x.Amount,
+                    ShippingAddress = x.ShippingAddress,    
+                    OrderDate = x.OrderDate,
+                    OrdersAddress = x.OrdersAddress,
+                    CustomerName = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
+                    OrderEmail = x.OrderEmail,
+                    OrderDetails = x.OrderDetails
+                                            .Where(od => x.Id == od.OrderId)
+                                            .Select(od => new OrderDetails
+                                            {
+                                                Id = od.Id,
+                                                Price = od.Price,
+                                                Quantity = od.Quantity,
+                                                OrderId = od.OrderId,
+                                                Product = _context.Products
+                                                                  .FirstOrDefault(p => p.Id == od.ProductId),
+
+                                            }).ToList()
+                }).ToListAsync();
+            return orders;
+        }
+
+        public async Task<int> ChangeOrderStatus(string orderId, OrderStatus orderStatus)
+        {
+            var order =  _context.Orders.FirstOrDefault(x => x.Id.ToString() == orderId);
+            if(order == null)
+            {
+                return ResponseCodeConstants.NotFound;
+            }
+            _context.Orders.Find(Guid.Parse(orderId)).OrderStatus = orderStatus;
+            _context.OrderActivityLogs.Where(x => x.OrderId.ToString() == orderId).First().OrderStatus = orderStatus;
+            await _context.SaveChangesAsync();
+            return ResponseCodeConstants.Success;
         }
     }
 }

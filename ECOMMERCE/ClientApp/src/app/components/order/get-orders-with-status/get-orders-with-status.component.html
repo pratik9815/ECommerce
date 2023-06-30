@@ -1,0 +1,78 @@
+<div class="tableclass">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 10px;">SN</th>
+                <th>OrderId</th>
+                <th>Ordered By</th>
+                <th>Shipping Address</th>
+                <th>order Address</th>
+                <th>Order Email</th>
+                <th style="width:100px">Amount(Rs.)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr  *ngFor="let item of orderList; let i = index;">
+                <td>{{i + 1}}</td>
+                <td>{{item.id}}</td>
+                <td>{{item.customerName}}</td>
+                <td>{{item.shippingAddress}}</td>
+                <td>{{item.ordersAddress}}</td>
+                <td>{{item.orderEmail}}</td>
+                <td >{{item.amount}}</td>
+                <td>
+                    <!-- <button class="btn btn-primary">Details</button> -->
+                    <button type="button" class="btn btn-primary" (click)="openDetailsButton(item.orderDetails)">
+                        Details
+                    </button>&nbsp;&nbsp;
+                    <button class="btn btn-warning" *ngIf="changeStatus" (click)="onChangeStatus(item.id)" data-bs-toggle="modal" data-bs-target="#changeStatusModal">Change Status</button>
+                </td>
+            </tr>
+        </tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Grand Total</b><br><div>{{grandTotal}}</div></td>
+        </tr>
+    </table>
+</div>
+<hr>
+
+
+
+<div class="modal fade show" role="dialog" *ngIf="openDetails" id="orderDetailsModal"
+    style="display: block;background: rgba(0, 0, 0, 0.7)">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Order details</h4>
+            <button class="btn-close" (click)="onClose()" ></button>
+            </div>
+            <app-order-details [order-details]="orderDetails"></app-order-details>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" role="dialog" id="changeStatusModal">
+   <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to change the status of this order?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveStatusChange()" data-bs-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

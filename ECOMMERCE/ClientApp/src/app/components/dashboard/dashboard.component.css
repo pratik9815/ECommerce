@@ -3,24 +3,27 @@
 }
 
 .common{
-    width:220px;
-    height:160px;
+    width:250px;
+    height:140px;
     border-radius: 10px ;
+    display: flex;
+    align-items: center;
 }
 .secondrow{
     height:500px
 }
 .classpiechart{
-    height:470px;
-    width: 500px;
+    height:480px;
+    width: 400px;
     margin-left: 30px;
     /* border: 2px solid black; */
     background-color: white;
 }
 .classbargraph{
     background-color: white;
-    height: 470px;
-    /* width: 450px; */
+    height: 480px;
+    width: 400px;
     margin-left: 30px;
     /* border: 2px solid black; */
 }
+

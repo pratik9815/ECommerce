@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Common.Order;
+﻿using DataAccessLayer.Common;
+using DataAccessLayer.Common.Order;
 using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,7 @@ namespace DataAccessLayer.Repositories.IRepositories
         Task<ApiResponse> CreateOrder(CreateOrderCommand order);
         IQueryable<GetOrderCommand> GetProductWithCustomerId(Guid customerId);
         Task<int> RemoveOrder(Guid orderId);
+        Task<List<GetOrderCommand>> GetOrderWithStatus(OrderStatus orderStatus);
+        Task<int> ChangeOrderStatus(string orderId, OrderStatus orderStatus);
     }
 }

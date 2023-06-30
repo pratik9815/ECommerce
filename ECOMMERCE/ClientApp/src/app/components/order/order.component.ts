@@ -24,11 +24,9 @@ export class OrderComponent implements OnInit {
     this._orderService.getAllOrders().subscribe({
       next: res =>{
         this.orderList = res;
-        console.log(this.orderList);
         this.orderList.forEach((element:any) => {
           this.grandTotal += element.amount;
         });
-        console.log(this.grandTotal)
       },
       error: err => {
         console.log(err);
