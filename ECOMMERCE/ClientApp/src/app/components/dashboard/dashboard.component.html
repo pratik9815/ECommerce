@@ -1,14 +1,12 @@
-<div class="row mb-5 ms-4 firstrow">
+<div class="row mb-5 ms-4 firstrow" *ngIf="todayData && revenueData">
     <!-- <div class="col-sm-1"></div> -->
     <div class="col-sm-2" >
         <div class=" common text-center" style="background-color:rgba(255,0,0,0.4);;">
             <i class="bi bi-currency-dollar" style="font-size:70px; margin:0;"></i>
             <div>
-                <h4>Total Sales</h4>
-                <h4>&#36;500</h4>
-            </div>
-
-           
+                <h4>Total Revenue</h4>
+                <h4>Rs.{{revenueData.totalAmount}}</h4>
+            </div>           
         </div>
     </div>
     <div class="col-sm-1"></div>
@@ -17,7 +15,7 @@
             <i class="bi bi-cart-fill ms-1" style="font-size:70px;"></i>
             <div>
                 <h4 class="row ms-2">Total Requests</h4>
-                <h4 class="row ms-5">220</h4>
+                <h4 class="row ms-5" *ngIf="todayData">{{todayData.totalQuantity}}</h4>
             </div>
         </div>
     </div>
@@ -26,8 +24,8 @@
         <div class="common" style="background-color:rgba(0,255,0,0.4);;">
             <i class="bi bi-percent ms-1" style="font-size:70px;"></i>
             <div>
-                <h4 class="row ms-2">Daily Sales</h4>
-                <h4 class="row ms-4">&#36;50</h4>
+                <h4 class="row ms-1">Daily Sales</h4>
+                <h4 class="row ms-2">Rs.{{todayData.totalAmount}}</h4>
             </div>
         </div>
     </div>

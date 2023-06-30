@@ -35,7 +35,12 @@ namespace DataAccessLayer.Common.Dashboard
     public class GetOrderStatus
     {
         public int OrderedQuantity { get; set; }
-        public OrderStatus OrderStatus { get; set; } 
+        public OrderStatus OrderStatus { get; set; }
+    }
+    public class GetData
+    {
+        public int TotalQuantity { get; set; }
+        public double TotalAmount { get; set; }
     }
 
 }

@@ -13,5 +13,7 @@ namespace DataAccessLayer.Repositories.IRepositories
         IQueryable<GetPopularProducts> GetPopularProductForDashboard();
         IQueryable<DashboardCommand> GetDataForDashboardUsingMethodSyntax();
         IQueryable<GetOrderStatus> GetProductStatus();
+        Task<GetData> GetQuantityAndAmount();
+        Task<GetData> GetTotalRevenue();
     }
 }

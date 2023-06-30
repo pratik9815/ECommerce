@@ -49,5 +49,35 @@ namespace ECOMMERCE.Controllers
             var result = await _dashboardRepository.GetProductStatus().ToListAsync();
             return Ok(result);
         }
+        [HttpGet("get-quantity-amount-today")]
+        [AllowAnonymous]
+        public async Task<ActionResult<GetData>> GetRevenueAndRequestData()
+        {
+            var result =await  _dashboardRepository.GetQuantityAndAmount();
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return Ok(new GetData
+            {
+                TotalQuantity = 0,
+                TotalAmount = 0
+            });
+        }
+        [HttpGet("get-total-revenue")]
+        [AllowAnonymous]
+        public async Task<ActionResult<GetData>> GetTotalRevenue()
+        {
+            var result = await _dashboardRepository.GetTotalRevenue();
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return Ok(new GetData
+            {
+                TotalQuantity = 0,
+                TotalAmount = 0
+            });
+        }
     }
 }

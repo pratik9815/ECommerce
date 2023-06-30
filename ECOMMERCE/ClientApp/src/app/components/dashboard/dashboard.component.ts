@@ -35,6 +35,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   orderStatusData: any;
   orderStatus: any[] = [];
   orderedQuantity: number[] = [];
+  todayData: any;
+  revenueData: any;
   constructor(private _dashboardService: DashboardService) { }
 
   ngOnDestroy(): void {
@@ -43,9 +45,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getQuantityAndAmountForToday();
     this.getDashboardData();
+    this.getTotalRevenue()
   }
 
+  getTotalRevenue()
+  {
+    this._dashboardService.getTotalRevenue().subscribe({
+      next: res =>{
+        console.log(res)
+        this.revenueData = res;
+      }
+    })
+  }
   getDashboardData() {
     this.data = this._dashboardService.getDashboardData().subscribe({
       next: res => {
@@ -69,8 +82,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
         this.RenderChart();
       }
+    });
+  }
+
+
+  getQuantityAndAmountForToday()
+  {
+    this._dashboardService.getQuantityAndAmount().subscribe({
+      next: res =>{
+        console.log(res);
+        this.todayData = res;
+      }
     })
   }
+
 
   RenderChart() {
     const data = {

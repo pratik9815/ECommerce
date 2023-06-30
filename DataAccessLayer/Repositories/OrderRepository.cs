@@ -100,7 +100,7 @@ namespace DataAccessLayer.Repositories
                 var newOrder = new Order
                 {
                     Amount = order.Amount,
-                    OrderDate = DateTime.UtcNow,
+                    OrderDate = DateTime.UtcNow.AddHours(5).AddMinutes(45),
                     OrderEmail = order.OrderEmail,
                     OrdersAddress = order.OrdersAddress,
                     ShippingAddress = order.ShippingAddress,

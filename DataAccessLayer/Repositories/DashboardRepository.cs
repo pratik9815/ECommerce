@@ -111,6 +111,33 @@ namespace DataAccessLayer.Repositories
                                         });
             return orderStatus;
         }
+
+        //Order amount vs revenue data
+        public async Task<GetData> GetQuantityAndAmount()
+        {
+            var dailySales = await _context.Orders.
+                Where(x => x.OrderDate.Date == DateTime.UtcNow.AddHours(5).AddMinutes(45).Date && !x.IsDeleted && x.OrderStatus != OrderStatus.OrderDelivered).
+                GroupBy(x => new { x.OrderDate.Date }).
+                Select(grouped => new GetData
+                {
+                    TotalAmount = grouped.Sum(x => x.Amount),
+                    TotalQuantity = grouped.Count()
+                }).FirstOrDefaultAsync();
+
+            return dailySales;
+        }
+        public async Task<GetData> GetTotalRevenue()
+        {
+            var totalAmount = await _context.Orders.
+                        Where(x => !x.IsDeleted && x.OrderStatus == OrderStatus.OrderDelivered).
+                        GroupBy(x => x.OrderStatus)
+                        .Select(grouped => new GetData
+                        {
+                            TotalQuantity = grouped.Count(),
+                            TotalAmount = grouped.Sum(x => x.Amount)
+                        }).FirstOrDefaultAsync();
+            return totalAmount;
+        }
         
 
     }

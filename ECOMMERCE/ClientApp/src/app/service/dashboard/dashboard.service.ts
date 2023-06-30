@@ -21,4 +21,12 @@ export class DashboardService {
   {
     return this._httpClient.get(this.apiUrl+'get-order-status-for-dashboard');
   }
+  getQuantityAndAmount()
+  {
+    return this._httpClient.get(this.apiUrl + 'get-quantity-amount-today')
+  }
+  getTotalRevenue()
+  {
+    return this._httpClient.get(this.apiUrl + 'get-total-revenue')  
+  }
 }
