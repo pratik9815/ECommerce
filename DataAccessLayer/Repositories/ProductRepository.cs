@@ -58,7 +58,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task<GetProductQuery> GetById(Guid id)
         {
-            var product = await _context.Products.Where(p => (p.Id == id && p.IsDeleted == false))
+            var product = await _context.Products.Where(p => p.Id == id && p.IsDeleted == false).AsNoTracking()
                                           .Select(x => new GetProductQuery
                                           {
                                               Id = x.Id,
@@ -92,15 +92,15 @@ namespace DataAccessLayer.Repositories
 
                                           }).FirstAsync();
 
-            foreach (var img in product.ImageLists)
-            {
-                if (img.ImageName is not null)
-                {
-                    string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
-                    img.ImageUrl = ImageService.GetByteImage(img, path);
-                }
+            //foreach (var img in product.ImageLists)
+            //{
+            //    if (img.ImageName is not null)
+            //    {
+            //        string path = _webHostEnvironment.WebRootPath + @"/images/" + img.ImageName;
+            //        img.ImageUrl = ImageService.GetByteImage(img, path);
+            //    }
 
-            }
+            //}
 
 
             if (product is null)
@@ -456,17 +456,17 @@ namespace DataAccessLayer.Repositories
                                                     CategoryName = x.Category.CategoryName,
                                                 }).ToListAsync();
 
-            if (productWithCategory != null)
-            {
-                foreach (var product in productWithCategory)
-                {
-                    if (product.Img is not null)
-                    {
-                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
-                        product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
-                    }
-                }
-            }
+            //if (productWithCategory != null)
+            //{
+            //    foreach (var product in productWithCategory)
+            //    {
+            //        if (product.Img is not null)
+            //        {
+            //            string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
+            //            product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
+            //        }
+            //    }
+            //}
             var productWithPagination = new ProductWithCategoryResponse
             {
                 Product = productWithCategory,
@@ -520,17 +520,17 @@ namespace DataAccessLayer.Repositories
                 .Take((int)pageResult)
                 .ToList();
 
-            if (productWithCategory != null)
-            {
-                foreach (var product in productWithCategory)
-                {
-                    if (product.Img is not null)
-                    {
-                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
-                        product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
-                    }
-                }
-            }
+            //if (productWithCategory != null)
+            //{
+            //    foreach (var product in productWithCategory)
+            //    {
+            //        if (product.Img is not null)
+            //        {
+            //            string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
+            //            product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
+            //        }
+            //    }
+            //}
 
             var productWithPagination = new ProductWithCategoryResponse
             {
@@ -545,10 +545,10 @@ namespace DataAccessLayer.Repositories
         //Used in angular
         public async Task<ProductResponse> GetProductWithPagination(int page)
         {
-            var pageResult = 6f;
+            var pageResult = 8f;
             var totalCount = _context.Products.Where(x => x.IsDeleted == false).Count();
 
-            var pageCount = Math.Ceiling(_context.Products.Where(x => x.IsDeleted == false).Count() / pageResult);
+            var pageCount = Math.Ceiling(totalCount / pageResult);
 
             //Skip will skip the first (page-1)*()intpageResult
             //Take will take the first 3 product after skipping 
@@ -571,17 +571,17 @@ namespace DataAccessLayer.Repositories
                 }).ToListAsync();
 
 
-            if (products != null)
-            {
-                foreach (var product in products)
-                {
-                    if (product.ImageLists is not null)
-                    {
-                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.ImageLists.ImageName;
-                        product.ImageLists.ImageUrl = ImageService.GetByteImage(product.ImageLists, path);
-                    }
-                }
-            }
+            //if (products != null)
+            //{
+            //    foreach (var product in products)
+            //    {
+            //        if (product.ImageLists is not null)
+            //        {
+            //            string path = _webHostEnvironment.WebRootPath + @"/images/" + product.ImageLists.ImageName;
+            //            product.ImageLists.ImageUrl = ImageService.GetByteImage(product.ImageLists, path);
+            //        }
+            //    }
+            //}
 
 
             var productWithPagination = new ProductResponse
@@ -599,7 +599,7 @@ namespace DataAccessLayer.Repositories
                 .Where(x => !x.IsDeleted)
                 .OrderBy(r => Guid.NewGuid())
                 .AsNoTracking()
-                .Take(3).
+                .Take(4).
                 Select(x => new GetProductListCommand
                 {
                     Id = x.Id,
@@ -615,17 +615,17 @@ namespace DataAccessLayer.Repositories
 
 
 
-            if (products != null)
-            {
-                foreach (var product in products)
-                {
-                    if (product.ImageLists is not null)
-                    {
-                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.ImageLists.ImageName;
-                        product.ImageLists.ImageUrl = ImageService.GetByteImage(product.ImageLists, path);
-                    }
-                }
-            }
+            //if (products != null)
+            //{
+            //    foreach (var product in products)
+            //    {
+            //        if (product.ImageLists is not null)
+            //        {
+            //            string path = _webHostEnvironment.WebRootPath + @"/images/" + product.ImageLists.ImageName;
+            //            product.ImageLists.ImageUrl = ImageService.GetByteImage(product.ImageLists, path);
+            //        }
+            //    }
+            //}
             return products;
         }
 
@@ -640,7 +640,7 @@ namespace DataAccessLayer.Repositories
                                                                 TotalPrice = x.Key.Price,
                                                                 ProductId = x.Key.ProductId,
                                                                 ProductName = x.Key.Name,
-                                                            }).OrderByDescending(o => o.Quantity).Take(3).ToList();
+                                                            }).OrderByDescending(o => o.Quantity).Take(4).ToList();
 
             if (products != null)
             {
@@ -655,7 +655,7 @@ namespace DataAccessLayer.Repositories
                             ImageId = image.Id,
                             ImageName = image.ImageName,
                         };
-                        product.ImageList.ImageUrl = ImageService.GetByteImage(product.ImageList, path);
+                        //product.ImageList.ImageUrl = ImageService.GetByteImage(product.ImageList, path);
                     }
 
                 }
@@ -691,17 +691,17 @@ namespace DataAccessLayer.Repositories
 
                                                 }).ToListAsync();
 
-            if (productWithSubCategory != null)
-            {
-                foreach (var product in productWithSubCategory)
-                {
-                    if (product.Img is not null)
-                    {
-                        string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
-                        product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
-                    }
-                }
-            }
+            //if (productWithSubCategory != null)
+            //{
+            //    foreach (var product in productWithSubCategory)
+            //    {
+            //        if (product.Img is not null)
+            //        {
+            //            string path = _webHostEnvironment.WebRootPath + @"/images/" + product.Img.ImageName;
+            //            product.Img.ImageUrl = ImageService.GetByteImage(product.Img, path);
+            //        }
+            //    }
+            //}
             var productWithPagination = new ProductWithSubCategoryResponse
             {
                 Product = productWithSubCategory,

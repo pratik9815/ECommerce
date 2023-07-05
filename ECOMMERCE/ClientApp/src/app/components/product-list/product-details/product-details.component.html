@@ -30,8 +30,8 @@
     <form class="col-sm-7 ">
       <ngb-carousel>
         <ng-template ngbSlide *ngFor="let item of productData.imageLists; index as i">
-          <div class="picsum-img-wrapper">
-            <img [src]="item.imageUrl" alt="Random first slide" height="295px" width="465px">
+          <div class="picsum-img-wrapper photos">
+            <img [src]="imageUrl + item.imageName" alt="Random first slide" height="295px" width="465px">
           </div>
         </ng-template>
       </ngb-carousel>

@@ -13,7 +13,7 @@ namespace DataAccessLayer.Repositories.IRepositories
     {
         IQueryable<GetOrderCommand> GetAllOrders();
         Task<ApiResponse> CreateOrder(CreateOrderCommand order);
-        IQueryable<GetOrderCommand> GetProductWithCustomerId(Guid customerId);
+        IQueryable<GetOrderCommand> GetProductWithCustomerId(Guid customerId, int page, OrderStatus orderStatus);
         Task<int> RemoveOrder(Guid orderId);
         Task<List<GetOrderCommand>> GetOrderWithStatus(OrderStatus orderStatus);
         Task<int> ChangeOrderStatus(string orderId, OrderStatus orderStatus);

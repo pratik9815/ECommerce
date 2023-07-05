@@ -47,9 +47,7 @@ import { OrderDetailsComponent } from './components/order/order-details/order-de
 import { PopularProductListComponent } from './components/popular-product-list/popular-product-list.component';
 import { CategoryDetailsComponent } from './components/category-list/category-details/category-details.component';
 import { GetOrdersWithStatusComponent } from './components/order/get-orders-with-status/get-orders-with-status.component';
-
-
-
+import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,7 +99,8 @@ import { GetOrdersWithStatusComponent } from './components/order/get-orders-with
     DialogConfigModule.forRoot(), // Needed for instantiating dynamic components.
     ConfirmBoxConfigModule.forRoot(), // Needed for instantiating confirm boxes.
     ToastNotificationConfigModule.forRoot(), NgbModule, // Needed for instantiating toast notifications.
-    NgSelectModule
+    NgSelectModule,
+    NgChartsModule
 
     ],
   providers: [
@@ -109,7 +108,6 @@ import { GetOrdersWithStatusComponent } from './components/order/get-orders-with
     AuthGuard,
     {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor,multi:true}, 
     ProductService  ,
-    
 
 
   ],

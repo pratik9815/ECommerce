@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Chart, registerables } from 'node_modules/chart.js'
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Chart,   registerables } from 'node_modules/chart.js'
 import { DashboardService } from 'src/app/service/dashboard/dashboard.service';
 import { OrderStatus } from 'src/app/services/web-api-client';
+import {ChartType,ChartData,ChartOptions} from 'chart.js'
+import { Color } from 'ag-grid-community';
 
 
 Chart.register(...registerables);
@@ -17,26 +19,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
   categoryName: string[] = [];
 
 
-  firstColor: string = '#32FF62'
-  secondColor: string = '#FF3333'
-  thirdColor: string = '#E9EF39'
-  fourthColor: string = 'rgb(255, 138, 102)'
-  fifthColor: string = 'aqua'
+  blueColorRGBA: string = 'rgba(0, 123, 255, 0.6)';
+  greenColorRGBA: string = 'rgba(40, 167, 69, 0.6)';
+  redColorRGBA: string = 'rgba(220, 53, 69, 0.6)';
+  orangeColorRGBA: string = 'rgba(253, 126, 20, 0.6)';
+  purpleColorRGBA: string = 'rgba(111, 66, 193, 0.6)';
+
+  hoverBlueColor: string = 'rgba(0, 123, 255, 1)';
+  hoverGreenColor: string = 'rgba(40, 167, 69, 1)';
+  hoverRedColor: string = 'rgba(220, 53, 69, 1)';
+  hoverOrangeColor: string = 'rgba(253, 126, 20, 1)';
+  hoverPurpleColor: string = 'rgba(111, 66, 193, 1)';
+  
 
 
-  firstBorderColor: string = '#32FF62'
-  secondBorderColor: string = '#FF3333'
-  thirdBorderColor: string = '#E9EF39'
-  fourthBorderColor: string = 'rgba(255, 138, 0,1)'
-  fifthBorderColor: string = 'aqua'
   //For ngOnDestory
   data: any;
+
 
   orderStatusData: any;
   orderStatus: any[] = [];
   orderedQuantity: number[] = [];
   todayData: any;
   revenueData: any;
+
+
+barData:ChartData<'bar'>;
+barOptions:ChartOptions<'bar'>;
+pieOptions:ChartOptions<'pie'>;
+pieData:ChartData<'pie'>;
+
+barOrderData:ChartData<'bar'>;
+barOrderOptions:ChartOptions<'bar'>;
+    
+
   constructor(private _dashboardService: DashboardService) { }
 
   ngOnDestroy(): void {
@@ -47,8 +63,110 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getQuantityAndAmountForToday();
     this.getDashboardData();
-    this.getTotalRevenue()
+    this.getTotalRevenue();
+    this.getOrderStatusData();
   }
+  
+// BarChartRender()
+// {
+//   this.barData = {
+//     labels: this.categoryName,
+//     datasets: [
+//       {
+//         label: 'By category',
+//         data: this.amount,
+//         backgroundColor:[this.blueColorRGBA,this.greenColorRGBA,this.purpleColorRGBA,this.redColorRGBA,this.orangeColorRGBA],        
+//         hoverBackgroundColor:[this.hoverBlueColor,this.hoverGreenColor,this.hoverPurpleColor,this.hoverRedColor,this.hoverOrangeColor],
+//       }
+//     ]
+//   };
+
+//   this.barOptions= {
+//     scales: {
+//       y: {
+//         beginAtZero: true
+//       }
+//     }
+//   }
+// }
+
+PieChartRender()
+{
+ this.pieData = {
+  labels: this.categoryName,
+  datasets: [{
+    label:"By Category",
+    data: this.amount,
+    backgroundColor:[this.blueColorRGBA,this.greenColorRGBA,this.purpleColorRGBA,this.redColorRGBA,this.orangeColorRGBA,this.purpleColorRGBA],
+    hoverBackgroundColor:[this.hoverBlueColor,this.hoverGreenColor,this.hoverPurpleColor,this.hoverRedColor,this.hoverOrangeColor,,this.hoverPurpleColor,],
+    borderColor:[this.blueColorRGBA,this.greenColorRGBA,this.purpleColorRGBA,this.redColorRGBA,this.orangeColorRGBA,this.purpleColorRGBA],
+    hoverBorderColor:[this.hoverBlueColor,this.hoverGreenColor,this.hoverPurpleColor,this.hoverRedColor,this.hoverOrangeColor,this.hoverPurpleColor,]
+  }]
+ };
+
+ this.pieOptions = {
+  radius:140,
+  scales:{
+
+  }
+ }
+}
+
+RenderBarChartForOrders()
+{
+  this.barOrderData = {
+    labels: this.orderStatus,
+    datasets: [
+      {
+        label: 'Order Status',
+        data: this.orderedQuantity,
+        backgroundColor:[this.blueColorRGBA,this.greenColorRGBA,this.purpleColorRGBA,this.redColorRGBA,this.orangeColorRGBA,this.purpleColorRGBA],
+        hoverBackgroundColor:[this.hoverBlueColor,this.hoverGreenColor,this.hoverPurpleColor,this.hoverRedColor,this.hoverOrangeColor,,this.hoverPurpleColor,],
+        borderColor:[this.blueColorRGBA,this.greenColorRGBA,this.purpleColorRGBA,this.redColorRGBA,this.orangeColorRGBA,this.purpleColorRGBA],
+        hoverBorderColor:[this.hoverBlueColor,this.hoverGreenColor,this.hoverPurpleColor,this.hoverRedColor,this.hoverOrangeColor,this.hoverPurpleColor,],
+
+        maxBarThickness:90,
+        borderWidth:1,
+        barPercentage:1,
+        minBarLength:2,
+        categoryPercentage:0.8
+        
+      }
+    ]
+  };
+
+  this.barOptions= {  
+    responsive:true,
+    maintainAspectRatio: false,
+    
+    plugins:{
+      title:{
+        display:true,
+        text:"Bar Graph",
+        font:{
+          size:15
+        },
+        position:'top'
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero:true,
+        ticks:{
+          stepSize:0.4
+        }
+      },
+      x: {
+        beginAtZero:true,
+        ticks:{
+          stepSize:0.5
+        }
+      },
+      
+    },
+    
+  }
+}
 
   getTotalRevenue()
   {
@@ -67,7 +185,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.categoryName.push(data.categoryName)
           this.amount.push(data.amount)
         });
-        this.getOrderStatusData()
+        // this.BarChartRender();
+        this.PieChartRender();
       }
     });
   }
@@ -80,7 +199,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.orderedQuantity.push(data.orderedQuantity)
           this.orderStatus.push(OrderStatus[data.orderStatus])
         })
-        this.RenderChart();
+        // this.RenderChart();
+        this.RenderBarChartForOrders();
       }
     });
   }
@@ -96,138 +216,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-
-  RenderChart() {
-    const data = {
-      labels: this.categoryName,
-      datasets: [{
-        label: 'Performances by category',
-        data: this.amount,
-        backgroundColor: [this.fifthColor],
-        borderColor: [this.fifthBorderColor],
-        borderWidth: 1,
-        hoverOffset: 4,
-        outerStart: 20,
-        outerEnd: 20,
-        innerStart: 20,
-        innerEnd: 20,
-      }]
-    };
-
-    const orderStatusData = {
-      labels: this.orderStatus,
-      datasets: [{
-        label: 'Orders',
-        data: this.orderedQuantity,
-        backgroundColor: [this.firstColor],
-        borderColor: [this.firstBorderColor],
-        borderWidth: 1,
-        hoverOffset: 4,
-        outerStart: 20,
-        outerEnd: 20,
-        innerStart: 20,
-        innerEnd: 20,
-      }]
-    };
-
-    for (var i = 0; i < this.dashboardData.length; i++) {
-      if (i === 0) {
-        data.datasets[0].backgroundColor.push(this.firstColor);
-        data.datasets[0].borderColor.push(this.firstBorderColor);
-      }
-      else if (i % 3 === 0) {
-        data.datasets[0].backgroundColor.push(this.fourthColor);  
-        data.datasets[0].borderColor.push(this.fourthBorderColor);
-      }
-      else if (i % 2 === 0) {
-        data.datasets[0].backgroundColor.push(this.secondColor);
-        data.datasets[0].borderColor.push(this.secondBorderColor);
-      }
-      else {
-        data.datasets[0].backgroundColor.push(this.thirdColor);
-        data.datasets[0].borderColor.push(this.thirdBorderColor);
-      }
-    }
-
-
-    for (var i = 0; i < this.orderStatusData.length; i++) {
-      if (i === 0) {
-        orderStatusData.datasets[0].backgroundColor.push(this.secondColor);
-        orderStatusData.datasets[0].borderColor.push(this.secondBorderColor);
-      }
-      else if (i % 3 === 0) {
-        orderStatusData.datasets[0].backgroundColor.push(this.fourthColor);
-        orderStatusData.datasets[0].borderColor.push(this.fourthBorderColor);
-      }
-      else if (i % 2 === 0) {
-        orderStatusData.datasets[0].backgroundColor.push(this.secondColor);
-        orderStatusData.datasets[0].borderColor.push(this.secondBorderColor);
-      }
-      else {
-        orderStatusData.datasets[0].backgroundColor.push(this.thirdColor);
-        orderStatusData.datasets[0].borderColor.push(this.thirdBorderColor);
-      }
-    }
-
-
-    // const barGraph = new Chart("bargraph",
-    //   {
-    //     type: 'bar',
-    //     data: data,
-    //     options: {
-    //       scales: {
-    //         y: {
-    //           beginAtZero: true
-    //         }
-    //       }
-    //     },
-    //   });
-
-    const pieChart = new Chart("piechart", {
-      type: 'pie',
-      data: data,
-      options: {
-        plugins: {
-          tooltip: {
-            enabled: true,
-          },
-        },
-        radius: 140,
-        elements: {
-          arc: {
-            borderWidth: 10,
-          },
-        },
-        layout: {
-          padding: {
-            left: 5,
-            right: 5,
-            top: 5,
-            bottom: 5
-          }
-        },
-      },
-    });
-
-
-    const lineChart = new Chart("lineChart", {
-      type: 'line',
-      data: data,
-
-    });
-
-
-    const barGraphForOrderStatus = new Chart("barGraphForOrderStatus",
-      {
-        type: 'bar',
-        data: orderStatusData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        },
-      });
-  }
 }

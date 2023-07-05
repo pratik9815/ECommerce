@@ -62,11 +62,16 @@ namespace DataAccessLayer.Repositories
             return orders;
         }
         //Get orders by customer id
-        public IQueryable<GetOrderCommand> GetProductWithCustomerId(Guid customerId)
+        public IQueryable<GetOrderCommand> GetProductWithCustomerId(Guid customerId, int page, OrderStatus orderStatus)
         {
+            var pageResult = 4f;
+            var totalCount = _context.Orders.Where(x => !x.IsDeleted).Count();
+            var pageCount = Math.Ceiling(totalCount / pageResult);
 
-            var orderDetails = _context.Orders.AsNoTracking()
-                                        .Where(x => x.CustomerId == customerId && x.IsDeleted == false)
+            IQueryable<GetOrderCommand> orderDetails = _context.Orders.AsNoTracking()
+                                        .Where(x => x.CustomerId == customerId && !x.IsDeleted && x.OrderStatus == orderStatus)
+                                        .OrderByDescending(o => o.OrderDate)
+                                        .Skip((page - 1) *(int)pageResult).Take((int)pageResult)
                                         .Select(x => new GetOrderCommand
                                         {
                                             Id = x.Id,

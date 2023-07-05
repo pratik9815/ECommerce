@@ -37,9 +37,9 @@ namespace ECOMMERCE.Controllers
         }
 
         [HttpGet("get-by-id")]
-        public async Task<ActionResult<GetOrderCommand>> GetOrderDetails(Guid customerId)
+        public async Task<ActionResult<GetOrderCommand>> GetOrderDetails(Guid customerId, int page, OrderStatus orderStatus)
         {
-            var orderDetails = await _orderRepository.GetProductWithCustomerId(customerId).ToListAsync();
+            var orderDetails = await _orderRepository.GetProductWithCustomerId(customerId,page, orderStatus).ToListAsync();
             return Ok(orderDetails);    
         }
         [HttpPost("remove-order")]
