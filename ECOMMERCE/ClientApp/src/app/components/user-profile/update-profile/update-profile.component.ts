@@ -34,7 +34,6 @@ export class UpdateProfileComponent implements OnInit {
       
     });
     this.editForm.patchValue(this.updateprofile)
- 
   }
 
   get getFormControl()

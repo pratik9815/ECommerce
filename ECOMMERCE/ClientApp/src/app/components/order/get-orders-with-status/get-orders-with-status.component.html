@@ -1,3 +1,4 @@
+<!-- <h1>{{OrderStatus[orderStatus] }}</h1> -->
 <div class="tableclass">
     <table class="table">
         <thead>
@@ -6,7 +7,7 @@
                 <th>OrderId</th>
                 <th>Ordered By</th>
                 <th>Shipping Address</th>
-                <th>order Address</th>
+                <th>Order Address</th>
                 <th>Order Email</th>
                 <th style="width:100px">Amount(Rs.)</th>
                 <th>Actions</th>
@@ -25,9 +26,12 @@
                     <!-- <button class="btn btn-primary">Details</button> -->
                     <button type="button" class="btn btn-primary" (click)="openDetailsButton(item.orderDetails)">
                         Details
-                    </button>&nbsp;&nbsp;
-                    <button class="btn btn-warning" *ngIf="changeStatus" (click)="onChangeStatus(item.id)" data-bs-toggle="modal" data-bs-target="#changeStatusModal">Change Status</button>
+                    </button>&nbsp;
+                    <button class="btn btn-warning" *ngIf="changeStatus" (click)="onChangeStatus(item.id)" data-bs-toggle="modal" data-bs-target="#changeStatusModal">Accept </button>
+                    &nbsp;
+                    <button class="btn btn-danger" *ngIf="changeStatus">Discard </button>
                 </td>
+                
             </tr>
         </tbody>
         <tr>
@@ -38,6 +42,7 @@
             <td></td>
             <td></td>
             <td><b>Grand Total</b><br><div>{{grandTotal}}</div></td>
+            <td></td>
         </tr>
     </table>
 </div>

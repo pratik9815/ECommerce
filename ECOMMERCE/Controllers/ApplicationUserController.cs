@@ -145,6 +145,21 @@ namespace ECOMMERCE.Controllers
             user.DOB = command.DOB;
             user.Gender = command.Gender;
 
+            if(userType == UserType.Customer.ToString())
+            {
+                var customer = await _context.Customers.FindAsync(user.CustomerId);
+
+                customer.Phone = command.PhoneNumber;
+                customer.Address = command.Address;
+                customer.Email = command.Email;
+                customer.DOB = customer.DOB;
+                customer.Gender = command.Gender;
+                customer.FullName = command.FullName;
+
+                _context.Customers.Update(customer);
+                await _context.SaveChangesAsync();
+            }
+
             IdentityResult result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded) return BadRequest(result.Errors);
             return Ok();

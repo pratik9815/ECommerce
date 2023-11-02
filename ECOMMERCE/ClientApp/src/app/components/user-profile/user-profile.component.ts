@@ -11,29 +11,39 @@ export class UserProfileComponent implements OnInit {
   updateprofile: any;
   isEdit: boolean = false;
   isChangePassword: boolean = false;
-  res: any;
+ 
   constructor(private _authService: AuthService, private _userService: UserService) { }
 
   ngOnInit(): void {
     this.getUser();
   }
 
-  getUser(): void {
-    this._userService.getUser().subscribe({
-      next: data => {
-        this.res = data;
-        console.log(data)
-        this.res.forEach((item: any) => {
-          if (item.id == this.getId()) {
-            this.updateprofile = item;
-          }
-        });
-      },
-      error: err => {
-        console.log(err)
-      }
-    });
-  }
+  // getUser(): void {
+  //   this._userService.getUser().subscribe({
+  //     next: (data:any) => {
+  //       data.forEach((item: any) => {
+  //         if (item.id == this.getId()) {
+  //           this.updateprofile = item;
+  //           console.log(this.updateprofile)
+  //         }
+  //       });
+  //     },
+  //     error: err => {
+  //       console.log(err)
+  //     }
+  //   });
+  // }
+
+    getUser():void{
+      this._userService.getSuperAdminUserById(this.getId()).subscribe({
+        next: res =>{
+          this.updateprofile = res;
+        },
+        error: err => {
+            console.log(err);
+        }
+      });
+    }
 
 
   callback(): void {
@@ -60,7 +70,6 @@ export class UserProfileComponent implements OnInit {
     this.getFullName();
     this.getPhone();
     this.getUserType();
-    console.log(this.isEdit)
   }
 
   getFullName(): string {

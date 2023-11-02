@@ -4,7 +4,7 @@
         <div class="row  my-3">
             <div class="col-sm-5 ms-3">
                 <label for="fullName">Name</label>
-                <input type="text" id="fullName" class="form-control p-10" id="fullName" name="fullName"
+                <input type="text" id="fullName" class="form-control p-10" name="fullName"
                     [ngClass]="{ 'is-invalid': submitted && getFormControl.fullName.errors }" placeholder="Name"
                     formControlName="fullName">
                 <div *ngIf="submitted && getFormControl.fullName.errors" class="invalid-feedback text-danger">
@@ -23,6 +23,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="row my-2">
             <div class="col-sm-5 ms-3">
                 <label for="email">Email</label>

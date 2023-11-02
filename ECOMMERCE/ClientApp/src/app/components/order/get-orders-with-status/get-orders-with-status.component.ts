@@ -25,12 +25,32 @@ export class GetOrdersWithStatusComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.orderStatus = this._activatedRoute.snapshot.paramMap.get('orderStatus')
+    this.orderStatus = this._activatedRoute.snapshot.paramMap.get('orderStatus');
     if (OrderStatus[this.orderStatus] == OrderStatus[3]) {
       this.changeStatus = false;
     }
     this.getOrder(this.orderStatus);
   }
+
+
+
+  // Create a method to get the status name
+  // getStatusName(statusCode: any): string {
+  //   switch (statusCode) {
+  //     case OrderStatus.Pending:
+  //       return 'Pending';
+  //     case OrderStatus.OrderRejected:
+  //       return 'Order Rejected';
+  //     case OrderStatus.OrderProcessing:
+  //       return 'Order Processing';
+  //     case OrderStatus.OrderDelivered:
+  //       return 'Order Delivered';
+  //     default:
+  //       return 'Unknown';
+  //   }
+  // }
+
+
 
   getOrder(orderStatus: any) {
     this._orderService.getOrderWithStatus(orderStatus).subscribe({

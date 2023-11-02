@@ -110,6 +110,66 @@ namespace DataAccessLayer.Repositories
                                             }).ToListAsync();
             return users;
         }
-    }   
+
+        public async Task<UserDTO> GetAdminUsersById(string id)
+        {
+            var users = await _context.Users
+                                            .Where(x => x.UserType == UserType.Admin && x.Id == id)
+                                            .Select(x => new UserDTO
+                                            {
+                                                Id = x.Id,
+                                                FullName = x.FullName,
+                                                UserName = x.UserName,
+                                                Address = x.Address,
+                                                DOB = x.DOB,
+                                                Gender = x.Gender.GetEnumDisplayName(),
+                                                UserType = x.UserType.GetEnumDisplayName(),
+                                                Email = x.Email,
+                                                PhoneNumber = x.PhoneNumber,
+                                            }).FirstOrDefaultAsync();
+            return users;
+        }
+
+        public async Task<CustomerDTO> GetCustomerUsersById(string id)
+        {
+            var users = await _context.Users
+                                            .Where(x => x.UserType == UserType.Customer && x.CustomerId == Guid.Parse(id))
+                                            .Select(x => new CustomerDTO
+                                            {
+                                                Id = x.Id,
+                                                FullName = x.FullName,
+                                                UserName = x.UserName,
+                                                Address = x.Address,
+                                                DOB = x.DOB,
+                                                Gender = x.Gender.GetEnumDisplayName(),
+                                                UserType = x.UserType.GetEnumDisplayName(),
+                                                Email = x.Email,
+                                                PhoneNumber = x.PhoneNumber,
+                                                CustomerId = x.CustomerId.ToString(),  
+                                            }).FirstOrDefaultAsync();
+            return users;
+        }
+
+        public async Task<UserDTO> GetSuperAdminUsersById(string id)
+        {
+            var users = await _context.Users
+                                            .Where(x => x.UserType == UserType.SuperAdmin && x.Id == id)
+                                            .Select(x => new UserDTO
+                                            {
+                                                Id = x.Id,
+                                                FullName = x.FullName,
+                                                UserName = x.UserName,
+                                                Address = x.Address,
+                                                DOB = x.DOB,
+                                                Gender = x.Gender.GetEnumDisplayName(),
+                                                UserType = x.UserType.GetEnumDisplayName(),
+                                                Email = x.Email,
+                                                PhoneNumber = x.PhoneNumber,
+                                            }).FirstOrDefaultAsync();
+            return users;
+        }
+    }  
+    
+
 
 }

@@ -16,6 +16,10 @@ namespace DataAccessLayer.Repositories.IRepositories
         Task<List<UserDTO>> GetSuperAdminUsers();
         Task<List<UserDTO>> GetAdminUser();
         Task<List<UserDTO>> GetCustomer();
+        Task<UserDTO> GetSuperAdminUsersById(string id);
+        Task<UserDTO> GetAdminUsersById(string id);
+        Task<CustomerDTO> GetCustomerUsersById(string id);
+
     }
 }
 

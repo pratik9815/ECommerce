@@ -27,6 +27,14 @@ export class UserService {
     return this._httpClient.get(this.apiUrl+"get-admin-user");
   }
 
+  getSuperAdminUserById(id:string)
+  {
+    return this._httpClient.get(this.apiUrl+"get-superadmin-user-by-id/"+id);
+  }
+  getAdminUserById(id:string)
+  {
+    return this._httpClient.get(this.apiUrl+"get-admin-user-by-id"+id);
+  }
   createUser(body:any)
   {
     return this._httpClient.post(this.apiApplication,body,
