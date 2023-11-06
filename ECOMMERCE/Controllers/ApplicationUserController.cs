@@ -1,19 +1,14 @@
 ﻿using DataAccessLayer.Command.ApplicationUser;
 using DataAccessLayer.Common;
-using DataAccessLayer.Common.Customer;
 using DataAccessLayer.DataContext;
 using DataAccessLayer.Models;
 using DataAccessLayer.Models.Identity;
 using DataAccessLayer.Repositories.IRepositories;
-using DataAccessLayer.Services;
 using DataAccessLayer.Services.Interfaces;
 using ECOMMERCE.Common.Extension;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 
 namespace ECOMMERCE.Controllers
 {
