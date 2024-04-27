@@ -1,11 +1,4 @@
 ﻿using DataAccessLayer.Common;
-using DataAccessLayer.Common.Category;
-using SixLabors.ImageSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Query.Product
 {

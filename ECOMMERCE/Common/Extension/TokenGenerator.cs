@@ -46,7 +46,10 @@ namespace ECOMMERCE.Common.Extension
             userClaims,
             expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(configuration["TokenDefination:JwtValidMinutes"])),
             signingCredentials: credentials);
-
+            if(securityToken == null)
+            {
+                return "not available";
+            }
             var token = new JwtSecurityTokenHandler().WriteToken(securityToken);
             return token;
         }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\ECOMMERCE.csproj": {}
+    "C:\\New folder D\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\ECOMMERCE.csproj": {}
   },
   "projects": {
-    "D:\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "C:\\New folder D\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "C:\\New folder D\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "D:\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj",
-        "packagesPath": "C:\\Users\\zagre\\.nuget\\packages\\",
-        "outputPath": "D:\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\obj\\",
+        "projectPath": "C:\\New folder D\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+        "outputPath": "C:\\New folder D\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\zagre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -74,7 +79,7 @@
             },
             "SixLabors.ImageSharp": {
               "target": "Package",
-              "version": "[2.1.3, )"
+              "version": "[3.1.4, )"
             }
           },
           "imports": [
@@ -93,21 +98,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\ECOMMERCE.csproj": {
+    "C:\\New folder D\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\ECOMMERCE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\ECOMMERCE.csproj",
+        "projectUniqueName": "C:\\New folder D\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\ECOMMERCE.csproj",
         "projectName": "ECOMMERCE",
-        "projectPath": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\ECOMMERCE.csproj",
-        "packagesPath": "C:\\Users\\zagre\\.nuget\\packages\\",
-        "outputPath": "D:\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\obj\\",
+        "projectPath": "C:\\New folder D\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\ECOMMERCE.csproj",
+        "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+        "outputPath": "C:\\New folder D\\PratikPractice\\ECOMMERCE\\ECOMMERCE\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\zagre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -121,8 +126,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj": {
-                "projectPath": "D:\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj"
+              "C:\\New folder D\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "C:\\New folder D\\PratikPractice\\ECOMMERCE\\DataAccessLayer\\DataAccessLayer.csproj"
               }
             }
           }
@@ -131,6 +136,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -171,7 +181,7 @@
             },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
-              "version": "[6.26.0, )"
+              "version": "[6.34.0, )"
             },
             "NSwag.AspNetCore": {
               "target": "Package",
@@ -179,11 +189,11 @@
             },
             "SixLabors.ImageSharp": {
               "target": "Package",
-              "version": "[2.1.3, )"
+              "version": "[3.1.4, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[6.26.0, )"
+              "version": "[6.34.0, )"
             }
           },
           "imports": [
@@ -205,7 +215,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }

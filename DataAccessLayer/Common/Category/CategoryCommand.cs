@@ -33,6 +33,7 @@ namespace DataAccessLayer.Common.Category
     {
         public string CategoryName { get; set; }
         public string Description { get; set; }
+
         public IEnumerable<CreateSubCategory> subCategory { get; set; }
     }
     public class UpdateCategoryWithSubCategoryCommand
@@ -52,12 +53,18 @@ namespace DataAccessLayer.Common.Category
         public Guid id { get; set; }
         public string CategoryName { get; set; }
         public string Description { get; set; }
+        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
         public List<GetSubCategory> subCategories { get; set; }
     }
     public class GetSubCategory
     {
         public Guid Id { get; set; }
         public string SubCategoryName { get; set; }
-        public string SubCategoryDescription { get; set; } 
+        public string SubCategoryDescription { get; set; }
+        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

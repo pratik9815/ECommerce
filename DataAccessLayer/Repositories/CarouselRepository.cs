@@ -2,15 +2,8 @@
 using DataAccessLayer.Query.Product;
 using DataAccessLayer.Repositories.IRepositories;
 using DataAccessLayer.Services;
-using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {

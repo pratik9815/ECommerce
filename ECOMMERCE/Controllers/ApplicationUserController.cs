@@ -104,10 +104,10 @@ namespace ECOMMERCE.Controllers
             }
 
 
-            var isUserLoggedIn = await _systemAccessLog.CheckIfUserIsLoggedIn( identityUser.Id);
+            //var isUserLoggedIn = await _systemAccessLog.CheckIfUserIsLoggedIn( identityUser.Id);
 
-            if (isUserLoggedIn)
-                return Unauthorized();
+            //if (isUserLoggedIn)
+            //    return Unauthorized();
 
 
             var result = await _signInManager.CheckPasswordSignInAsync(identityUser, request.Password, false);

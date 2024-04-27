@@ -6,12 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Namotion.Reflection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace DataAccessLayer.DataContext
 {
@@ -20,12 +15,22 @@ namespace DataAccessLayer.DataContext
                                         IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         private readonly ICurrentUserService _currentUserService;
+        private readonly IConfiguration _configuration;
+        public string connectionstring;
+        
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
-             ICurrentUserService currentUserService):base(options)
+             ICurrentUserService currentUserService, IConfiguration configuration):base(options)
         {
             _currentUserService = currentUserService;
+            _configuration = configuration;
+            connectionstring = _configuration.GetConnectionString("DefaultConnection");
         }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+            
+        //    optionsBuilder.UseSqlServer(connectionstring);
+        //}
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

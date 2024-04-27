@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccessLayer.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -302,7 +302,7 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductSubCategory",
+                name: "ProductSubCategories",
                 columns: table => new
                 {
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -318,15 +318,15 @@ namespace DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductSubCategory", x => new { x.CategoryId, x.SubCategoryId });
+                    table.PrimaryKey("PK_ProductSubCategories", x => new { x.CategoryId, x.SubCategoryId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_ProductSubCategory_Products_ProductId",
+                        name: "FK_ProductSubCategories_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductSubCategory_SubCategories_SubCategoryId",
+                        name: "FK_ProductSubCategories_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
                         principalColumn: "Id",
@@ -563,13 +563,13 @@ namespace DataAccessLayer.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductSubCategory_ProductId",
-                table: "ProductSubCategory",
+                name: "IX_ProductSubCategories_ProductId",
+                table: "ProductSubCategories",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductSubCategory_SubCategoryId",
-                table: "ProductSubCategory",
+                name: "IX_ProductSubCategories_SubCategoryId",
+                table: "ProductSubCategories",
                 column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
@@ -611,7 +611,7 @@ namespace DataAccessLayer.Migrations
                 name: "ProductReviews");
 
             migrationBuilder.DropTable(
-                name: "ProductSubCategory");
+                name: "ProductSubCategories");
 
             migrationBuilder.DropTable(
                 name: "SystemAccessLogs");

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230628033519_initial migration")]
-    partial class initialmigration
+    [Migration("20240421044116_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -585,6 +585,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<Guid>("SubCategoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -600,22 +603,19 @@ namespace DataAccessLayer.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("CategoryId", "SubCategoryId");
+                    b.HasKey("CategoryId", "SubCategoryId", "ProductId");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("ProductSubCategory");
+                    b.ToTable("ProductSubCategories");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.SubCategory", b =>

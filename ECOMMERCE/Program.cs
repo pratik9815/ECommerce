@@ -27,9 +27,11 @@ builder.Services.AddSpaStaticFiles(options =>
     options.RootPath = "ClientApp/dist";
 });
 //Database Connection
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(connectionString);
 });
 //Dependency injection
 builder.Services.AddScoped<IProductRepository,ProductRepository>();

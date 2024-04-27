@@ -179,7 +179,7 @@ namespace DataAccessLayer.Repositories
                 }
 
                 await _context.AddAsync(newCategory);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return new ApiResponse()
                 {
                     ResponseCode = 200,
@@ -206,12 +206,14 @@ namespace DataAccessLayer.Repositories
                                 {
                                     id = x.Id,
                                     CategoryName = x.CategoryName,
-                                    Description = x.Description,    
+                                    Description = x.Description, 
+                                    CreatedBy = _context.Users.FirstOrDefault(a => a.Id == x.CreatedBy).FullName,
                                     subCategories = x.SubCategories.Select(s => new GetSubCategory
                                     {
                                         Id = s.Id,
                                         SubCategoryName = s.SubCategoryName,
-                                        SubCategoryDescription = s.SubCategoryDescription
+                                        SubCategoryDescription = s.SubCategoryDescription,
+                                        
                                     }).ToList(),
                                 });
             return category;

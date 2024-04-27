@@ -12,3 +12,32 @@ D:\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\refint\DataAccessLa
 D:\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.pdb
 D:\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.genruntimeconfig.cache
 D:\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\ref\DataAccessLayer.dll
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.deps.json
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.runtimeconfig.json
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.dll
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.pdb
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.csproj.AssemblyReference.cache
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.AssemblyInfo.cs
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.dll
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\refint\DataAccessLayer.dll
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.pdb
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.genruntimeconfig.cache
+C:\Users\hp\Desktop\OLD DATA FROM 256 SSD\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\ref\DataAccessLayer.dll
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.csproj.AssemblyReference.cache
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.AssemblyInfoInputs.cache
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.AssemblyInfo.cs
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.sourcelink.json
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.dll
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\refint\DataAccessLayer.dll
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.pdb
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.deps.json
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.runtimeconfig.json
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.dll
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\bin\Debug\net6.0\DataAccessLayer.pdb
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\DataAccessLayer.genruntimeconfig.cache
+C:\New folder D\PratikPractice\ECOMMERCE\DataAccessLayer\obj\Debug\net6.0\ref\DataAccessLayer.dll
